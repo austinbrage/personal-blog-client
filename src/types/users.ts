@@ -2,22 +2,22 @@ import { type APIResponse } from "./api"
 
 export type UserInfo = {
     id: {
-        id: string
+        id: number
     }
     idName: {
-        id: string
+        id: number
         name: string
     }   
     idEmail: {
-        id: string
+        id: number
         email: string
     }   
     idAuthor: {
-        id: string
+        id: number
         author: string
     }
     idPassword: {
-        id: string
+        id: number
         password: string
     }
     credentials: {
@@ -31,7 +31,7 @@ export type UserInfo = {
         author: string
     }
     fullData: {
-        id: string
+        id: number
         name: string
         email: string
         author: string
