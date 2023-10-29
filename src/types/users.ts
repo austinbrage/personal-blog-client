@@ -33,7 +33,6 @@ export type UserInfo = {
     fullData: {
         id: string
         name: string
-        password: string
         email: string
         author: string
         api_key: string
