@@ -9,10 +9,9 @@ type ErrorResponse = {
 
 type OkResponse<T> = {
     success: true
-    result: {
-        message: string,
-        data?: Array<T>
-    }
+    result: T extends null
+        ? { message: string }
+        : { message: string; data: Array<T> } 
 }
 
 export type APIResponse<T> = ErrorResponse | OkResponse<T>
