@@ -1,9 +1,10 @@
+import { URL } from "url"
 import type { IArticle, ArticleInfo, ArticleResponse } from "../types/articles"
 
 export class Article implements IArticle {
-    url: string
+    url: URL
 
-    constructor(ARTICLE_URL: string) {
+    constructor(ARTICLE_URL: URL) {
         this.url = ARTICLE_URL
     }
 

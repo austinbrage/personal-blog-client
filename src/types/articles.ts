@@ -36,7 +36,7 @@ export type ArticleResponse = {
 }
 
 export interface IArticle {
-    url: string
+    url: URL
     getData: () => Promise< ArticleResponse['data'] >
     changeName: ({ id, name }: ArticleInfo['idName']) => Promise< ArticleResponse['noData'] >
     changeDescription: ({ id, description }: ArticleInfo['idDescription']) => Promise< ArticleResponse['noData'] >

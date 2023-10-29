@@ -1,9 +1,9 @@
 import type { IUser, UserInfo, UserResponse } from '../types/users'
 
 export class User implements IUser {
-    url: string
+    url: URL
 
-    constructor(USER_URL: string) {
+    constructor(USER_URL: URL) {
         this.url = USER_URL
     }
 
