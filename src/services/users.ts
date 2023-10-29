@@ -1,6 +1,4 @@
-// import { API_URL } from '../utils/config'
-// const USER_URL = new URL('/user', API_URL)
-import { type IUser, UserInfo, UserResponse } from '../types/users'
+import type { IUser, UserInfo, UserResponse } from '../types/users'
 
 export class User implements IUser {
     url: string
