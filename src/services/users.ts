@@ -11,7 +11,7 @@ export class User implements IUser {
         const url = new URL('/data', this.url)
 
         const response = await fetch(url)
-        return await response.json()
+        return await response.json() as UserResponse['data']
     }
 
     validate = async ({ name, password }: UserInfo['credentials']) => {
