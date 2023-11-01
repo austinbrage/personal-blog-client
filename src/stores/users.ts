@@ -36,7 +36,7 @@ export class UserActions implements UserAction {
 
     getData = async () => {
         const result = await useData(this.userService.getData())
-        useUserStore.setState(({ userData: result}), false, 'SET_USER_DATA')
+        useUserStore.setState(({ userData: result}), false, 'GET_USER_DATA')
     }
 
     validate = async (data: UserInfo['credentials']) => {
