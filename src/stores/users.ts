@@ -31,9 +31,7 @@ export class UserActions implements UserAction {
 
     constructor() {
         const USER_URL = new URL('/user', API_URL)
-        const userService = new User(USER_URL)
-
-        this.userService = userService
+        this.userService = new User(USER_URL)
     }
 
     getData = async () => {
@@ -93,7 +91,7 @@ export class UserActions implements UserAction {
         const result = await useData(this.userService.removeData())
 
         useUserStore.setState(({ userRemove: result }), false, 
-            'INSERT_NEW_USER'
+            'REMOVE_USER'
         )
     }
 }
