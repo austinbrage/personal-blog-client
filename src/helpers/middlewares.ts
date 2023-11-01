@@ -13,7 +13,15 @@ export const createMiddlewares = <T>(storeName: string) => {
         enabled: process.env.NODE_ENV === 'development'
     }
     
-    const myMiddlewares = (store: StateCreator<T>) => immer(
+    const myMiddlewares = (store: StateCreator<
+        T, 
+        [
+            ["zustand/immer", never], 
+            ["zustand/devtools", never], 
+            ["zustand/persist", unknown]
+        ], 
+        []
+    >) => immer(
         devtools(
             persist(store, persistConfig),
             devtoolsConfig
