@@ -22,35 +22,28 @@ export type UserState = {
 
 //* 2- User Store Action Types 
 export type UserAction = {
-    getData: () => Promise<void>
+    getData: () =>                                                      Promise<void>
+    removeData: () =>                                                   Promise<void>
     validate: ({ name, password }: UserInfo['credentials']) =>          Promise<void>
-    changeName: ({ id, name }: UserInfo['idName']) =>                   Promise<void>
-    changeEmail: ({ id, email }: UserInfo['idEmail']) =>                Promise<void>
-    changeAuthor: ({ id, author }: UserInfo['idAuthor']) =>             Promise<void>
-    changePassword: ({ id, password }: UserInfo['idPassword']) =>       Promise<void>
+    changeName: ({ name }: UserInfo['name']) =>                         Promise<void>
+    changeEmail: ({ email }: UserInfo['email']) =>                      Promise<void>
+    changeAuthor: ({ author }: UserInfo['author']) =>                   Promise<void>
+    changePassword: ({ password }: UserInfo['password']) =>             Promise<void>
     insertNew: ({ name, password, email, author }: UserInfo['data']) => Promise<void>
-    removeData: ({ id }: UserInfo['id']) =>                             Promise<void>
 }
 
 //* 3- User Service Arguments Types 
 export type UserInfo = {
-    id: {
-        id: number
-    }
-    idName: {
-        id: number
+    name: {
         name: string
     }   
-    idEmail: {
-        id: number
+    email: {
         email: string
     }   
-    idAuthor: {
-        id: number
+    author: {
         author: string
     }
-    idPassword: {
-        id: number
+    password: {
         password: string
     }
     credentials: {
@@ -82,11 +75,11 @@ export type UserResponse = {
 export interface IUser {
     url: URL
     getData: () =>                                                Promise<UserResponse['data']>
+    removeData: () =>                                             Promise< UserResponse['noData'] >
     validate: ({ name, password }: UserInfo['credentials']) =>    Promise< UserResponse['noData'] >
-    changeName: ({ id, name }: UserInfo['idName']) =>             Promise< UserResponse['noData'] >
-    changeEmail: ({ id, email }: UserInfo['idEmail']) =>          Promise< UserResponse['noData'] >
-    changeAuthor: ({ id, author }: UserInfo['idAuthor']) =>       Promise< UserResponse['noData'] >
-    changePassword: ({ id, password }: UserInfo['idPassword']) => Promise< UserResponse['noData'] >
-    removeData: ({ id }: UserInfo['id']) =>                       Promise< UserResponse['noData'] >
+    changeName: ({ name }: UserInfo['name']) =>             Promise< UserResponse['noData'] >
+    changeEmail: ({ email }: UserInfo['email']) =>          Promise< UserResponse['noData'] >
+    changeAuthor: ({ author }: UserInfo['author']) =>       Promise< UserResponse['noData'] >
+    changePassword: ({ password }: UserInfo['password']) => Promise< UserResponse['noData'] >
     insertNew: ({ name, password, email, author }: UserInfo['data']) => Promise< UserResponse['noData'] >
 }

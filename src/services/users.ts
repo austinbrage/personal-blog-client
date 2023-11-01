@@ -37,65 +37,64 @@ export class User implements IUser {
         return await response.json() as UserResponse['noData']
     }
 
-    changeName = async ({ id, name }: UserInfo['idName']) =>  {
+    changeName = async ({ name }: UserInfo['name']) =>  {
         const url = new URL('/name', this.url)
 
         const options = {
             method: 'PATCH',
             headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ id, name })
+            body: JSON.stringify({ name })
         }
 
         const response = await fetch(url, options)
         return await response.json() as UserResponse['noData']
     }
 
-    changeEmail = async ({ id, email }: UserInfo['idEmail']) =>  {
+    changeEmail = async ({ email }: UserInfo['email']) =>  {
         const url = new URL('/email', this.url)
 
         const options = {
             method: 'PATCH',
             headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ id, email })
+            body: JSON.stringify({ email })
         }
 
         const response = await fetch(url, options)
         return await response.json() as UserResponse['noData']
     }
 
-    changeAuthor = async ({ id, author }: UserInfo['idAuthor']) =>  {
+    changeAuthor = async ({ author }: UserInfo['author']) =>  {
         const url = new URL('/author', this.url)
 
         const options = {
             method: 'PATCH',
             headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ id, author })
+            body: JSON.stringify({ author })
         }
 
         const response = await fetch(url, options)
         return await response.json() as UserResponse['noData']
     }
 
-    changePassword = async ({ id, password }: UserInfo['idPassword']) =>  {
+    changePassword = async ({ password }: UserInfo['password']) =>  {
         const url = new URL('/password', this.url)
 
         const options = {
             method: 'PATCH',
             headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ id, password })
+            body: JSON.stringify({ password })
         }
 
         const response = await fetch(url, options)
         return await response.json() as UserResponse['noData']
     }
 
-    removeData = async ({ id }: UserInfo['id']) => {
+    removeData = async () => {
         const url = new URL('/data', this.url)
         
         const options = {
             method: 'DELETE',
-            headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ id })
+            headers: new Headers({'Content-Type': 'application/json'})
         }
 
         const response = await fetch(url, options)

@@ -49,7 +49,7 @@ export class UserActions implements UserAction {
         })
     }
 
-    changeName = async (data: UserInfo['idName']) => {
+    changeName = async (data: UserInfo['name']) => {
         const result = await useData(this.userService.changeName(data))
 
         useUserStore.setState(({ userName: result }), false, { 
@@ -57,7 +57,7 @@ export class UserActions implements UserAction {
         })
     }
 
-    changeEmail = async (data: UserInfo['idEmail']) => {
+    changeEmail = async (data: UserInfo['email']) => {
         const result = await useData(this.userService.changeEmail(data))
 
         useUserStore.setState(({ userEmail: result }), false, { 
@@ -65,7 +65,7 @@ export class UserActions implements UserAction {
         })
     }
 
-    changeAuthor = async (data: UserInfo['idAuthor']) => {
+    changeAuthor = async (data: UserInfo['author']) => {
         const result = await useData(this.userService.changeAuthor(data))
 
         useUserStore.setState(({ userAuthor: result }), false, { 
@@ -73,7 +73,7 @@ export class UserActions implements UserAction {
         })
     }
 
-    changePassword = async (data: UserInfo['idPassword']) => {
+    changePassword = async (data: UserInfo['password']) => {
         const result = await useData(this.userService.changePassword(data))
 
         useUserStore.setState(({ userPassword: result }), false, { 
@@ -89,11 +89,11 @@ export class UserActions implements UserAction {
         })
     }
 
-    removeData = async (data: UserInfo['id']) => {
-        const result = await useData(this.userService.removeData(data))
+    removeData = async () => {
+        const result = await useData(this.userService.removeData())
 
-        useUserStore.setState(({ userRemove: result }), false, { 
-            type: 'INSERT_NEW_USER', data 
-        })
+        useUserStore.setState(({ userRemove: result }), false, 
+            'INSERT_NEW_USER'
+        )
     }
 }
