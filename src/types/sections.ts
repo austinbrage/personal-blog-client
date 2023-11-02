@@ -51,7 +51,7 @@ export type SectionResponse = {
 
 //* 5- Section Service Interface 
 export interface ISection {
-    url: URL
+    url: string
     getData: ({ article_id }: SectionInfo['articleId']) => Promise< SectionResponse['data'] >
     changeAll: ({
         id,

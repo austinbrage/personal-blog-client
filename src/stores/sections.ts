@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { Section } from '../services/sections'
 import { API_URL } from '../utils/config'
 import { useData } from '../hooks/useData'
+import { addPath } from '../utils/config'
 import { createMiddlewares } from '../helpers/middlewares'
 import type { SectionState, SectionAction, SectionInfo } from '../types/sections'
 
@@ -26,7 +27,7 @@ export class SectionActions implements SectionAction {
     private sectionService: Section
 
     constructor() {
-        const SECTION_URL = new URL('/section', API_URL)
+        const SECTION_URL = addPath('/section', API_URL)
         this.sectionService = new Section(SECTION_URL)
     }
 

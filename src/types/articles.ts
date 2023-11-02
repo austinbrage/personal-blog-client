@@ -67,7 +67,7 @@ export type ArticleResponse = {
 
 //* 5- Article Service Interface 
 export interface IArticle {
-    url: URL
+    url: string
     getData: () => Promise< ArticleResponse['data'] >
     changeName: ({ id, name }: ArticleInfo['idName']) => Promise< ArticleResponse['noData'] >
     changeDescription: ({ id, description }: ArticleInfo['idDescription']) => Promise< ArticleResponse['noData'] >

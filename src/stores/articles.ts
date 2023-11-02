@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { Article } from "../services/articles"
 import { API_URL } from "../utils/config"
 import { useData } from '../hooks/useData'
+import { addPath } from "../utils/config"
 import { createMiddlewares } from '../helpers/middlewares'
 import type { ArticleState, ArticleAction, ArticleInfo } from "../types/articles"
 
@@ -28,7 +29,7 @@ export class ArticleActions implements ArticleAction {
     private articleService: Article
 
     constructor() {
-        const ARTICLE_URL = new URL('/article', API_URL)
+        const ARTICLE_URL = addPath('/article', API_URL)
         this.articleService = new Article(ARTICLE_URL)
     }
 

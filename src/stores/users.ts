@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { User } from '../services/users'
 import { API_URL } from '../utils/config'
 import { useData } from '../hooks/useData'
+import { addPath } from '../utils/config'
 import { createMiddlewares } from '../helpers/middlewares'
 import type { UserState, UserAction, UserInfo } from '../types/users'
 
@@ -30,7 +31,8 @@ export class UserActions implements UserAction {
     private userService: User
 
     constructor() {
-        const USER_URL = new URL('/user', API_URL)
+        // const USER_URL = new URL('/user', API_URL)
+        const USER_URL = addPath('/user', API_URL)
         this.userService = new User(USER_URL)
     }
 

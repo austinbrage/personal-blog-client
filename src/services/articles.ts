@@ -1,10 +1,10 @@
-import { URL } from "url"
+import { addPath } from "../utils/config"
 import type { IArticle, ArticleInfo, ArticleResponse } from "../types/articles"
 
 export class Article implements IArticle {
-    url: URL
+    url: string
 
-    constructor(ARTICLE_URL: URL) {
+    constructor(ARTICLE_URL: string) {
         this.url = ARTICLE_URL
     }
 
@@ -14,7 +14,7 @@ export class Article implements IArticle {
     }
 
     changeName = async ({ id, name }: ArticleInfo['idName']) => {
-        const url = new URL('/name', this.url)
+        const url = addPath('/name', this.url)
 
         const options = {
             method: 'PATCH',
@@ -27,7 +27,7 @@ export class Article implements IArticle {
     }
     
     changeDescription = async ({ id, description }: ArticleInfo['idDescription']) => {
-        const url = new URL('/description', this.url)
+        const url = addPath('/description', this.url)
 
         const options = {
             method: 'PATCH',
@@ -40,7 +40,7 @@ export class Article implements IArticle {
     }
     
     changePublishment = async ({ id, is_publish }: ArticleInfo['idPublishment']) => {
-        const url = new URL('/publishment', this.url)
+        const url = addPath('/publishment', this.url)
 
         const options = {
             method: 'PATCH',

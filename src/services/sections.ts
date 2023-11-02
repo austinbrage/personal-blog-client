@@ -1,15 +1,16 @@
-import { URL } from "url"
 import type { ISection, SectionInfo, SectionResponse } from "../types/sections"
 
 export class Section implements ISection {
-    url: URL
+    url: string
 
-    constructor(SECTION_URL: URL) {
+    constructor(SECTION_URL: string) {
         this.url = SECTION_URL
     }
 
     getData = async ({ article_id }: SectionInfo['articleId']) => {
-        this.url.searchParams.append('article_id', article_id)
+        const url = new URL(this.url)
+        
+        url.searchParams.append('article_id', article_id)
         
         const response = await fetch(this.url)
         return await response.json() as SectionResponse['data']

@@ -73,7 +73,7 @@ export type UserResponse = {
 
 //* 5- User Service Interface 
 export interface IUser {
-    url: URL
+    url: string
     getData: () =>                                                Promise<UserResponse['data']>
     removeData: () =>                                             Promise< UserResponse['noData'] >
     validate: ({ name, password }: UserInfo['credentials']) =>    Promise< UserResponse['noData'] >

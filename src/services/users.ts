@@ -1,21 +1,22 @@
+import { addPath } from '../utils/config'
 import type { IUser, UserInfo, UserResponse } from '../types/users'
 
 export class User implements IUser {
-    url: URL
+    url: string
 
-    constructor(USER_URL: URL) {
+    constructor(USER_URL: string) {
         this.url = USER_URL
     }
 
     getData = async () => {
-        const url = new URL('/data', this.url)
-
+        const url = addPath('/data', this.url)
+                
         const response = await fetch(url)
         return await response.json() as UserResponse['data']
     }
 
     validate = async ({ name, password }: UserInfo['credentials']) => {
-        const url = new URL('/login', this.url)
+        const url = new URL(addPath('/login', this.url))
 
         url.searchParams.append('name', name)
         url.searchParams.append('password', password)
@@ -25,7 +26,7 @@ export class User implements IUser {
     }
 
     insertNew = async ({ name, password, email, author }: UserInfo['data']) => {
-        const url = new URL('/register', this.url)
+        const url = addPath('/register', this.url)
 
         const options = {
             method: 'POST',
@@ -38,7 +39,7 @@ export class User implements IUser {
     }
 
     changeName = async ({ name }: UserInfo['name']) =>  {
-        const url = new URL('/name', this.url)
+        const url = addPath('/name', this.url)
 
         const options = {
             method: 'PATCH',
@@ -51,7 +52,7 @@ export class User implements IUser {
     }
 
     changeEmail = async ({ email }: UserInfo['email']) =>  {
-        const url = new URL('/email', this.url)
+        const url = addPath('/email', this.url)
 
         const options = {
             method: 'PATCH',
@@ -64,7 +65,7 @@ export class User implements IUser {
     }
 
     changeAuthor = async ({ author }: UserInfo['author']) =>  {
-        const url = new URL('/author', this.url)
+        const url = addPath('/author', this.url)
 
         const options = {
             method: 'PATCH',
@@ -77,7 +78,7 @@ export class User implements IUser {
     }
 
     changePassword = async ({ password }: UserInfo['password']) =>  {
-        const url = new URL('/password', this.url)
+        const url = addPath('/password', this.url)
 
         const options = {
             method: 'PATCH',
@@ -90,7 +91,7 @@ export class User implements IUser {
     }
 
     removeData = async () => {
-        const url = new URL('/data', this.url)
+        const url = addPath('/data', this.url)
         
         const options = {
             method: 'DELETE',
