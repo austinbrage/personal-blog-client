@@ -16,12 +16,15 @@ export class User implements IUser {
     }
 
     validate = async ({ name, password }: UserInfo['credentials']) => {
-        const url = new URL(addPath('/login', this.url))
+        const url = addPath('/login', this.url)
+        
+        const options = {
+            method: 'POST',
+            headers: new Headers({'Content-Type': 'application/json'}),
+            body: JSON.stringify({ name, password })
+        }
 
-        url.searchParams.append('name', name)
-        url.searchParams.append('password', password)
-
-        const response = await fetch(url)
+        const response = await fetch(url, options)
         return await response.json() as UserResponse['noData']
     }
 
