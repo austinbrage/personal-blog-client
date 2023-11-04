@@ -1,3 +1,25 @@
+import { UserInfo } from "./users"
+import { ArticleInfo } from "./articles"
+import { SectionInfo } from "./sections"
+
+type APIState = {
+    userData: UserInfo['fullData'][] | []
+    articleData: ArticleInfo['fullData'][] | []
+    sectionData: SectionInfo['idData'][] | []
+    userValidated: boolean
+}
+
+type APIAction = {
+    updateUser: (payload: UserInfo['fullData'][]) => void
+    updateArticle: (payload: ArticleInfo['fullData'][]) => void
+    updateSection: (payload: SectionInfo['idData'][]) => void
+    updateUserState: (payload: UserState) => void
+}
+
+export type UserState = 'onSession' | 'offSession'
+
+export type APIStore = APIState & APIAction
+
 type ErrorResponse = {
     success: false
     error: {
@@ -12,15 +34,7 @@ type OkResponse<T> = {
     result: { 
         message: string 
         data: T extends null ? null : Array<T> 
-        // data: Array<T>
     } 
 }
-
-// type OkResponse<T> = {
-//     success: true
-//     result: T extends null
-//         ? { message: string }
-//         : { message: string; data: Array<T> } 
-// }
 
 export type APIResponse<T> = ErrorResponse | OkResponse<T>
