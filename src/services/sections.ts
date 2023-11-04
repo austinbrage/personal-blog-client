@@ -1,10 +1,11 @@
+import { addPath, PATHS, API_URL } from "../utils/config"
 import type { ISection, SectionInfo, SectionResponse } from "../types/sections"
 
 export class Section implements ISection {
     url: string
 
-    constructor(SECTION_URL: string) {
-        this.url = SECTION_URL
+    constructor() {
+        this.url = addPath(PATHS.SECTION, API_URL)
     }
 
     getData = async ({ article_id }: SectionInfo['articleId']) => {

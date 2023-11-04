@@ -1,11 +1,11 @@
-import { addPath } from '../utils/config'
+import { addPath, PATHS, API_URL } from '../utils/config'
 import type { IUser, UserInfo, UserResponse } from '../types/users'
 
 export class User implements IUser {
     url: string
 
-    constructor(USER_URL: string) {
-        this.url = USER_URL
+    constructor() {
+        this.url = addPath(PATHS.USER, API_URL)
     }
 
     getData = async () => {

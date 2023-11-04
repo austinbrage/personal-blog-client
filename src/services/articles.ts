@@ -1,11 +1,11 @@
-import { addPath } from "../utils/config"
+import { addPath, PATHS, API_URL } from "../utils/config"
 import type { IArticle, ArticleInfo, ArticleResponse } from "../types/articles"
 
 export class Article implements IArticle {
     url: string
 
-    constructor(ARTICLE_URL: string) {
-        this.url = ARTICLE_URL
+    constructor() {
+        this.url = addPath(PATHS.ARTICLE, API_URL)
     }
 
     getData = async () => {
