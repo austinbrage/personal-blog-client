@@ -1,34 +1,6 @@
 import { type APIResponse } from "./api"
 
-type CommonState = {
-    data: [] | null[]
-    message: string
-    hasFail: string
-    hasError: unknown
-    isLoading: boolean
-}
-
-//* 1- Artilce Store State Types 
-export type ArticleState = {
-    articleData: { data: ArticleInfo['fullData'][] | [] } & Omit<CommonState, 'data'>
-    articleNew: CommonState
-    articleName: CommonState
-    articleRemove: CommonState
-    articleDescription: CommonState
-    articlePublishment: CommonState
-}
-
-//* 2- Article Store Action Types 
-export type ArticleAction = {
-    getData: () =>                                                            Promise<void>
-    removeData: ({ id }: ArticleInfo['id']) =>                                Promise<void>
-    insertNew: ({ name }: ArticleInfo['name']) =>                             Promise<void>
-    changeName: ({ id, name }: ArticleInfo['idName']) =>                      Promise<void>
-    changePublishment: ({ id, is_publish }: ArticleInfo['idPublishment']) =>  Promise<void>
-    changeDescription: ({ id, description }: ArticleInfo['idDescription']) => Promise<void>
-}
-
-//* 3- Article Service Arguments Types 
+//* 1- Article Service Arguments Types 
 export type ArticleInfo = {
     id: {
         id: number
@@ -59,13 +31,13 @@ export type ArticleInfo = {
     }
 }
 
-//* 4- Article Service Return Types 
+//* 2- Article Service Return Types 
 export type ArticleResponse = {
     noData: APIResponse<null>
     data: APIResponse< ArticleInfo['fullData'] >
 }
 
-//* 5- Article Service Interface 
+//* 3- Article Service Interface 
 export interface IArticle {
     url: string
     getData: () => Promise< ArticleResponse['data'] >

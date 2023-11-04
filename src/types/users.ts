@@ -1,38 +1,6 @@
 import { type APIResponse } from "./api"
 
-type CommonState = {
-    data: [] | null[]
-    message: string
-    hasFail: string
-    hasError: unknown
-    isLoading: boolean
-}
-
-//* 1- User Store State Types 
-export type UserState = {
-    userData: { data: UserInfo['fullData'][] | [] } & Omit<CommonState, 'data'> 
-    userValidate: CommonState
-    userNew: CommonState
-    userName: CommonState
-    userEmail: CommonState
-    userAuthor: CommonState
-    userPassword: CommonState
-    userRemove: CommonState
-}
-
-//* 2- User Store Action Types 
-export type UserAction = {
-    getData: () =>                                                      Promise<void>
-    removeData: () =>                                                   Promise<void>
-    validate: ({ name, password }: UserInfo['credentials']) =>          Promise<void>
-    changeName: ({ name }: UserInfo['name']) =>                         Promise<void>
-    changeEmail: ({ email }: UserInfo['email']) =>                      Promise<void>
-    changeAuthor: ({ author }: UserInfo['author']) =>                   Promise<void>
-    changePassword: ({ password }: UserInfo['password']) =>             Promise<void>
-    insertNew: ({ name, password, email, author }: UserInfo['data']) => Promise<void>
-}
-
-//* 3- User Service Arguments Types 
+//* 1- User Service Arguments Types 
 export type UserInfo = {
     name: {
         name: string
@@ -65,13 +33,13 @@ export type UserInfo = {
     }
 }
 
-//* 4- User Service Return Types 
+//* 2- User Service Return Types 
 export type UserResponse = {
     noData: APIResponse<null>
     data: APIResponse< UserInfo['fullData'] >
 }
 
-//* 5- User Service Interface 
+//* 3- User Service Interface 
 export interface IUser {
     url: string
     getData: () =>                                                Promise<UserResponse['data']>
