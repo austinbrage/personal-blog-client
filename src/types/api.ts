@@ -6,14 +6,14 @@ type APIState = {
     userData: UserInfo['fullData'][] | []
     articleData: ArticleInfo['fullData'][] | []
     sectionData: SectionInfo['idData'][] | []
-    userValidated: boolean
+    userSession: boolean
 }
 
 type APIAction = {
     updateUser: (payload: UserInfo['fullData'][]) => void
     updateArticle: (payload: ArticleInfo['fullData'][]) => void
     updateSection: (payload: SectionInfo['idData'][]) => void
-    updateUserState: (payload: UserState) => void
+    updateUserSession: (payload: UserState) => void
 }
 
 export type UserState = 'onSession' | 'offSession'
