@@ -1,23 +1,56 @@
-import { useEffect } from 'react'
-import { User } from "../services/users"
-import { useData } from './useData'
-import { useAPIStore } from "../stores/api"
-import { type UserInfo } from "../types/users"
+import toast from 'react-hot-toast'
+import { User } from '../services/users'
+import { useMutation } from '@tanstack/react-query'
 
-const userService = new User()
+const useService = new User()
+const TOAST_ID = 'USER_IDENTIFIER'
 
-export const useUserValidation = (data: UserInfo['credentials']) => {
-    const userSession = useAPIStore(state => state.userSession)
-    const updateUserSession = useAPIStore(state => state.updateUserSession)
+export const useValidation = () => {
 
-    const result = useData(userService.validate(data))
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['user', 'validate'],
+        mutationFn: useService.validate,
 
-    useEffect(() => {
-        if(result.success) updateUserSession('onSession') 
-    }, [result, updateUserSession])
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID })
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+        }
+    })   
 
     return {
-        ...result,
-        userSession 
+        signIn: mutate,
+        isPending
     }
-}   
+}
+
+export const useRegister = () => {
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['user', 'register'],
+        mutationFn: useService.insertNew,
+
+        onMutate: () => {
+          toast.loading('Requesting API', { id: TOAST_ID })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID })
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+        }
+    })
+
+    return {
+        signUp: mutate,
+        isPending
+    }
+}
