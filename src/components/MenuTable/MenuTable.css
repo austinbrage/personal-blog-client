@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+.menu-table .navigation
+{
+    position: fixed;
+    z-index: 100;
+    height: 20px;
+    width: 250px;
+    top: 0px;
+    right: 0px;
+    font-family: 'Poppins', sans-serif;
+    z-index: 0;
+}
+
+.menu-table .navigation .toggle 
+{
+    position: relative;
+    top: 20px;
+    right: 20px;
+    width: 100%;
+    height: 50px;
+    color: #6c757d;
+    /* background: #242424; */
+    background: rgb(32 32 37);
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, 
+                rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, 
+                rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, 
+                rgba(0, 0, 0, 0.06) 0px 2px 1px, 
+                rgba(0, 0, 0, 0.09) 0px 4px 2px, 
+                rgba(0, 0, 0, 0.09) 0px 8px 4px, 
+                rgba(0, 0, 0, 0.09) 0px 16px 8px, 
+                rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 22px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.menu-table .navigation .toggle::before 
+{
+    content: 'My Articles';
+    margin-right: 55px;
+    transition: 0.5s;
+}
+
+.menu-table .navigation .toggle.active::before
+{
+    content: 'Close';
+    transition: 0.5s;
+}
+
+.menu-table .navigation .toggle span 
+{
+    position: relative;
+    width: 20px;
+    height: 50px;
+}
+
+.menu-table .navigation .toggle span::before
+{
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #6c757d;
+    transition: 0.5s;
+}
+
+.menu-table .navigation .toggle span::after
+{
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #6c757d;
+    transition: 0.5s;
+}
+
+.menu-table .navigation .toggle.active span::before
+{
+    transform: rotate(225deg);
+    top: 24px;
+}
+
+.menu-table .navigation .toggle.active span::after
+{
+    transform: rotate(135deg);
+    bottom: 24px;
+}
+
+.menu-table .navigation ul
+{
+    position: relative;
+    top: 20px;
+    right: 20px;
+    list-style: none;
+    height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 0;
+    /* transition-delay: 1s; */
+}
+
+.menu-table .navigation ul.active {
+    height: auto;
+    /* height: 100vh; */
+    /* overflow: auto; */
+}
+
+.menu-table .navigation ul li
+{
+    position: relative;
+    list-style: none;
+    transition: 0.5s;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-250px);
+    transition-delay: calc(0.1s * var(--i));
+}
+
+.menu-table .navigation.active ul li
+{
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.menu-table .navigation ul li a
+{
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    padding: 15px;
+    /* padding: 15px 20px; */
+    /* height: 55px; */
+    letter-spacing: 2px;
+    font-size: 18px;
+    font-weight: 600;
+    font-style: italic;
+    border-radius: 5px;
+    background: #242424;
+    color: #848181;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+                rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+                rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+                rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+                rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    cursor: pointer; 
+}
+
+
+.menu-table .navigation ul li:last-child a,
+.menu-table .navigation ul li:nth-last-child(2) a 
+{
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(165, 157, 157);
+    /* font-style: normal; */
+}
+
+.menu-table .navigation ul li:first-child a 
+{
+    font-size: 16px;
+    font-weight: 800;
+    font-style: normal;
+    letter-spacing: 1px;
+}
+
+.menu-table .navigation ul li a:hover
+{
+    background: #f6f6f6;
+    color: #242424;
+    transform: 0.2s;
+}
+
+
