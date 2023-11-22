@@ -1,0 +1,119 @@
+.menu-radial 
+{
+    position: fixed;
+    bottom: 20px;
+    right: 32px;
+    display: grid;
+    place-items: center;
+    height: 80px;
+    width: 80px;
+    padding: 40px;
+    border-radius: 10px;
+    /* background: rgb(32 32 37);
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, 
+                rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, 
+                rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, 
+                rgba(0, 0, 0, 0.06) 0px 2px 1px, 
+                rgba(0, 0, 0, 0.09) 0px 4px 2px, 
+                rgba(0, 0, 0, 0.09) 0px 8px 4px, 
+                rgba(0, 0, 0, 0.09) 0px 16px 8px, 
+                rgba(0, 0, 0, 0.09) 0px 32px 16px; */
+    cursor: pointer;
+}
+
+.menu-radial .navigation 
+{
+    position: relative;
+    bottom: -8px; 
+    right: -8px; 
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-radial .navigation .toggle
+{
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    width: 65px;
+    height: 65px;
+    font-size: 2em;
+    background: rgb(32 32 37);
+    color: #b5babe;
+    border: 2px solid #fff;
+    font-weight: 900;
+    border-radius: 50%;
+    border-color: rgb(32 32 37);
+    display: grid;
+    place-items: center;
+    transition: transform 1.25s;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+.menu-radial .navigation .toggle svg 
+{
+    width: 65%;
+    height: 65%;
+}
+
+.menu-radial .navigation li:not(:first-child)
+{
+    position: absolute;
+    top: -38px;
+    left: -146px;
+    list-style: none;
+    transition: 0.5s;
+    transition-delay: calc(0.1s * var(--i));
+    transform-origin: 140px;
+    transform: rotate(0deg) translateX(110px);
+}
+
+.menu-radial .navigation li:not(:first-child) span
+{
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5em;
+    color: var(--clr);
+    border: 2px solid var(--clr);
+    border-radius: 50%;
+    transition: all 1s; /* color, background and box-shadow */
+    transform: rotate(calc(360deg / -8 * var(--i)));
+} 
+
+.menu-radial .navigation li:not(:first-child) span svg {
+    width: 65%;
+    height: 65%;
+}
+
+.menu-radial .navigation.active .toggle 
+{
+    transform: rotate(315deg);
+}
+
+.menu-radial .navigation.active li
+{
+    transform: rotate(calc(360deg / 8 * var(--i))) translateX(0px);
+}
+
+.menu-radial .navigation li:not(:first-child) span:hover 
+{
+    color: #333;
+    background: var(--clr);
+    box-shadow: 0 0 10px var(--clr),
+    0 0 30px var(--clr),
+    0 0 50px var(--clr);
+    transition: all 0s;
+}
+
+.menu-radial .navigation li:not(:first-child) span[data-text]::after 
+{
+    background: rgba(255, 255, 255) !important;
+    line-height: 19px !important;
+    font-size: 18px !important;
+}
