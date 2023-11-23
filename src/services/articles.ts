@@ -13,26 +13,13 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['data']
     }
 
-    changeName = async ({ id, name }: ArticleInfo['idName']) => {
-        const url = addPath('/name', this.url)
+    changeData = async ({ name, title, keywords, description }: ArticleInfo['data']) => {
+        const url = addPath('/data', this.url)
 
         const options = {
             method: 'PATCH',
             headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ id, name })
-        }
-
-        const response = await fetch(url, options)
-        return await response.json() as ArticleResponse['noData']
-    }
-    
-    changeDescription = async ({ id, description }: ArticleInfo['idDescription']) => {
-        const url = addPath('/description', this.url)
-
-        const options = {
-            method: 'PATCH',
-            headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ id, description })
+            body: JSON.stringify({ name, title, keywords, description })
         }
 
         const response = await fetch(url, options)
@@ -52,11 +39,11 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['noData']
     }
     
-    insertNew = async ({ name }: ArticleInfo['name']) => {
+    insertNew = async ({ name, title, keywords, description }: ArticleInfo['data']) => {
         const options = {
             method: 'POST',
             headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({ name })
+            body: JSON.stringify({ name, title, keywords, description })
         }
 
         const response = await fetch(this.url, options)
