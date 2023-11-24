@@ -1,5 +1,6 @@
 import toast from 'react-hot-toast'
 import { User } from '../services/users'
+import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { useAPIStore } from '../stores/api'
 
@@ -8,7 +9,9 @@ const TOAST_ID = 'USER_IDENTIFIER'
 
 export const useValidation = () => {
 
+    const navigate = useNavigate()
     const updateUserToken = useAPIStore(state => state.updateUserToken)
+    const updateUserSession = useAPIStore(state => state.updateUserSession)
     
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'validate'],
@@ -26,6 +29,8 @@ export const useValidation = () => {
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
 
             data.success && updateUserToken(data.result.token)
+            data.success && updateUserSession('onSession')
+            data.success && navigate('/dashboard')
         }
     })   
 
