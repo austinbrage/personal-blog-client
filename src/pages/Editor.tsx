@@ -1,4 +1,5 @@
 import { useRef, forwardRef } from "react"
+import { useArticleData } from '../hooks/useArticles'
 import { MenuTable } from "../components/MenuTable"
 import { ButtonAdd } from "../components/ButtonAdd"
 import { MenuRadial } from "../components/MenuRadial"
@@ -9,6 +10,9 @@ import { useModalEditCommands } from '../hooks/useCommands'
 
 export const EditorPage = forwardRef(() => {
 
+    const { articleData } = useArticleData({ shouldFetch: true })
+    const articleList = articleData.map(elem => elem.name)
+    
     const modalEdit = useRef<HTMLDivElement>(null)
     const modalInfo = useRef<HTMLDivElement>(null)
     const modalDelete = useRef<HTMLDivElement>(null)
@@ -54,7 +58,7 @@ export const EditorPage = forwardRef(() => {
             />
             <MenuTable 
                 toggleModal={toggleModalInfo}
-                postsList={['Article 1', 'Article 2']} 
+                postsList={articleList} 
             />
             <MenuRadial
                 toggleModalEdit={toggleModalEdit}  

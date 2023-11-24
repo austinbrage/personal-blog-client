@@ -44,7 +44,7 @@ export const useArticleData = ({ shouldFetch }:{ shouldFetch: boolean }) => {
     }, [isPending, isLoading, isError, data])
 
     return {
-        articleData: data,
+        articleData: data?.success ? data.result.data : [],
         refetchArticles: refetch
     }
 }
