@@ -7,6 +7,7 @@ type APIState = {
     articleData: ArticleInfo['fullData'][] | []
     sectionData: SectionInfo['idData'][] | []
     userSession: boolean
+    userToken: string
 }
 
 type APIAction = {
@@ -14,6 +15,7 @@ type APIAction = {
     updateArticle: (payload: ArticleInfo['fullData'][]) => void
     updateSection: (payload: SectionInfo['idData'][]) => void
     updateUserSession: (payload: UserState) => void
+    updateUserToken: (payload: string) => void
 }
 
 export type UserState = 'onSession' | 'offSession'
@@ -33,7 +35,8 @@ type OkResponse<T> = {
     success: true
     result: { 
         message: string 
-        data: T extends null ? null : Array<T> 
+        data: T extends 'data' ? null : Array<T> 
+        token: T extends 'token' ? null : string 
     } 
 }
 
