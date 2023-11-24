@@ -2,18 +2,24 @@ import { type APIResponse } from "./api"
 
 //* 1- Article Service Arguments Types 
 export type ArticleInfo = {
+    token: {
+        token: string
+    }
     id: {
         id: number
+        token: string
     }
     idPublishment: {
         id: number
         is_publish: boolean
+        token: string 
     }
     data: {
         name: string
         title: string
         keywords: string
         description: string
+        token: string
     }
     fullData: {
         id: number
@@ -37,9 +43,9 @@ export type ArticleResponse = {
 //* 3- Article Service Interface 
 export interface IArticle {
     url: string
-    getData: () => Promise< ArticleResponse['data'] >
-    changePublishment: ({ id, is_publish }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
-    changeData: ({ name, title, keywords, description }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
-    insertNew: ({ name, title, keywords, description }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
-    removeData: ({ id }: ArticleInfo['id']) => Promise< ArticleResponse['noData'] >
+    getData: ({ token }: ArticleInfo['token']) => Promise< ArticleResponse['data'] >
+    changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
+    changeData: ({ name, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
+    insertNew: ({ name, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
+    removeData: ({ id, token }: ArticleInfo['id']) => Promise< ArticleResponse['noData'] >
 }

@@ -8,17 +8,21 @@ export class Article implements IArticle {
         this.url = addPath(PATHS.ARTICLE, API_URL)
     }
 
-    getData = async () => {
-        const response = await fetch(this.url)
+    getData = async ({ token }: ArticleInfo['token']) => {
+        const options = {
+            headers: new Headers({'Authorization': `Bearer ${token}`})
+        }
+
+        const response = await fetch(this.url, options)
         return await response.json() as ArticleResponse['data']
     }
 
-    changeData = async ({ name, title, keywords, description }: ArticleInfo['data']) => {
+    changeData = async ({ name, title, keywords, description, token }: ArticleInfo['data']) => {
         const url = addPath('/data', this.url)
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({'Authorization': `Bearer ${token}`}),
             body: JSON.stringify({ name, title, keywords, description })
         }
 
@@ -26,12 +30,12 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['noData']
     }
     
-    changePublishment = async ({ id, is_publish }: ArticleInfo['idPublishment']) => {
+    changePublishment = async ({ id, is_publish, token }: ArticleInfo['idPublishment']) => {
         const url = addPath('/publishment', this.url)
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({'Authorization': `Bearer ${token}`}),
             body: JSON.stringify({ id, is_publish })
         }
 
@@ -39,10 +43,10 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['noData']
     }
     
-    insertNew = async ({ name, title, keywords, description }: ArticleInfo['data']) => {
+    insertNew = async ({ name, title, keywords, description, token }: ArticleInfo['data']) => {
         const options = {
             method: 'POST',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({'Authorization': `Bearer ${token}`}),
             body: JSON.stringify({ name, title, keywords, description })
         }
 
@@ -50,10 +54,10 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['noData']
     }
     
-    removeData = async ({ id }: ArticleInfo['id']) => {
+    removeData = async ({ id, token }: ArticleInfo['id']) => {
         const options = {
             method: 'DELETE',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({'Authorization': `Bearer ${token}`}),
             body: JSON.stringify({ id })
         }
 
