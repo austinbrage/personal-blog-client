@@ -10,7 +10,10 @@ export class Article implements IArticle {
 
     getData = async ({ token }: ArticleInfo['token']) => {
         const options = {
-            headers: new Headers({'Authorization': `Bearer ${token}`})
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            })
         }
 
         const response = await fetch(this.url, options)
@@ -22,7 +25,10 @@ export class Article implements IArticle {
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Authorization': `Bearer ${token}`}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ name, title, keywords, description })
         }
 
@@ -35,7 +41,10 @@ export class Article implements IArticle {
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Authorization': `Bearer ${token}`}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ id, is_publish })
         }
 
@@ -46,7 +55,10 @@ export class Article implements IArticle {
     insertNew = async ({ name, title, keywords, description, token }: ArticleInfo['data']) => {
         const options = {
             method: 'POST',
-            headers: new Headers({'Authorization': `Bearer ${token}`}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ name, title, keywords, description })
         }
 
@@ -57,7 +69,10 @@ export class Article implements IArticle {
     removeData = async ({ id, token }: ArticleInfo['id']) => {
         const options = {
             method: 'DELETE',
-            headers: new Headers({'Authorization': `Bearer ${token}`}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ id })
         }
 
