@@ -13,10 +13,22 @@ type Data = {
 }
 
 export type SectionInfo = {
-    id: { id: number }
-    idData: { id: number } & Data
-    articleId: { article_id: string } //Type of string due to the searchParams.append functionality
-    articleIdData: { article_id: number } & Data
+    id: { 
+        id: number 
+        token: string
+    }
+    idData: Data & { 
+        id: number 
+        token: string
+    } 
+    articleId: { 
+        article_id: string //Type of string due to the searchParams.append functionality 
+        token: string
+    } 
+    articleIdData: Data & { 
+        article_id: number 
+        token: string
+    } 
 }
 
 //* 2- Section Service Interface 
@@ -28,7 +40,7 @@ export type SectionResponse = {
 //* 3- Section Service Interface 
 export interface ISection {
     url: string
-    getData: ({ article_id }: SectionInfo['articleId']) => Promise< SectionResponse['data'] >
+    getData: ({ article_id, token }: SectionInfo['articleId']) => Promise< SectionResponse['data'] >
     changeAll: ({
         id,
         content,
@@ -38,7 +50,8 @@ export interface ISection {
         line_height,
         margin_top,
         text_align,
-        text_color
+        text_color, 
+        token
     }: SectionInfo['idData']) => Promise< SectionResponse['noData'] >
     inserNew: ({
         article_id,
@@ -49,7 +62,8 @@ export interface ISection {
         line_height,
         margin_top,
         text_align,
-        text_color
+        text_color, 
+        token
     }: SectionInfo['articleIdData']) => Promise< SectionResponse['noData'] >
-    removeData: ({ id }: SectionInfo['id']) => Promise< SectionResponse['noData'] >
+    removeData: ({ id, token }: SectionInfo['id']) => Promise< SectionResponse['noData'] >
 }

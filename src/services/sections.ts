@@ -8,12 +8,16 @@ export class Section implements ISection {
         this.url = addPath(PATHS.SECTION, API_URL)
     }
 
-    getData = async ({ article_id }: SectionInfo['articleId']) => {
+    getData = async ({ article_id, token }: SectionInfo['articleId']) => {
         const url = new URL(this.url)
         
         url.searchParams.append('article_id', article_id)
         
-        const response = await fetch(this.url)
+        const options = {
+            headers: new Headers({'Authorization': `Bearer ${token}`}),
+        }
+        
+        const response = await fetch(this.url, options)
         return await response.json() as SectionResponse['data']
     }   
 
@@ -26,11 +30,15 @@ export class Section implements ISection {
         line_height,
         margin_top,
         text_align,
-        text_color
+        text_color,
+        token
     }: SectionInfo['idData']) => {
         const options = {
             method: 'PUT',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({
                 id,
                 content,
@@ -57,11 +65,15 @@ export class Section implements ISection {
         line_height,
         margin_top,
         text_align,
-        text_color
+        text_color,
+        token
     }: SectionInfo['articleIdData']) => {
         const options = {
             method: 'POST',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({
                 article_id,
                 content,
@@ -79,10 +91,13 @@ export class Section implements ISection {
         return await response.json() as SectionResponse['noData']
     }
 
-    removeData = async ({ id }: SectionInfo['id']) => {
+    removeData = async ({ id, token }: SectionInfo['id']) => {
         const options = {
             method: 'DELETE',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ id })
         }
 

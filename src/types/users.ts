@@ -2,17 +2,24 @@ import { type APIResponse } from "./api"
 
 //* 1- User Service Arguments Types 
 export type UserInfo = {
+    token: {
+        token: string
+    }
     name: {
         name: string
+        token: string
     }   
     email: {
         email: string
+        token: string
     }   
     author: {
         author: string
+        token: string
     }
     password: {
         password: string
+        token: string
     }
     credentials: {
         name: string
@@ -42,13 +49,13 @@ export type UserResponse = {
 
 //* 3- User Service Interface 
 export interface IUser {
-    url: string
-    getData: () =>                                                Promise<UserResponse['data']>
-    removeData: () =>                                             Promise< UserResponse['noData'] >
-    validate: ({ name, password }: UserInfo['credentials']) =>    Promise< UserResponse['token'] >
-    changeName: ({ name }: UserInfo['name']) =>             Promise< UserResponse['noData'] >
-    changeEmail: ({ email }: UserInfo['email']) =>          Promise< UserResponse['noData'] >
-    changeAuthor: ({ author }: UserInfo['author']) =>       Promise< UserResponse['noData'] >
-    changePassword: ({ password }: UserInfo['password']) => Promise< UserResponse['noData'] >
+    url: string 
+    getData: ({ token }: UserInfo['token']) =>                          Promise< UserResponse['data'] >
+    removeData: ({ token }: UserInfo['token']) =>                       Promise< UserResponse['noData'] >
+    validate: ({ name, password }: UserInfo['credentials']) =>          Promise< UserResponse['token'] >
+    changeName: ({ name, token }: UserInfo['name']) =>                  Promise< UserResponse['noData'] >
+    changeEmail: ({ email, token }: UserInfo['email']) =>               Promise< UserResponse['noData'] >
+    changeAuthor: ({ author, token }: UserInfo['author']) =>            Promise< UserResponse['noData'] >
+    changePassword: ({ password, token }: UserInfo['password']) =>      Promise< UserResponse['noData'] >
     insertNew: ({ name, password, email, author }: UserInfo['data']) => Promise< UserResponse['token'] >
 }

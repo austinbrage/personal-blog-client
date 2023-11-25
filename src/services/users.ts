@@ -8,10 +8,14 @@ export class User implements IUser {
         this.url = addPath(PATHS.USER, API_URL)
     }
 
-    getData = async () => {
+    getData = async ({ token }: UserInfo['token']) => {
         const url = addPath('/data', this.url)
                 
-        const response = await fetch(url)
+        const options = {
+            headers: new Headers({'Authorization': `Bearer ${token}`}),
+        }
+
+        const response = await fetch(url, options)
         return await response.json() as UserResponse['data']
     }
 
@@ -25,7 +29,7 @@ export class User implements IUser {
         }
 
         const response = await fetch(url, options)
-        return await response.json() as UserResponse['noData']
+        return await response.json() as UserResponse['token']
     }
 
     insertNew = async ({ name, password, email, author }: UserInfo['data']) => {
@@ -38,15 +42,18 @@ export class User implements IUser {
         }
 
         const response = await fetch(url, options)
-        return await response.json() as UserResponse['noData']
+        return await response.json() as UserResponse['token']
     }
 
-    changeName = async ({ name }: UserInfo['name']) =>  {
+    changeName = async ({ name, token }: UserInfo['name']) =>  {
         const url = addPath('/name', this.url)
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ name })
         }
 
@@ -54,12 +61,15 @@ export class User implements IUser {
         return await response.json() as UserResponse['noData']
     }
 
-    changeEmail = async ({ email }: UserInfo['email']) =>  {
+    changeEmail = async ({ email, token }: UserInfo['email']) =>  {
         const url = addPath('/email', this.url)
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ email })
         }
 
@@ -67,12 +77,15 @@ export class User implements IUser {
         return await response.json() as UserResponse['noData']
     }
 
-    changeAuthor = async ({ author }: UserInfo['author']) =>  {
+    changeAuthor = async ({ author, token }: UserInfo['author']) =>  {
         const url = addPath('/author', this.url)
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ author })
         }
 
@@ -80,12 +93,15 @@ export class User implements IUser {
         return await response.json() as UserResponse['noData']
     }
 
-    changePassword = async ({ password }: UserInfo['password']) =>  {
+    changePassword = async ({ password, token }: UserInfo['password']) =>  {
         const url = addPath('/password', this.url)
 
         const options = {
             method: 'PATCH',
-            headers: new Headers({'Content-Type': 'application/json'}),
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({ password })
         }
 
@@ -93,12 +109,12 @@ export class User implements IUser {
         return await response.json() as UserResponse['noData']
     }
 
-    removeData = async () => {
+    removeData = async ({ token }: UserInfo['token']) => {
         const url = addPath('/data', this.url)
         
         const options = {
             method: 'DELETE',
-            headers: new Headers({'Content-Type': 'application/json'})
+            headers: new Headers({'Authorization': `Bearer ${token}`}),
         }
 
         const response = await fetch(url, options)
