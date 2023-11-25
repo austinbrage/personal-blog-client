@@ -1,4 +1,4 @@
-import { FormEvent, LegacyRef } from "react"
+import { useRef, FormEvent, LegacyRef } from "react"
 import { useArticleAdd } from "../../hooks/useArticles"
 
 type Props = {
@@ -9,6 +9,7 @@ type Props = {
 
 export function ModalEdit({ mode, modalRef, toggleModal }: Props) {
     
+    const formRef = useRef<HTMLFormElement>(null)
     const { addNewArticle, isPending } = useArticleAdd()
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -27,6 +28,9 @@ export function ModalEdit({ mode, modalRef, toggleModal }: Props) {
         }   
 
         if(mode === 'add') addNewArticle(newArticleData)
+        
+        toggleModal()
+        formRef.current?.reset()
     }
 
     return (
@@ -47,7 +51,7 @@ export function ModalEdit({ mode, modalRef, toggleModal }: Props) {
                         </button>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="p-4 md:p-5">
+                    <form ref={formRef} onSubmit={handleSubmit} className="p-4 md:p-5">
                         
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
