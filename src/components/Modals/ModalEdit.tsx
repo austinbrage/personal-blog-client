@@ -1,15 +1,20 @@
 import { FormEvent, LegacyRef } from "react"
+import { useArticleAdd } from "../../hooks/useArticles"
 
 type Props = {
+    mode: 'add' | 'edit'
     modalRef: LegacyRef<HTMLDivElement> 
     toggleModal: () => void
 }
 
-export function ModalEdit({ modalRef, toggleModal }: Props) {
+export function ModalEdit({ mode, modalRef, toggleModal }: Props) {
     
+    const { addNewArticle, isPending } = useArticleAdd()
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 
         event.preventDefault()
+        if(isPending) return
 
         const data = new FormData(event.currentTarget) 
         const getStringValue = (key: string) => data.get(key)?.toString() ?? ''
@@ -17,10 +22,11 @@ export function ModalEdit({ modalRef, toggleModal }: Props) {
         const newArticleData = {
             name: getStringValue('name'),
             title: getStringValue('title'),
+            keywords: 'keywords',
             description: getStringValue('description')
         }   
 
-        console.log(newArticleData)
+        if(mode === 'add') addNewArticle(newArticleData)
     }
 
     return (

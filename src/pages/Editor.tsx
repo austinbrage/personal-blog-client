@@ -70,7 +70,8 @@ export const EditorPage = forwardRef(() => {
                 modalRef={modalInfo} 
                 toggleModal={toggleModalInfo} 
             />
-            <ModalEdit   
+            <ModalEdit
+                mode="add"
                 modalRef={modalEdit} 
                 toggleModal={toggleModalEdit}
             />
