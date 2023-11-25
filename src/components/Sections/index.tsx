@@ -13,9 +13,13 @@ export function Sections({ currentArticle }: Props) {
         <section>
             <div className="text-white">
 
-                <DateText date={currentArticle.created_at}/>
+                <DateText type='Created at' date={currentArticle.created_at}/>
+                <DateText type='Updated at' date={currentArticle.updated_at}/>
                 
-                <h4 className="ms-5 text-4xl font-bold">
+                <div className='border-2 ms-5 border-dashed bg-gray-800 border-gray-700'>
+                </div>
+
+                <h4 className="ms-5 mt-5 text-4xl font-bold">
                     {currentArticle.title}
                 </h4>
                 
