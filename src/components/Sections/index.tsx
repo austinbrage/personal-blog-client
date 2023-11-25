@@ -1,4 +1,5 @@
 import { DateText } from './DateText'
+import { SectionList } from './SectionList'
 import { type ArticleInfo } from "../../types/articles"
 
 type Props = {
@@ -23,9 +24,11 @@ export function Sections({ currentArticle }: Props) {
                     {currentArticle.title}
                 </h4>
                 
-                <p className="ms-10 mt-10 text-2xl font-semibold">
+                <p className="ms-10 my-10 text-2xl font-semibold">
                     {currentArticle.description}
                 </p>
+                
+                <SectionList/>
 
             </div>
         </section>
