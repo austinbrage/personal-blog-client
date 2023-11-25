@@ -35,8 +35,8 @@ type OkResponse<T> = {
     success: true
     result: { 
         message: string 
-        data: T extends 'data' ? null : Array<T> 
-        token: T extends 'token' ? null : string 
+        data: T extends null ? null : Array<T> 
+        token: T extends 'token' ? string : null  
     } 
 }
 

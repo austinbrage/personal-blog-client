@@ -42,7 +42,7 @@ export type UserInfo = {
 
 //* 2- User Service Return Types 
 export type UserResponse = {
-    noData: APIResponse<'data'>
+    noData: APIResponse<null>
     token: APIResponse<'token'>
     data: APIResponse< UserInfo['fullData'] >
 }
