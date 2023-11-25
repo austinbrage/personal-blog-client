@@ -10,14 +10,14 @@ import { type ArticleInfo } from '../types/articles'
 const articleService = new Article()
 const TOAST_ID = 'ARTICLE_IDENTIFIER'
 
-export const useArticleData = ({ shouldFetch }:{ shouldFetch: boolean }) => {
+export const useArticleData = () => {
 
     const userToken = useAPIStore(state => state.userToken)
 
     const { data, isPending, isLoading, isError, refetch } = useQuery({
         queryKey: ['article', 'data', userToken],
         queryFn: ({ queryKey }) => articleService.getData({ token: queryKey[2] }),
-        enabled: shouldFetch
+        staleTime: Infinity
     })
 
     useEffect(() => {

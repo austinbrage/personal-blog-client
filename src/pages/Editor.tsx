@@ -16,7 +16,7 @@ export const EditorPage = forwardRef(() => {
     const { editor, article } = useParams()
     const updateArticleID = useAPIStore(state => state.updateArticleId)
 
-    const { articleData } = useArticleData({ shouldFetch: true })
+    const { articleData } = useArticleData()
     const articleList = articleData.map(elem => elem.name)
 
     const currentArticle = useMemo(() => {
