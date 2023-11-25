@@ -7,6 +7,7 @@ const myMiddlewares = createMiddlewares<APIStore>('GLOBAL_API_STORE')
 export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     userData: [],
     userToken: '',
+    articleId: '',
     articleData: [],
     sectionData: [],
     userSession: false,
@@ -19,19 +20,25 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
 
     updateArticle: (newData) => {
         set(state => ({ ...state, userArticle: newData }), false, {
-            type: 'UPDATE_ARTICLE', newData
+            type: 'UPDATE_ARTICLE_DATA', newData
+        })
+    },
+
+    updateArticleId: (newId) => {
+        set(state => ({ ...state, articleId: newId }), false, {
+            type: 'UPDATE_ARTICLE_ID', newId
         })
     },
 
     updateSection: (newData) => {
         set(state => ({ ...state, userSection: newData }), false, {
-            type: 'UPDATE_SECTION', newData
+            type: 'UPDATE_SECTION_DATA', newData
         })
     },
 
     updateUserToken: (newToken) => {
         set(state => ({ ...state, userToken: newToken }), false, {
-            type: 'UPDATE_SECTION', newToken
+            type: 'USER_TOKEN', newToken
         })
     },
     

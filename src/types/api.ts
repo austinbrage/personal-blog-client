@@ -7,6 +7,7 @@ type APIState = {
     articleData: ArticleInfo['fullData'][] | []
     sectionData: SectionInfo['idData'][] | []
     userSession: boolean
+    articleId: string
     userToken: string
 }
 
@@ -15,6 +16,7 @@ type APIAction = {
     updateArticle: (payload: ArticleInfo['fullData'][]) => void
     updateSection: (payload: SectionInfo['idData'][]) => void
     updateUserSession: (payload: UserState) => void
+    updateArticleId: (payload: string) => void
     updateUserToken: (payload: string) => void
 }
 
