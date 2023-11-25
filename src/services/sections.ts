@@ -11,13 +11,13 @@ export class Section implements ISection {
     getData = async ({ article_id, token }: SectionInfo['articleId']) => {
         const url = new URL(this.url)
         
-        url.searchParams.append('article_id', article_id)
+        url.searchParams.append('article_id_query', article_id)
         
         const options = {
             headers: new Headers({'Authorization': `Bearer ${token}`}),
         }
         
-        const response = await fetch(this.url, options)
+        const response = await fetch(url, options)
         return await response.json() as SectionResponse['data']
     }   
 
