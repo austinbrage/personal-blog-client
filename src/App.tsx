@@ -16,7 +16,7 @@ function App() {
       element: <HomePage/>
     },
     {
-      path: '/dashboard',
+      path: '/dashboard/:editor/:article',
       element: <EditorPage/>
     }
   ])

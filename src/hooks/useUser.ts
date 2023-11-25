@@ -30,7 +30,7 @@ export const useValidation = () => {
 
             data.success && updateUserToken(data.result.token)
             data.success && updateUserSession('onSession')
-            data.success && navigate('/dashboard')
+            data.success && navigate('/dashboard/create/new-article')
         }
     })   
 

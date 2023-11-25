@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useMenuTableCommands } from '../../hooks/useCommands'
 import './MenuTable.css'
 
@@ -9,6 +10,7 @@ type Props = {
 
 export function MenuTable({ postsList, toggleModal }: Props) {
     
+    const navigate = useNavigate()
     const menuTable = useRef<HTMLDivElement>(null)
     const menuToggle = useRef<HTMLDivElement>(null)
 
@@ -25,6 +27,12 @@ export function MenuTable({ postsList, toggleModal }: Props) {
         menuToggle.current && menuToggle.current.classList.add('active')
     }
 
+    const changePathroute = ({ type, article }: { type: string, article?: string }) => {
+        article
+            ? navigate(`/dashboard/${type}/${article.replace(/\s/g, "-")}`)
+            : navigate(`/dashboard/${type}`)
+    }
+
     useMenuTableCommands({ menuRef: menuTable, closeMenu, openMenu })
     
     return (
@@ -36,13 +44,20 @@ export function MenuTable({ postsList, toggleModal }: Props) {
                 </div>
                 
                 <ul>
-                    <li style={{'--i': 0} as React.CSSProperties}>
-                        <a href='#'>CREATE ARTICLE</a>
+                    <li 
+                        onClick={() => changePathroute({ type: 'create/new-article' })}
+                        style={{'--i': 0} as React.CSSProperties}
+                    >
+                        <a>CREATE ARTICLE</a>
                     </li>
                     
                     {postsList.map((post, index) => ( 
-                        <li style={{'--i': index + 1} as React.CSSProperties} key={post}>
-                            <a href='#'>{post}</a>
+                        <li 
+                            key={post}
+                            onClick={() => changePathroute({ type: 'edit', article: post })} 
+                            style={{'--i': index + 1} as React.CSSProperties} 
+                        >
+                            <a>{post}</a>
                         </li>
                     ))}
                     

@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom"
 import { useRef, forwardRef } from "react"
 import { useArticleData } from '../hooks/useArticles'
 import { MenuTable } from "../components/MenuTable"
@@ -9,6 +10,8 @@ import { KeyboardInfo } from "../components/KeyBoard"
 import { useModalEditCommands } from '../hooks/useCommands'
 
 export const EditorPage = forwardRef(() => {
+    
+    const { editor, article } = useParams()
 
     const { articleData } = useArticleData({ shouldFetch: true })
     const articleList = articleData.map(elem => elem.name)
@@ -49,7 +52,7 @@ export const EditorPage = forwardRef(() => {
         <div className="p-8 min-h-screen bg-[rgb(15,15,24)]">
             
             <h3 className="text-5xl text-left font-semibold leading-tight mb-4 text-white">
-                Create article
+                {editor === 'edit' ? article?.replace(/-/g, " ") : 'Create article'}
             </h3>
             
             {/* //! Visible components */}
