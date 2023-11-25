@@ -9,19 +9,23 @@ import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
 import { useModalEditCommands } from '../hooks/useCommands'
 import { useRef, forwardRef, useMemo } from "react"
+import { useAPIStore } from "../stores/api"
 
 export const EditorPage = forwardRef(() => {
     
     const { editor, article } = useParams()
+    const updateArticleID = useAPIStore(state => state.updateArticleId)
 
     const { articleData } = useArticleData({ shouldFetch: true })
     const articleList = articleData.map(elem => elem.name)
 
     const currentArticle = useMemo(() => {
-        return articleData
+        const current = articleData
             .find(elem => elem.name === article?.replace(/-/g, " ")) 
-            ?? null
-    }, [articleData, article])
+
+        current && updateArticleID(current.id.toString())
+        return current ?? null
+    }, [updateArticleID, articleData, article])
     
     const modalEdit = useRef<HTMLDivElement>(null)
     const modalInfo = useRef<HTMLDivElement>(null)

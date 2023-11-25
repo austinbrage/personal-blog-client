@@ -1,3 +1,4 @@
+import React from "react"
 import { type APIResponse } from "./api"
 
 //* 1- Section Service Arguments Types 
@@ -10,6 +11,12 @@ type Data = {
     margin_top: string 
     text_align: string 
     text_color: string
+}
+
+export type processedData = {
+    id: number
+    content: string
+    styles: React.CSSProperties
 }
 
 export type SectionInfo = {
