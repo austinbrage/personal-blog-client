@@ -26,6 +26,13 @@ export const toastConfig = {
     }
 }
 
+export const dateConfig: Intl.DateTimeFormatOptions = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+}
+
 // export const API_URL = import.meta.env.MODE !== 'production' 
 //     ? import.meta.env.BASE_API_TEST_URL
 //     : import.meta.env.BASE_API_PROD_URL

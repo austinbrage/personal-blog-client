@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom"
-import { useRef, forwardRef } from "react"
-import { useArticleData } from '../hooks/useArticles'
+import { Sections } from "../components/Sections"
 import { MenuTable } from "../components/MenuTable"
 import { ButtonAdd } from "../components/ButtonAdd"
 import { MenuRadial } from "../components/MenuRadial"
 import { ModalEdit } from "../components/Modals/ModalEdit"
 import { ModalDelete } from "../components/Modals/ModalDelete"
 import { KeyboardInfo } from "../components/KeyBoard"
+import { useArticleData } from '../hooks/useArticles'
 import { useModalEditCommands } from '../hooks/useCommands'
+import { useRef, forwardRef, useMemo } from "react"
 
 export const EditorPage = forwardRef(() => {
     
@@ -15,6 +16,12 @@ export const EditorPage = forwardRef(() => {
 
     const { articleData } = useArticleData({ shouldFetch: true })
     const articleList = articleData.map(elem => elem.name)
+
+    const currentArticle = useMemo(() => {
+        return articleData
+            .find(elem => elem.name === article?.replace(/-/g, " ")) 
+            ?? null
+    }, [articleData, article])
     
     const modalEdit = useRef<HTMLDivElement>(null)
     const modalInfo = useRef<HTMLDivElement>(null)
@@ -56,6 +63,9 @@ export const EditorPage = forwardRef(() => {
             </h3>
             
             {/* //! Visible components */}
+            <Sections
+                currentArticle={currentArticle}
+            />
             <ButtonAdd 
                 toggleModal={toggleModalEdit}
             />
