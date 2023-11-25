@@ -1,9 +1,11 @@
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { Article } from '../services/articles'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useAPIStore } from '../stores/api'
-import { ArticleInfo } from '../types/articles'
+import { type ArticleInfo } from '../types/articles'
 
 const articleService = new Article()
 const TOAST_ID = 'ARTICLE_IDENTIFIER'
@@ -52,6 +54,8 @@ export const useArticleData = ({ shouldFetch }:{ shouldFetch: boolean }) => {
 
 export const useArticleAdd = () => {
 
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const userToken = useAPIStore(state => state.userToken)
 
     const { mutate, isPending } = useMutation({
@@ -64,7 +68,7 @@ export const useArticleAdd = () => {
         onError: () => {
             toast.error('Internal error, please try again', { id: TOAST_ID })
         },
-        onSuccess: async (data) => {
+        onSuccess: async (data, variables) => {
             data.success
                 ? toast.success(
                     `Api message: ${data.result.message}`, 
@@ -74,6 +78,9 @@ export const useArticleAdd = () => {
                     }
                 )
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+
+            data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
+            data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
         }
     })    
 
