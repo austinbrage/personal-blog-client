@@ -48,25 +48,25 @@ export function MenuTable({ postsList, toggleModal }: Props) {
                         onClick={() => changePathroute({ type: 'create/new-article' })}
                         style={{'--i': 0} as React.CSSProperties}
                     >
-                        <a>CREATE ARTICLE</a>
+                        <button type='button'>CREATE ARTICLE</button>
                     </li>
                     
                     {postsList.map((post, index) => ( 
                         <li 
                             key={post}
-                            onClick={() => changePathroute({ type: 'edit', article: post })} 
                             style={{'--i': index + 1} as React.CSSProperties} 
+                            onClick={() => changePathroute({ type: 'edit', article: post })} 
                         >
-                            <a>{post}</a>
+                            <button type='button'>{post}</button>
                         </li>
                     ))}
                     
                     <li style={{'--i': postsList.length + 1} as React.CSSProperties}>
-                        <a href='#'>User profile</a>
+                        <button type='button'>User profile</button>
                     </li>
 
                     <li style={{'--i': postsList.length + 2} as React.CSSProperties}>
-                        <a onClick={toggleModal} >Keyboard shortcuts</a>
+                        <button type='button' onClick={toggleModal}>Keyboard shortcuts</button>
                     </li>
                 </ul>
                 

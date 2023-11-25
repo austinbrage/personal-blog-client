@@ -134,12 +134,13 @@
     transform: translateX(0px);
 }
 
-.menu-table .navigation ul li a
+.menu-table .navigation ul li button
 {
     position: relative;
     text-decoration: none;
     text-align: center;
     display: block;
+    width: 100%;
     padding: 15px;
     /* padding: 15px 20px; */
     /* height: 55px; */
@@ -159,8 +160,8 @@
 }
 
 
-.menu-table .navigation ul li:last-child a,
-.menu-table .navigation ul li:nth-last-child(2) a 
+.menu-table .navigation ul li:last-child button,
+.menu-table .navigation ul li:nth-last-child(2) button 
 {
     font-size: 14px;
     font-weight: 700;
@@ -168,7 +169,7 @@
     /* font-style: normal; */
 }
 
-.menu-table .navigation ul li:first-child a 
+.menu-table .navigation ul li:first-child button 
 {
     font-size: 16px;
     font-weight: 800;
@@ -176,7 +177,7 @@
     letter-spacing: 1px;
 }
 
-.menu-table .navigation ul li a:hover
+.menu-table .navigation ul li button:hover
 {
     background: #f6f6f6;
     color: #242424;
