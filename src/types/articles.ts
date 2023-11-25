@@ -30,7 +30,7 @@ export type ArticleInfo = {
         description: string
         image: Blob | null
         is_publish: boolean
-        created_at: Date
+        created_at: string  //Type of string due to the way that mysql returns the value
     }
 }
 
