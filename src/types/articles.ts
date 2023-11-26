@@ -21,6 +21,14 @@ export type ArticleInfo = {
         description: string
         token: string
     }
+    idData: {
+        id: number
+        name: string
+        title: string
+        keywords: string
+        description: string
+        token: string
+    }
     fullData: {
         id: number
         user_id: number
@@ -46,7 +54,7 @@ export interface IArticle {
     url: string
     getData: ({ token }: ArticleInfo['token']) => Promise< ArticleResponse['data'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
-    changeData: ({ name, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
+    changeData: ({ id, name, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
     insertNew: ({ name, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
     removeData: ({ id, token }: ArticleInfo['id']) => Promise< ArticleResponse['noData'] >
 }

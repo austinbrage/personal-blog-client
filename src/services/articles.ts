@@ -20,7 +20,7 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['data']
     }
 
-    changeData = async ({ name, title, keywords, description, token }: ArticleInfo['data']) => {
+    changeData = async ({ id, name, title, keywords, description, token }: ArticleInfo['idData']) => {
         const url = addPath('/data', this.url)
 
         const options = {
@@ -29,7 +29,7 @@ export class Article implements IArticle {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             }),
-            body: JSON.stringify({ name, title, keywords, description })
+            body: JSON.stringify({ id, name, title, keywords, description })
         }
 
         const response = await fetch(url, options)
