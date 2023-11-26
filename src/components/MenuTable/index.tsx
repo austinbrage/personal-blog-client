@@ -61,7 +61,10 @@ export function MenuTable({ postsList, toggleModal }: Props) {
                         </li>
                     ))}
                     
-                    <li style={{'--i': postsList.length + 1} as React.CSSProperties}>
+                    <li 
+                        onClick={() => changePathroute({ type: 'profile' })}
+                        style={{'--i': postsList.length + 1} as React.CSSProperties}
+                    >
                         <button type='button'>User profile</button>
                     </li>
 

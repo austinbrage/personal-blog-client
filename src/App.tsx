@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { toastConfig } from './utils/config'
 import { HomePage } from './pages/Home'
 import { EditorPage } from './pages/Editor'
+import { ProfilePage } from './pages/Profile'
 import { Toaster } from 'react-hot-toast'
 import './App.css'
 
@@ -18,7 +19,11 @@ function App() {
     {
       path: '/dashboard/:editor/:article',
       element: <EditorPage/>
-    }
+    },
+    {
+      path: '/dashboard/profile',
+      element: <ProfilePage/>
+    },
   ])
 
   return (
