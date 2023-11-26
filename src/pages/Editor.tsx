@@ -3,60 +3,76 @@ import { Sections } from "../components/Sections"
 import { MenuTable } from "../components/MenuTable"
 import { ButtonAdd } from "../components/ButtonAdd"
 import { MenuRadial } from "../components/MenuRadial"
+import { ModalAdd } from "../components/Modals/ModalAdd"
 import { ModalEdit } from "../components/Modals/ModalEdit"
 import { ModalDelete } from "../components/Modals/ModalDelete"
 import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
 import { useModalEditCommands } from '../hooks/useCommands'
-import { useRef, forwardRef, useMemo } from "react"
+import { useRef, useState, forwardRef, useMemo } from "react"
 import { useAPIStore } from "../stores/api"
 
 export const EditorPage = forwardRef(() => {
     
+    
     const { editor, article } = useParams()
     const updateArticleID = useAPIStore(state => state.updateArticleId)
-
+    const updateArticleData = useAPIStore(state => state.updateArticleData)
+    
     const { articleData } = useArticleData()
     const articleList = articleData.map(elem => elem.name)
+    
+    const [isToggle, setIsToggle] = useState<boolean>(false)
 
     const currentArticle = useMemo(() => {
         const current = articleData
             .find(elem => elem.name === article?.replace(/-/g, " ")) 
 
         current && updateArticleID(current.id.toString())
+        current && updateArticleData(current)
+
         return current ?? null
-    }, [updateArticleID, articleData, article])
+    }, [updateArticleData, updateArticleID, articleData, article])
     
+    const modalAdd = useRef<HTMLDivElement>(null)
     const modalEdit = useRef<HTMLDivElement>(null)
     const modalInfo = useRef<HTMLDivElement>(null)
     const modalDelete = useRef<HTMLDivElement>(null)
 
     const toggleModalInfo = () => {
-        modalInfo.current && modalInfo.current.classList.toggle('hidden')
+        modalInfo.current?.classList.toggle('hidden')
     }
     
     const toggleModalDelete = () => {
-        modalDelete.current && modalDelete.current.classList.toggle('hidden')
-        modalDelete.current && modalDelete.current.classList.toggle('flex')
+        modalDelete.current?.classList.toggle('hidden')
+        modalDelete.current?.classList.toggle('flex')
     }
     
+    const toggleModalAdd = () => {
+        modalAdd.current?.classList.toggle('flex')
+        modalAdd.current?.classList.toggle('hidden')
+    }
     const toggleModalEdit = () => {
-        modalEdit.current && modalEdit.current.classList.toggle('hidden')
-        modalEdit.current && modalEdit.current.classList.toggle('flex')
+        setIsToggle(prevState => !prevState)
+        modalEdit.current?.classList.toggle('hidden')
+        modalEdit.current?.classList.toggle('flex')
     }
-    const closeModalEdit = () => {
-        modalEdit.current && modalEdit.current.classList.add('hidden')
-        modalEdit.current && modalEdit.current.classList.remove('flex')
+    
+    const openModalAdd = () => {
+        modalAdd.current?.classList.remove('hidden')
+        modalAdd.current?.classList.add('flex')
     }
-    const openModalEdit = () => {
-        modalEdit.current && modalEdit.current.classList.remove('hidden')
-        modalEdit.current && modalEdit.current.classList.add('flex')
+    const closeModalAdd = () => {
+        modalAdd.current?.classList.add('hidden')
+        modalAdd.current?.classList.remove('flex')
+        modalEdit.current?.classList.add('hidden')
+        modalEdit.current?.classList.remove('flex')
     }
 
     useModalEditCommands({ 
-        menuRef: modalEdit, 
-        openMenu: openModalEdit, 
-        closeMenu: closeModalEdit 
+        menuRef: modalAdd, 
+        openMenu: openModalAdd, 
+        closeMenu: closeModalAdd 
     })
 
     return (
@@ -71,7 +87,7 @@ export const EditorPage = forwardRef(() => {
                 currentArticle={currentArticle}
             />
             <ButtonAdd 
-                toggleModal={toggleModalEdit}
+                toggleModal={openModalAdd}
             />
             <MenuTable 
                 toggleModal={toggleModalInfo}
@@ -87,8 +103,12 @@ export const EditorPage = forwardRef(() => {
                 modalRef={modalInfo} 
                 toggleModal={toggleModalInfo} 
             />
+            <ModalAdd
+                modalRef={modalAdd} 
+                toggleModal={toggleModalAdd}
+            />
             <ModalEdit
-                mode="add"
+                isToggle={isToggle}
                 modalRef={modalEdit} 
                 toggleModal={toggleModalEdit}
             />
