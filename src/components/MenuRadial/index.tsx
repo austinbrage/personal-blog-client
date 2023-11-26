@@ -1,4 +1,4 @@
-import React, { useRef, useState, useDeferredValue } from 'react'
+import React, { useRef, useState, useEffect, useDeferredValue } from 'react'
 import { useMenuRadialCommands } from '../../hooks/useCommands'
 import { 
     IoMdClose, 
@@ -10,8 +10,9 @@ import {
 import './MenuRadial.css'
 
 type Porps = {
-    toggleModalDelete: () => void
+    isPublish?: boolean
     toggleModalEdit: () => void
+    toggleModalDelete: () => void
 }
 
 type PublishState = {
@@ -32,7 +33,7 @@ const PUBLISH_STATE_2: PublishState = {
     iconColor: '#fe00f1'
 }
 
-export function MenuRadial({ toggleModalDelete, toggleModalEdit }: Porps) {
+export function MenuRadial({ isPublish, toggleModalDelete, toggleModalEdit }: Porps) {
 
     const menuRadial = useRef<HTMLUListElement>(null)
     const [publishState, setPublishState] = useState<PublishState>(PUBLISH_STATE_1)
@@ -54,6 +55,11 @@ export function MenuRadial({ toggleModalDelete, toggleModalEdit }: Porps) {
     //         : setPublishState(PUBLISH_STATE_1)
     // }, 1000)
     
+    useEffect(() => {
+        if(typeof isPublish === 'undefined') return
+        isPublish ? setPublishState(PUBLISH_STATE_2) : setPublishState(PUBLISH_STATE_1) 
+    }, [isPublish])
+
     useMenuRadialCommands({ menuRef: menuRadial, closeMenu, openMenu })
     
     return (

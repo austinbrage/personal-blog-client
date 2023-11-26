@@ -6,6 +6,7 @@ import { MenuRadial } from "../components/MenuRadial"
 import { ModalAdd } from "../components/Modals/ModalAdd"
 import { ModalEdit } from "../components/Modals/ModalEdit"
 import { ModalDelete } from "../components/Modals/ModalDelete"
+import { PublishLabel } from "../components/Sections/PublishLabel"
 import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
 import { useModalEditCommands } from '../hooks/useCommands'
@@ -13,7 +14,6 @@ import { useRef, useState, forwardRef, useMemo } from "react"
 import { useAPIStore } from "../stores/api"
 
 export const EditorPage = forwardRef(() => {
-    
     
     const { editor, article } = useParams()
     const updateArticleID = useAPIStore(state => state.updateArticleId)
@@ -78,11 +78,14 @@ export const EditorPage = forwardRef(() => {
     return (
         <div className="p-8 min-h-screen bg-[rgb(15,15,24)]">
             
-            <h3 className="text-5xl text-left font-semibold leading-tight mb-4 text-white">
+            <h3 className="inline-block text-5xl text-left font-semibold leading-tight mb-2 text-white">
                 {editor === 'edit' ? article?.replace(/-/g, " ") : 'Create article'}
             </h3>
             
             {/* //! Visible components */}
+            <PublishLabel
+                isPublish={currentArticle?.is_publish}
+            />
             <Sections
                 currentArticle={currentArticle}
             />
@@ -90,10 +93,11 @@ export const EditorPage = forwardRef(() => {
                 toggleModal={openModalAdd}
             />
             <MenuTable 
-                toggleModal={toggleModalInfo}
                 postsList={articleList} 
+                toggleModal={toggleModalInfo}
             />
             <MenuRadial
+                isPublish={currentArticle?.is_publish}
                 toggleModalEdit={toggleModalEdit}  
                 toggleModalDelete={toggleModalDelete}
             />
