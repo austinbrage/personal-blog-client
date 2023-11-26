@@ -8,7 +8,7 @@ export function ButtonAdd({ toggleModal }: Props) {
     
     return (
         <div className='button-add-section'>
-            <button onClick={toggleModal} data-text="Add New Section" data-pos="top align-left">
+            <button onClick={toggleModal} type='button' data-text="Add New Section" data-pos="top align-left">
             
                 <svg className="injected-svg icon-new" viewBox="0 0 48 48" width="48px" height="48px" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" role="img" aria-labelledby="new-title-10 new-desc-10" data-src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/436544/mui-assets.svg#new">
                     <title id="new-title-10"></title><desc id="new-desc-10">new</desc>
