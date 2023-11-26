@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useDeferredValue } from 'react'
 import { useMenuRadialCommands } from '../../hooks/useCommands'
+import { useArticlePublish } from '../../hooks/useArticles'
 import { 
     IoMdClose, 
     IoMdCreate, 
@@ -39,21 +40,23 @@ export function MenuRadial({ isPublish, toggleModalDelete, toggleModalEdit }: Po
     const [publishState, setPublishState] = useState<PublishState>(PUBLISH_STATE_1)
     const publishDeffered = useDeferredValue<PublishState>(publishState)
 
+    const { isPending, publishArticle } = useArticlePublish()
+
     const toggleMenu = () => menuRadial.current && menuRadial.current.classList.toggle('active')
     const closeMenu = () => menuRadial.current && menuRadial.current.classList.remove('active')
     const openMenu = () => menuRadial.current && menuRadial.current.classList.add('active')
 
-    const togglePublish = () => setPublishState((prevState) => {
-        return (prevState === PUBLISH_STATE_1)
-            ? PUBLISH_STATE_2
-            : PUBLISH_STATE_1
-    })
+    const togglePublish = () => {
+        if(isPending) return
 
-    // const togglePublish = () => setTimeout(() => {
-    //     (publishState === PUBLISH_STATE_1)
-    //         ? setPublishState(PUBLISH_STATE_2)
-    //         : setPublishState(PUBLISH_STATE_1)
-    // }, 1000)
+        (publishState === PUBLISH_STATE_1) 
+            ?  setPublishState(PUBLISH_STATE_2)
+            :  setPublishState(PUBLISH_STATE_1);
+        
+        (publishState === PUBLISH_STATE_1) 
+            ?  publishArticle({ is_publish: true })
+            :  publishArticle({ is_publish: false })
+    }
     
     useEffect(() => {
         if(typeof isPublish === 'undefined') return
