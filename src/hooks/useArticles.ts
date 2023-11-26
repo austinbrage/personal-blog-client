@@ -56,6 +56,7 @@ export const useArticleAdd = () => {
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
+    
     const userToken = useAPIStore(state => state.userToken)
 
     const { mutate, isPending } = useMutation({
@@ -77,7 +78,7 @@ export const useArticleAdd = () => {
                         style: { minWidth: '400px' } 
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
 
             data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
@@ -121,7 +122,7 @@ export const useArticleDelete = () => {
                         style: { minWidth: '400px' } 
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
 
             data.success && navigate('/dashboard/create/new-article')
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
@@ -138,6 +139,52 @@ export const useArticleDelete = () => {
 
     return {
         deleteArticle,
+        isPending
+    }
+}
+
+export const useArticleEdit = () => {
+
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
+    const userToken = useAPIStore(state => state.userToken)
+    const articleId = useAPIStore(state => state.articleId)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['article', 'edit'],
+        mutationFn: articleService.changeData,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID })
+        },
+        onSuccess: async (data, variables) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID, 
+                        style: { minWidth: '400px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+
+            data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
+            data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
+        }
+    })
+
+    const editArticle = (data: Omit<ArticleInfo['data'], "token">) => {
+        const id = Number(articleId)
+        if(isNaN(id)) return 
+        mutate({ id: id, token: userToken, ...data })
+    }
+
+    return {
+        editArticle,
         isPending
     }
 }
