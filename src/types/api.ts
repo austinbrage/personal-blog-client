@@ -12,9 +12,9 @@ type APIState = {
 }
 
 type APIAction = {
-    updateUser: (payload: UserInfo['fullData'][]) => void
-    updateArticle: (payload: ArticleInfo['fullData'][]) => void
-    updateSection: (payload: SectionInfo['idData'][]) => void
+    updateUserData: (payload: UserInfo['fullData'][]) => void
+    updateArticleData: (payload: ArticleInfo['fullData'][]) => void
+    updateSectionData: (payload: SectionInfo['idData'][]) => void
     updateUserSession: (payload: UserState) => void
     updateArticleId: (payload: string) => void
     updateUserToken: (payload: string) => void

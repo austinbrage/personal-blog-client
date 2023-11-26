@@ -12,13 +12,13 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     sectionData: [],
     userSession: false,
 
-    updateUser: (newData) => {
+    updateUserData: (newData) => {
         set(state => ({ ...state, userData: newData }), false, {
             type: 'UPDATE_USER', newData
         })
     },
 
-    updateArticle: (newData) => {
+    updateArticleData: (newData) => {
         set(state => ({ ...state, articleData: newData }), false, {
             type: 'UPDATE_ARTICLE_DATA', newData
         })
@@ -30,7 +30,7 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
         })
     },
 
-    updateSection: (newData) => {
+    updateSectionData: (newData) => {
         set(state => ({ ...state, sectionData: newData }), false, {
             type: 'UPDATE_SECTION_DATA', newData
         })
