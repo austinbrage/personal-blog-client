@@ -4,7 +4,7 @@ import { SectionInfo } from "./sections"
 
 type APIState = {
     userData: UserInfo['fullData'][] | []
-    articleData: ArticleInfo['fullData'][] | []
+    articleData: ArticleInfo['fullData'] | null
     sectionData: SectionInfo['idData'][] | []
     userSession: boolean
     articleId: string
@@ -13,7 +13,7 @@ type APIState = {
 
 type APIAction = {
     updateUserData: (payload: UserInfo['fullData'][]) => void
-    updateArticleData: (payload: ArticleInfo['fullData'][]) => void
+    updateArticleData: (payload: ArticleInfo['fullData']) => void
     updateSectionData: (payload: SectionInfo['idData'][]) => void
     updateUserSession: (payload: UserState) => void
     updateArticleId: (payload: string) => void

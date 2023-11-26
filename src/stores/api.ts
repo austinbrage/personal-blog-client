@@ -8,7 +8,7 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     userData: [],
     userToken: '',
     articleId: '',
-    articleData: [],
+    articleData: null,
     sectionData: [],
     userSession: false,
 
