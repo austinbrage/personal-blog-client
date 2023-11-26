@@ -1,18 +1,43 @@
+import { MdLogout } from "react-icons/md"
+import { useUserData } from "../hooks/useUser"
+import { useAPIStore } from "../stores/api"
 import { useNavigate } from "react-router-dom"
+import { useQueryClient } from "@tanstack/react-query"
 
 export function ProfilePage() {
 
     const navigate = useNavigate()
+    const { userData } = useUserData()
+    const queryClient = useQueryClient()
+    const updateUserToken = useAPIStore(state => state.updateUserToken)
+
+    const handleLogout = () => {
+        navigate('/')
+        updateUserToken('')
+        queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
+        queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
+        queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+    }
 
     return (
         <div className="p-8 min-h-screen text-white bg-[rgb(15,15,24)]">
 
             <div className="px-4 py-5 sm:px-6">
-                <h3 className="text-3xl font-bold leading-6">
-                    User Profile
-                </h3>
-                <p className="mt-1 max-w-2xl text-md italic text-gray-500">
-                    This is some information about the user.
+                <div className="flex gap-32">
+                    <h3 className="inline-block text-4xl font-bold leading-6">
+                        User Profile
+                    </h3>
+                    <span 
+                        data-text="Log Out" 
+                        data-pos="bottom align-left"
+                        onClick={() => handleLogout()}
+                        className="text-2xl relative top-1 cursor-pointer hover:scale-150 transition-all duration-150"
+                    >
+                        <MdLogout/>
+                    </span>
+                </div>
+                <p className="mt-1 max-w-2xl text-xl italic text-gray-500">
+                    This is some information about the user
                 </p>
             </div>
 
@@ -23,7 +48,7 @@ export function ProfilePage() {
                             User name
                         </dt>
                         <dd className="mt-1 text-md sm:mt-0 sm:col-span-2">
-                            John_1
+                            {userData?.name}
                         </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -31,7 +56,7 @@ export function ProfilePage() {
                             Author name
                         </dt>
                         <dd className="mt-1 text-md sm:mt-0 sm:col-span-2">
-                            John Doe
+                            {userData?.author}
                         </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -39,7 +64,7 @@ export function ProfilePage() {
                             Password
                         </dt>
                         <dd className="mt-1 text-md sm:mt-0 sm:col-span-2">
-                            Doe1234
+                            -
                         </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -47,7 +72,7 @@ export function ProfilePage() {
                             Email address
                         </dt>
                         <dd className="mt-1 text-md sm:mt-0 sm:col-span-2">
-                            johndoe@example.com
+                            {userData?.email}
                         </dd>
                     </div>
                     <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -55,7 +80,7 @@ export function ProfilePage() {
                             API_KEY
                         </dt>
                         <dd className="mt-1 text-md sm:mt-0 sm:col-span-2">
-                            TOTm58=WnfrCuwK*XOuT3E24jDYTbn+izo+Wno*.l::/&2xpE?Y.N3auV8R
+                            {userData?.api_key}
                         </dd>
                     </div>
                 </dl>

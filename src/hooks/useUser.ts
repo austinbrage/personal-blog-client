@@ -1,10 +1,11 @@
 import toast from 'react-hot-toast'
 import { User } from '../services/users'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useMutation } from '@tanstack/react-query'
 import { useAPIStore } from '../stores/api'
+import { useQuery, useMutation } from '@tanstack/react-query'
 
-const useService = new User()
+const userService = new User()
 const TOAST_ID = 'USER_IDENTIFIER'
 
 export const useValidation = () => {
@@ -15,7 +16,7 @@ export const useValidation = () => {
     
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'validate'],
-        mutationFn: useService.validate,
+        mutationFn: userService.validate,
 
         onMutate: () => {
             toast.loading('Requesting API', { id: TOAST_ID })
@@ -48,7 +49,7 @@ export const useRegister = () => {
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'register'],
-        mutationFn: useService.insertNew,
+        mutationFn: userService.insertNew,
 
         onMutate: () => {
           toast.loading('Requesting API', { id: TOAST_ID })
@@ -75,5 +76,41 @@ export const useRegister = () => {
     return {
         signUp: mutate,
         isPending
+    }
+}
+
+export const useUserData = () => {
+
+    const userToken = useAPIStore(state => state.userToken)
+
+    const { data, isPending, isLoading, isError, refetch } = useQuery({
+        queryKey: ['user', 'data', userToken],
+        queryFn: ({ queryKey }) => userService.getData({ token: queryKey[2] }),
+        staleTime: Infinity
+    })
+
+    useEffect(() => {
+        
+        if(isLoading) {
+            toast.loading('Requesting API', { id: TOAST_ID })
+        }
+        
+        if(isError) {
+            toast.error('Internal error, please try again', { id: TOAST_ID })
+        }
+        
+        if(!isError && !isLoading && !isPending && !data.success) {
+            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+        }
+
+        if(!isError && !isLoading && !isPending && data.success) {
+            toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID })
+        } 
+
+    }, [isPending, isLoading, isError, data])
+
+    return {
+        userData: data?.success ? data.result.data[0] : null,
+        refetchUser: refetch
     }
 }
