@@ -9,7 +9,7 @@ type Props = {
 
 export function KeyboardInfo({ modalRef, toggleModal }: Props) {
     return (
-        <div ref={modalRef} role="dialog" className="hidden relative col-auto col-start-2 row-auto row-start-2 w-full rounded-xl text-left shadow-xl transition-all left-1/3 -translate-x-1/2 bg-[rgb(32,33,35)] md:max-w-[672px] lg:max-w-[796px] xl:max-w-4xl" tabIndex={-1} style={{ pointerEvents: 'auto' }}>
+        <div ref={modalRef} role="dialog" className="hidden absolute top-32 col-auto col-start-2 row-auto row-start-2 w-full rounded-xl text-left shadow-xl transition-all left-1/3 -translate-x-1/2 bg-[rgb(32,33,35)] md:max-w-[672px] lg:max-w-[796px] xl:max-w-4xl" tabIndex={-1} style={{ pointerEvents: 'auto' }}>
             
             <div className="px-4 pb-4 pt-5 sm:p-6 flex items-center justify-between border-b border-black/10 dark:border-white/10">
                 <div className="flex">
