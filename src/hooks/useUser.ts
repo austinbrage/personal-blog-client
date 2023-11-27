@@ -163,7 +163,7 @@ export const useUserEmail = () => {
     const userToken = useAPIStore(state => state.userToken)
     
     const { mutate, isPending, data } = useMutation({
-        mutationKey: ['user', 'editName'],
+        mutationKey: ['user', 'editEmail'],
         mutationFn: userService.changeEmail,
 
         onMutate: () => {
@@ -186,12 +186,12 @@ export const useUserEmail = () => {
         }
     })
 
-    const editUserName = (data: Omit<UserInfo['email'], "token">) => {
+    const editUserEmail = (data: Omit<UserInfo['email'], "token">) => {
         mutate({ token: userToken, email: data.email })
     }
 
     return {
-        editUserName,
+        editUserEmail,
         isPending,
         isSuccess: data?.success
     }

@@ -1,6 +1,6 @@
 import { useUserEmail } from '../../hooks/useUser'
 import { useModalEditCommands } from '../../hooks/useCommands'
-import { useState, useEffect, type RefObject, FormEvent } from "react"
+import { useState, useEffect, type RefObject, type FormEvent } from "react"
 
 type Props = {
     currentEmail: string
@@ -12,7 +12,7 @@ type Props = {
 export function ModalEmail({ modalRef, toggleModal, isToggle, currentEmail }: Props) {
 
     const [email, setEmail] = useState<string>(currentEmail)
-    const { isSuccess, isPending, editUserName } = useUserEmail()
+    const { isSuccess, isPending, editUserEmail } = useUserEmail()
 
     useEffect(() => {
         setEmail(currentEmail)
@@ -25,7 +25,7 @@ export function ModalEmail({ modalRef, toggleModal, isToggle, currentEmail }: Pr
         const data = new FormData(event.currentTarget) 
         const email = data.get('email')?.toString() ?? ''
 
-        editUserName({ email })
+        editUserEmail({ email })
     }   
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export function ModalEmail({ modalRef, toggleModal, isToggle, currentEmail }: Pr
     })
 
     return (
-        <div ref={modalRef} id="crud-modal-3" tabIndex={-1} aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div ref={modalRef} id="crud-modal-4" tabIndex={-1} aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             
             <div className="relative p-4 w-full max-w-md max-h-full">
                 <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
