@@ -1,5 +1,6 @@
 import { LegacyRef } from "react"
 import { useArticleDelete } from "../../hooks/useArticles"
+import { useSectionDelete } from "../../hooks/useSections"
 
 type Props = {
     modalRef: LegacyRef<HTMLDivElement> 
@@ -9,11 +10,14 @@ type Props = {
 
 export function ModalDelete({ modalRef, toggleModal, modalType }: Props) {
     
-    const { isPending, deleteArticle } = useArticleDelete()
+    const { isPending: isPendingArticle, deleteArticle } = useArticleDelete()
+    const { isPending: isPendingSection, deleteSection } = useSectionDelete()
 
     const handleDelete = () => {
-        if(isPending) return
-        deleteArticle()     
+        if(isPendingArticle || isPendingSection) return
+
+        modalType === 'article' && deleteArticle()     
+        modalType === 'section' && deleteSection()     
         toggleModal()   
     }
 

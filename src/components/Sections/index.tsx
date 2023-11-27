@@ -1,5 +1,7 @@
 import { DateText } from './DateText'
 import { SectionList } from './SectionList'
+import { ModalDelete } from '../Modals/ModalDelete'
+import { useRef } from 'react'
 import { type ArticleInfo } from "../../types/articles"
 
 type Props = {
@@ -8,6 +10,13 @@ type Props = {
 
 export function Sections({ currentArticle }: Props) {
 
+    const modalDelete = useRef<HTMLDivElement>(null)
+
+    const toggleModalDelete = () => {
+        modalDelete.current?.classList.toggle('hidden')
+        modalDelete.current?.classList.toggle('flex')
+    }
+    
     if(!currentArticle) return
 
     return (
@@ -28,7 +37,15 @@ export function Sections({ currentArticle }: Props) {
                     {currentArticle.description}
                 </p>
                 
-                <SectionList/>
+                <SectionList
+                    toggleModalDelete={toggleModalDelete}
+                />
+
+                <ModalDelete
+                    modalType='section'
+                    modalRef={modalDelete}
+                    toggleModal={toggleModalDelete}
+                />
 
             </div>
         </section>
