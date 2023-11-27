@@ -7,6 +7,7 @@ import { FaUserEdit } from "react-icons/fa"
 import { ModalName } from '../components/User/ModalName'
 import { ModalEmail } from '../components/User/ModalEmail'
 import { ModalAuthor } from '../components/User/ModalAuthor'
+import { ModalPassword } from '../components/User/ModalPassword'
 import { useRef, useState, forwardRef } from 'react'
 
 export const ProfilePage = forwardRef(() => {
@@ -28,6 +29,7 @@ export const ProfilePage = forwardRef(() => {
     const modalName = useRef<HTMLDivElement>(null)
     const modalEmail = useRef<HTMLDivElement>(null)
     const modalAuthor = useRef<HTMLDivElement>(null)
+    const modalPassword = useRef<HTMLDivElement>(null)
     const [isToggle, setIsToggle] = useState<boolean>(false)
 
     const toggleModalName = () => {
@@ -44,6 +46,11 @@ export const ProfilePage = forwardRef(() => {
         setIsToggle(prevState => !prevState)
         modalAuthor.current?.classList.toggle('hidden')
         modalAuthor.current?.classList.toggle('flex')
+    }
+    const toggleModalPassword = () => {
+        setIsToggle(prevState => !prevState)
+        modalPassword.current?.classList.toggle('hidden')
+        modalPassword.current?.classList.toggle('flex')
     }
 
     return (
@@ -68,6 +75,11 @@ export const ProfilePage = forwardRef(() => {
                 modalRef={modalAuthor}
                 toggleModal={toggleModalAuthor}
                 currentAuthor={userData?.author ?? ''}
+            />
+            
+            <ModalPassword
+                modalRef={modalPassword}
+                toggleModal={toggleModalPassword}
             />
 
             <div className="px-4 py-5 sm:px-6">
@@ -130,9 +142,12 @@ export const ProfilePage = forwardRef(() => {
                             Password
                         </dt>
                         <dd className="mt-1 text-xl font-semibold sm:mt-0 sm:col-span-2">
-                            -
+                            ----
                         </dd>
-                        <button className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800">
+                        <button 
+                            onClick={toggleModalPassword}
+                            className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
+                        >
                             <span className="text-xl me-2">
                                 <FaUserEdit/>
                             </span>
