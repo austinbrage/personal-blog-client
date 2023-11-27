@@ -4,14 +4,17 @@ import { useAPIStore } from "../stores/api"
 import { useNavigate } from "react-router-dom"
 import { useQueryClient } from "@tanstack/react-query"
 import { FaUserEdit } from "react-icons/fa"
+import { ModalName } from '../components/User/ModalName'
+import { useRef, useState, forwardRef } from 'react'
 
-export function ProfilePage() {
-
+export const ProfilePage = forwardRef(() => {
+    
     const navigate = useNavigate()
     const { userData } = useUserData()
+    
     const queryClient = useQueryClient()
     const updateUserToken = useAPIStore(state => state.updateUserToken)
-
+    
     const handleLogout = () => {
         navigate('/')
         updateUserToken('')
@@ -20,8 +23,24 @@ export function ProfilePage() {
         queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
     }
 
+    const modalName = useRef<HTMLDivElement>(null)
+    const [isToggle, setIsToggle] = useState<boolean>(false)
+
+    const toggleModalName = () => {
+        setIsToggle(prevState => !prevState)
+        modalName.current?.classList.toggle('hidden')
+        modalName.current?.classList.toggle('flex')
+    }
+
     return (
         <div className="p-8 min-h-screen text-white bg-[rgb(15,15,24)]">
+
+            <ModalName
+                isToggle={isToggle}
+                modalRef={modalName}
+                toggleModal={toggleModalName}
+                currentName={userData?.name ?? ''}
+            />
 
             <div className="px-4 py-5 sm:px-6">
                 <div className="flex gap-32">
@@ -51,7 +70,10 @@ export function ProfilePage() {
                         <dd className="mt-1 text-xl font-semibold sm:mt-0 sm:col-span-2">
                             {userData?.name}
                         </dd>
-                        <button className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800">
+                        <button 
+                            onClick={toggleModalName}
+                            className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
+                        >
                             <span className="text-xl me-2">
                                 <FaUserEdit/>
                             </span>
@@ -129,4 +151,4 @@ export function ProfilePage() {
 
         </div>
     )
-} 
+})

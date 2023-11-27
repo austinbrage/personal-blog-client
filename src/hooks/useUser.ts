@@ -3,7 +3,8 @@ import { User } from '../services/users'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAPIStore } from '../stores/api'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { UserInfo } from '../types/users'
 
 const userService = new User()
 const TOAST_ID = 'USER_IDENTIFIER'
@@ -112,5 +113,44 @@ export const useUserData = () => {
     return {
         userData: data?.success ? data.result.data[0] : null,
         refetchUser: refetch
+    }
+}
+
+export const useUserName = () => {
+
+    const queryClient = useQueryClient()
+    const userToken = useAPIStore(state => state.userToken)
+    
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['user', 'editName'],
+        mutationFn: userService.changeName,
+
+        onMutate: () => {
+          toast.loading('Requesting API', { id: TOAST_ID })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(`Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID, 
+                        style: { minWidth: '400px' }
+                    }
+                )
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+
+            data.success && queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
+        }
+    })
+
+    const editUserName = (data: Omit<UserInfo['name'], "token">) => {
+        mutate({ token: userToken, name: data.name })
+    }
+
+    return {
+        editUserName,
+        isPending
     }
 }
