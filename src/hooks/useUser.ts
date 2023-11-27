@@ -7,7 +7,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { UserInfo } from '../types/users'
 
 const userService = new User()
-const TOAST_ID = 'USER_IDENTIFIER'
+const TOAST_ID_QUERY = 'USER_TOAST_QUERY'
+const TOAST_ID_MUTATE = 'USER_TOAST_MUTATE'
 
 export const useValidation = () => {
 
@@ -20,15 +21,15 @@ export const useValidation = () => {
         mutationFn: userService.validate,
 
         onMutate: () => {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
         },
         onError: () => {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
         },
         onSuccess: async (data) => {
             data.success
-                ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID })
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+                ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID_MUTATE })
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && updateUserToken(data.result.token)
             data.success && updateUserSession('onSession')
@@ -53,20 +54,20 @@ export const useRegister = () => {
         mutationFn: userService.insertNew,
 
         onMutate: () => {
-          toast.loading('Requesting API', { id: TOAST_ID })
+          toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
         },
         onError: () => {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
         },
         onSuccess: async (data) => {
             data.success
                 ? toast.success(`Api message: ${data.result.message}`, 
                     { 
-                        id: TOAST_ID, 
+                        id: TOAST_ID_MUTATE, 
                         style: { minWidth: '360px' }
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && updateUserToken(data.result.token)
             data.success && updateUserSession('onSession')
@@ -93,19 +94,19 @@ export const useUserData = () => {
     useEffect(() => {
         
         if(isLoading) {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_QUERY })
         }
         
         if(isError) {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_QUERY })
         }
         
         if(!isError && !isLoading && !isPending && !data.success) {
-            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_QUERY })
         }
 
         if(!isError && !isLoading && !isPending && data.success) {
-            toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID })
+            toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID_QUERY })
         } 
 
     }, [isPending, isLoading, isError, data])
@@ -126,20 +127,20 @@ export const useUserName = () => {
         mutationFn: userService.changeName,
 
         onMutate: () => {
-          toast.loading('Requesting API', { id: TOAST_ID })
+          toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
         },
         onError: () => {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
         },
         onSuccess: async (data) => {
             data.success
                 ? toast.success(`Api message: ${data.result.message}`, 
                     { 
-                        id: TOAST_ID, 
+                        id: TOAST_ID_MUTATE, 
                         style: { minWidth: '400px' }
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
         }

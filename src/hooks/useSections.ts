@@ -6,7 +6,8 @@ import { useAPIStore } from "../stores/api"
 import { type processedData } from "../types/sections"
 
 const sectionService = new Section()
-const TOAST_ID = 'SECTION_IDENTIFIER'
+const TOAST_ID_QUERY = 'SECTION_TOAST_QUERY'
+// const TOAST_ID_MUTATE = 'SECTION_TOAST_MUTATE'
 
 export const useSectionData = () => {
     
@@ -46,22 +47,22 @@ export const useSectionData = () => {
     useEffect(() => {
         
         if(isLoading) {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_QUERY })
         }
         
         if(isError) {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_QUERY })
         }
         
         if(!isError && !isLoading && !isPending && !data.success) {
-            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_QUERY })
         }
 
         if(!isError && !isLoading && !isPending && data.success) {
             toast.success(
                 `Api message: ${data.result.message}`, 
                 { 
-                    id: TOAST_ID, 
+                    id: TOAST_ID_QUERY, 
                     style: { minWidth: '400px' } 
                 }
             )

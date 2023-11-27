@@ -8,7 +8,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import { type ArticleInfo } from '../types/articles'
 
 const articleService = new Article()
-const TOAST_ID = 'ARTICLE_IDENTIFIER'
+const TOAST_ID_QUERY = 'ARTICLE_TOAST_QUERY'
+const TOAST_ID_MUTATE = 'ARTICLE_TOAST_MUTATE'
 
 export const useArticleData = () => {
 
@@ -23,22 +24,22 @@ export const useArticleData = () => {
     useEffect(() => {
         
         if(isLoading) {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_QUERY })
         }
         
         if(isError) {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_QUERY })
         }
         
         if(!isError && !isLoading && !isPending && !data.success) {
-            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_QUERY })
         }
 
         if(!isError && !isLoading && !isPending && data.success) {
             toast.success(
                 `Api message: ${data.result.message}`, 
                 { 
-                    id: TOAST_ID, 
+                    id: TOAST_ID_QUERY, 
                     style: { minWidth: '360px' } 
                 }
             )
@@ -64,21 +65,21 @@ export const useArticleAdd = () => {
         mutationFn: articleService.insertNew,
 
         onMutate: () => {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
         },
         onError: () => {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
         },
         onSuccess: async (data, variables) => {
             data.success
                 ? toast.success(
                     `Api message: ${data.result.message}`, 
                     { 
-                        id: TOAST_ID, 
+                        id: TOAST_ID_MUTATE, 
                         style: { minWidth: '400px' } 
                     }
                 )
-                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
@@ -108,21 +109,21 @@ export const useArticleDelete = () => {
         mutationFn: articleService.removeData,
 
         onMutate: () => {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
         },
         onError: () => {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
         },
         onSuccess: async (data) => {
             data.success
                 ? toast.success(
                     `Api message: ${data.result.message}`, 
                     { 
-                        id: TOAST_ID, 
+                        id: TOAST_ID_MUTATE, 
                         style: { minWidth: '400px' } 
                     }
                 )
-                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && navigate('/dashboard/create/new-article')
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
@@ -156,21 +157,21 @@ export const useArticleEdit = () => {
         mutationFn: articleService.changeData,
 
         onMutate: () => {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
         },
         onError: () => {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
         },
         onSuccess: async (data, variables) => {
             data.success
                 ? toast.success(
                     `Api message: ${data.result.message}`, 
                     { 
-                        id: TOAST_ID, 
+                        id: TOAST_ID_MUTATE, 
                         style: { minWidth: '400px' } 
                     }
                 )
-                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
@@ -201,21 +202,21 @@ export const useArticlePublish = () => {
         mutationFn: articleService.changePublishment,
 
         onMutate: () => {
-            toast.loading('Requesting API', { id: TOAST_ID })
+            toast.loading('Requesting API', { id: TOAST_ID_QUERY })
         },
         onError: () => {
-            toast.error('Internal error, please try again', { id: TOAST_ID })
+            toast.error('Internal error, please try again', { id: TOAST_ID_QUERY })
         },
         onSuccess: async (data) => {
             data.success
                 ? toast.success(
                     `Api message: ${data.result.message}`, 
                     { 
-                        id: TOAST_ID, 
-                        style: { minWidth: '400px' } 
+                        id: TOAST_ID_QUERY, 
+                        style: { minWidth: '450px' } 
                     }
                 )
-                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_QUERY })
 
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
         }
