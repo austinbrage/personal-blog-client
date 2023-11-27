@@ -122,7 +122,7 @@ export const useUserName = () => {
     const queryClient = useQueryClient()
     const userToken = useAPIStore(state => state.userToken)
     
-    const { mutate, isPending } = useMutation({
+    const { mutate, isPending, data } = useMutation({
         mutationKey: ['user', 'editName'],
         mutationFn: userService.changeName,
 
@@ -152,6 +152,7 @@ export const useUserName = () => {
 
     return {
         editUserName,
-        isPending
+        isPending,
+        isSuccess: data?.success
     }
 }

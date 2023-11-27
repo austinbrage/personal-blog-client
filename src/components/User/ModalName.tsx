@@ -12,7 +12,7 @@ type Props = {
 export function ModalName({ modalRef, toggleModal, isToggle, currentName }: Props) {
 
     const [name, setName] = useState<string>(currentName)
-    const { isPending, editUserName } = useUserName()
+    const { isSuccess, isPending, editUserName } = useUserName()
 
     useEffect(() => {
         setName(currentName)
@@ -26,10 +26,12 @@ export function ModalName({ modalRef, toggleModal, isToggle, currentName }: Prop
         const name = data.get('name')?.toString() ?? ''
 
         editUserName({ name })
-
-        modalRef.current?.classList.add('hidden')
-        modalRef.current?.classList.remove('flex')
     }   
+
+    useEffect(() => {
+        !isPending && isSuccess && modalRef.current?.classList.add('hidden')
+        !isPending && isSuccess && modalRef.current?.classList.remove('flex')
+    }, [isPending, isSuccess, modalRef])
 
     useModalEditCommands({
         menuRef: modalRef,
