@@ -71,7 +71,7 @@ export const useRegister = () => {
 
             data.success && updateUserToken(data.result.token)
             data.success && updateUserSession('onSession')
-            data.success && navigate('/dashboard')
+            data.success && navigate('/dashboard/create/new-article')
         }
     })
 
@@ -140,7 +140,7 @@ export const useUserName = () => {
                         style: { minWidth: '400px' }
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
         }
@@ -180,7 +180,7 @@ export const useUserEmail = () => {
                         style: { minWidth: '400px' }
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
         }
@@ -220,7 +220,7 @@ export const useUserAuthor = () => {
                         style: { minWidth: '450px' }
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
         }
@@ -259,7 +259,7 @@ export const useUserPassword = () => {
                         style: { minWidth: '450px' }
                     }
                 )
-                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
         }
     })
 
@@ -271,5 +271,44 @@ export const useUserPassword = () => {
         editUserPassword,
         isPending,
         isSuccess: data?.success
+    }
+}
+
+export const useUserDelete = () => {
+
+    const navigate = useNavigate()
+    const userToken = useAPIStore(state => state.userToken)
+    
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['user', 'remove'],
+        mutationFn: userService.removeData,
+
+        onMutate: () => {
+          toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(`Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '360px' }
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && navigate('/')
+        }
+    })
+
+    const deleteUser = () => {
+        mutate({ token: userToken })
+    }
+
+    return {
+        deleteUser,
+        isPending
     }
 }

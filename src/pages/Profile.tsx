@@ -7,6 +7,7 @@ import { FaUserEdit } from "react-icons/fa"
 import { ModalName } from '../components/User/ModalName'
 import { ModalEmail } from '../components/User/ModalEmail'
 import { ModalAuthor } from '../components/User/ModalAuthor'
+import { ModalRemove } from '../components/User/ModalRemove'
 import { ModalPassword } from '../components/User/ModalPassword'
 import { useRef, useState, forwardRef } from 'react'
 
@@ -29,6 +30,7 @@ export const ProfilePage = forwardRef(() => {
     const modalName = useRef<HTMLDivElement>(null)
     const modalEmail = useRef<HTMLDivElement>(null)
     const modalAuthor = useRef<HTMLDivElement>(null)
+    const modalRemove = useRef<HTMLDivElement>(null)
     const modalPassword = useRef<HTMLDivElement>(null)
     const [isToggle, setIsToggle] = useState<boolean>(false)
 
@@ -46,6 +48,11 @@ export const ProfilePage = forwardRef(() => {
         setIsToggle(prevState => !prevState)
         modalAuthor.current?.classList.toggle('hidden')
         modalAuthor.current?.classList.toggle('flex')
+    }
+    const toggleModalRemove = () => {
+        setIsToggle(prevState => !prevState)
+        modalRemove.current?.classList.toggle('hidden')
+        modalRemove.current?.classList.toggle('flex')
     }
     const toggleModalPassword = () => {
         setIsToggle(prevState => !prevState)
@@ -80,6 +87,11 @@ export const ProfilePage = forwardRef(() => {
             <ModalPassword
                 modalRef={modalPassword}
                 toggleModal={toggleModalPassword}
+            />
+            
+            <ModalRemove
+                modalRef={modalRemove}
+                toggleModal={toggleModalRemove}
             />
 
             <div className="px-4 py-5 sm:px-6">
@@ -178,7 +190,10 @@ export const ProfilePage = forwardRef(() => {
                         <dd className="mt-1 text-xl font-semibold sm:mt-0 sm:col-span-2">
                             {userData?.api_key}
                         </dd>
-                        <button className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-red-600 hover:bg-red-700 text-white">
+                        <button 
+                            onClick={toggleModalRemove}
+                            className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-red-600 hover:bg-red-700 text-white"
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
