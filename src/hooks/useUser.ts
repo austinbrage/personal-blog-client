@@ -156,3 +156,43 @@ export const useUserName = () => {
         isSuccess: data?.success
     }
 }
+
+export const useUserEmail = () => {
+
+    const queryClient = useQueryClient()
+    const userToken = useAPIStore(state => state.userToken)
+    
+    const { mutate, isPending, data } = useMutation({
+        mutationKey: ['user', 'editName'],
+        mutationFn: userService.changeEmail,
+
+        onMutate: () => {
+          toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(`Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '400px' }
+                    }
+                )
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
+        }
+    })
+
+    const editUserName = (data: Omit<UserInfo['email'], "token">) => {
+        mutate({ token: userToken, email: data.email })
+    }
+
+    return {
+        editUserName,
+        isPending,
+        isSuccess: data?.success
+    }
+}
