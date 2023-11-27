@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { FaUserEdit } from "react-icons/fa"
 import { ModalName } from '../components/User/ModalName'
 import { ModalEmail } from '../components/User/ModalEmail'
+import { ModalAuthor } from '../components/User/ModalAuthor'
 import { useRef, useState, forwardRef } from 'react'
 
 export const ProfilePage = forwardRef(() => {
@@ -26,6 +27,7 @@ export const ProfilePage = forwardRef(() => {
 
     const modalName = useRef<HTMLDivElement>(null)
     const modalEmail = useRef<HTMLDivElement>(null)
+    const modalAuthor = useRef<HTMLDivElement>(null)
     const [isToggle, setIsToggle] = useState<boolean>(false)
 
     const toggleModalName = () => {
@@ -37,6 +39,11 @@ export const ProfilePage = forwardRef(() => {
         setIsToggle(prevState => !prevState)
         modalEmail.current?.classList.toggle('hidden')
         modalEmail.current?.classList.toggle('flex')
+    }
+    const toggleModalAuthor = () => {
+        setIsToggle(prevState => !prevState)
+        modalAuthor.current?.classList.toggle('hidden')
+        modalAuthor.current?.classList.toggle('flex')
     }
 
     return (
@@ -54,6 +61,13 @@ export const ProfilePage = forwardRef(() => {
                 modalRef={modalEmail}
                 toggleModal={toggleModalEmail}
                 currentEmail={userData?.email ?? ''}
+            />
+            
+            <ModalAuthor
+                isToggle={isToggle}
+                modalRef={modalAuthor}
+                toggleModal={toggleModalAuthor}
+                currentAuthor={userData?.author ?? ''}
             />
 
             <div className="px-4 py-5 sm:px-6">
@@ -101,7 +115,10 @@ export const ProfilePage = forwardRef(() => {
                         <dd className="mt-1 text-xl font-semibold sm:mt-0 sm:col-span-2">
                             {userData?.author}
                         </dd>
-                        <button className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800">
+                        <button 
+                            onClick={toggleModalAuthor}
+                            className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
+                        >
                             <span className="text-xl me-2">
                                 <FaUserEdit/>
                             </span>
