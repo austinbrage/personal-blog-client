@@ -1,11 +1,11 @@
 import { UserInfo } from "./users"
 import { ArticleInfo } from "./articles"
-import { SectionInfo } from "./sections"
+import { type ProcessedSection } from "./sections"
 
 type APIState = {
     userData: UserInfo['fullData'][] | []
     articleData: ArticleInfo['fullData'] | null
-    sectionData: SectionInfo['idData'][] | []
+    sectionData: ProcessedSection | null
     userSession: boolean
     sectionId: number
     articleId: string
@@ -15,7 +15,7 @@ type APIState = {
 type APIAction = {
     updateUserData: (payload: UserInfo['fullData'][]) => void
     updateArticleData: (payload: ArticleInfo['fullData']) => void
-    updateSectionData: (payload: SectionInfo['idData'][]) => void
+    updateSectionData: (payload: ProcessedSection) => void
     updateUserSession: (payload: UserState) => void
     updateSectionId: (payload: number) => void
     updateArticleId: (payload: string) => void
