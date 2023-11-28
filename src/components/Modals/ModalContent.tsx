@@ -1,6 +1,7 @@
 import { useAPIStore } from "../../stores/api"
 import { useModalEditCommands } from "../../hooks/useCommands"
 import { useState, useEffect, type RefObject, type FormEvent } from "react"
+import Draggable, { type DraggableEvent, type DraggableData } from 'react-draggable'
 
 type Props = {
     mode: 'add' | 'edit'
@@ -9,11 +10,21 @@ type Props = {
     isToggle: boolean
 }
 
+type Position = { x: number; y: number }
+
 export function ModalContent({ mode, modalRef, isToggle, toggleModal }: Props) {
 
     const sectionData = useAPIStore(state => state.sectionData)
     const [name, setName] = useState<string>(sectionData?.content ?? '')
+    const [position, setPosition] = useState<Position>({ x: 0, y: 0 })
     
+    const handleDrag = (_e: DraggableEvent, { deltaX, deltaY }: DraggableData) => {
+        setPosition(prevState => ({
+            x: prevState.x + deltaX,
+            y: prevState.y + deltaY,
+        }))
+    }
+
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
@@ -25,6 +36,11 @@ export function ModalContent({ mode, modalRef, isToggle, toggleModal }: Props) {
     useEffect(() => {
         setName(sectionData?.content ?? '')
     }, [sectionData, isToggle])
+    
+    useEffect(() => {
+        modalRef.current?.classList.add('hidden')
+        modalRef.current?.classList.remove('flex')
+    }, [modalRef])
 
     useModalEditCommands({
         menuRef: modalRef,
@@ -36,12 +52,17 @@ export function ModalContent({ mode, modalRef, isToggle, toggleModal }: Props) {
     })
 
     return (
-        <div ref={modalRef} id={`content-modal-${mode}`} tabIndex={-1} aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-            
-            <div className="relative p-4 w-full max-w-md max-h-full">
-                <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <Draggable 
+            onDrag={handleDrag} 
+            handle=".modal-header-1"
+            defaultPosition={position}
+        >
+            <div ref={modalRef} id={`content-modal-${mode}`} tabIndex={-1} aria-hidden="true" className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                
+                <div className="relative p-4 w-full max-w-md max-h-full">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
 
-                    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <div className="modal-header-1 cursor-grab flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             {mode === 'add' ? 'New Content' : 'Edit Content'}
                         </h3>
@@ -78,11 +99,12 @@ export function ModalContent({ mode, modalRef, isToggle, toggleModal }: Props) {
                             {mode === 'add' ? 'Add section' : 'Edit section'}
                         </button>
 
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
-            </div>
 
-        </div> 
+            </div> 
+        </Draggable>
     )
 }
