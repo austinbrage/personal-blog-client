@@ -13,7 +13,7 @@ type Data = {
     text_color: string
 }
 
-export type processedData = {
+export type ProcessedSection = {
     id: number
     content: string
     styles: React.CSSProperties

@@ -3,7 +3,7 @@ import React, { useMemo, useEffect } from "react"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { type processedData } from "../types/sections"
+import { type ProcessedSection } from "../types/sections"
 
 const sectionService = new Section()
 const TOAST_ID_QUERY = 'SECTION_TOAST_QUERY'
@@ -25,7 +25,7 @@ export const useSectionData = () => {
         staleTime: Infinity
     })
 
-    const dataResult: processedData[] | [] = useMemo(() => {
+    const dataResult: ProcessedSection[] | [] = useMemo(() => {
         return data?.success ? data.result.data.map(elem => {
 
             return {
