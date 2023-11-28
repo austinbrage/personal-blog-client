@@ -2,25 +2,36 @@ import { useState } from 'react'
 import { IoMdCreate } from 'react-icons/io'
 import { useAPIStore } from '../../stores/api'
 import { useSectionData } from '../../hooks/useSections'
+import { type ProcessedSection } from '../../types/sections'
 
 type Props = {
     toggleModalDelete: () => void
+    toggleModalContent: () => void
 }
 
-export function SectionList({ toggleModalDelete }: Props) {
+export function SectionList({ toggleModalDelete, toggleModalContent }: Props) {
 
     const { sectionData } = useSectionData()
+
     const updateSectionId = useAPIStore(state => state.updateSectionId)
+    const updateSectionData = useAPIStore(state => state.updateSectionData)
+    
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
     const handleMouseLeave = () => setHoveredIndex(null)
     const handleMouseEnter = (index: number) => setHoveredIndex(index)
 
-    const handleDelete = (sectionId: number) => {
-        updateSectionId(sectionId)
+    const handleDelete = (currentSection: ProcessedSection) => {
+        updateSectionId(currentSection.id)
+        updateSectionData(currentSection)
         toggleModalDelete()
     }
 
+    const handleEdition = (currentSection: ProcessedSection) => {
+        updateSectionData(currentSection)
+        toggleModalContent()
+    }
+    
     if(sectionData.length === 0) return (
         <article className='ms-10 text-2xl italic tracking-wider'>(No content)</article>
     )
@@ -47,7 +58,7 @@ export function SectionList({ toggleModalDelete }: Props) {
                         className='flex gap-3 h-10'
                     >
                         <button
-                            // onClick={toggleModalEmail}
+                            onClick={() => handleEdition(elem)}
                             className="inline-flex items-center w-max text-sm font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
                         >
                             <span className="text-lg me-2">
@@ -57,7 +68,7 @@ export function SectionList({ toggleModalDelete }: Props) {
                         </button>
 
                         <button 
-                            onClick={() => handleDelete(elem.id)}
+                            onClick={() => handleDelete(elem)}
                             className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-red-600 hover:bg-red-700 text-white"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
