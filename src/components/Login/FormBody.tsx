@@ -1,4 +1,5 @@
 import React from 'react'
+import toast from 'react-hot-toast'
 import { useValidation, useRegister } from '../../hooks/useUser'
 import { CommonInputs, SignUpInputs } from './FormInputs'
 
@@ -24,14 +25,20 @@ export function FormBody({ isSignUp, toggleSignUp }: Props) {
 
         const signInData = {
             name: getStringValue('name'),
-            password: getStringValue('password'),
+            password: getStringValue('password1'),
         }
         const signUpData = {
             ...signInData,
-            author: getStringValue('author'),
+            author: getStringValue('name'),
             email: getStringValue('email')
         }
 
+        if(isSignUp) {
+            const password1 = getStringValue('password1')
+            const password2 = getStringValue('password2')
+            if(password1 !== password2) return toast.error('Passwords do not match')
+        }
+        
         isSignUp ? signUp(signUpData) : signIn(signInData)
     }
 
