@@ -39,10 +39,9 @@ export function SectionList({ toggleModalDelete, toggleModalContent }: Props) {
     return (
         <article className='ms-10'>
             {sectionData.map((elem, index) => (
-                <div className='flex justify-between align-top h-12'>
+                <div key={elem.id} className='flex justify-between align-top h-12'>
 
                     <div 
-                        key={elem.id}
                         className={
                             index === hoveredIndex 
                                 ? 'scale-125 translate-x-4 transition-all duration-300' 
@@ -72,7 +71,7 @@ export function SectionList({ toggleModalDelete, toggleModalContent }: Props) {
                             className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-red-600 hover:bg-red-700 text-white"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                             Delete
                         </button>

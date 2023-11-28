@@ -10,8 +10,8 @@ export function Shortcuts({ shortcutCommands }: Props) {
                 
                 {shortcutCommands.map((shortcut, index1) => ( 
                    
-                   <div className="flex items-center justify-between overflow-hidden text-gray-600 dark:text-gray-300">
-                        <div key={index1} className="flex flex-shrink items-center overflow-hidden text-sm">
+                   <div key={index1} className="flex items-center justify-between overflow-hidden text-gray-600 dark:text-gray-300">
+                        <div className="flex flex-shrink items-center overflow-hidden text-sm">
                             <div className="truncate">
                                 {shortcut.shortcutName}
                             </div>
