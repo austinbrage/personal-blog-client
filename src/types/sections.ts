@@ -2,7 +2,7 @@ import React from "react"
 import { type APIResponse } from "./api"
 
 //* 1- Section Service Arguments Types 
-type Data = {
+export type RawSection = {
     content: string 
     font_size: string 
     font_weight: string 
@@ -24,7 +24,7 @@ export type SectionInfo = {
         id: number 
         token: string
     }
-    idData: Data & { 
+    idData: RawSection & { 
         id: number 
         token: string
     } 
@@ -32,7 +32,7 @@ export type SectionInfo = {
         article_id: string //Type of string due to the searchParams.append functionality 
         token: string
     } 
-    articleIdData: Data & { 
+    articleIdData: RawSection & { 
         article_id: number 
         token: string
     } 
