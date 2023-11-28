@@ -115,3 +115,48 @@ export const useSectionDelete = () => {
         isPending
     }
 }
+
+export const useSectionEdit = () => {
+
+    const queryClient = useQueryClient()
+
+    const userToken = useAPIStore(state => state.userToken)
+    const sectionId = useAPIStore(state => state.sectionId)
+    const stylesData = useAPIStore(state => state.stylesData)
+    const contentData = useAPIStore(state => state.contentData)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['section', 'edit'],
+        mutationFn: sectionService.changeAll,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '400px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+        }
+    })
+
+    const editSection = () => {
+        if(!contentData || !stylesData.raw) return
+        mutate({ token: userToken, id: sectionId, ...contentData, ...stylesData.raw })
+    }
+
+    return {
+        editSection,
+        isPending
+    }
+}
