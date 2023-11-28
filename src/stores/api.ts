@@ -11,6 +11,9 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     sectionId: 0,
     articleData: null,
     sectionData: null,
+    contentData: null,
+    stylesData: {},
+    editMode: false,
     userSession: false,
 
     updateUserData: (newData) => {
@@ -40,6 +43,32 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     updateSectionData: (newData) => {
         set(state => ({ ...state, sectionData: newData }), false, {
             type: 'UPDATE_SECTION_DATA', newData
+        })
+    },
+
+    updateContentData: (newData) => {
+        set(state => ({ ...state, contentData: newData }), false, {
+            type: 'UPDATE_CONTENT_DATA', newData
+        })
+    },
+
+    updateStylesData: (newData) => {
+        const processed = {
+            fontSize: newData.font_size,
+            fontWeight: newData.font_weight,
+            fontFamily: newData.font_family,
+            color: newData.text_color,
+            textAlign: newData.text_align,
+            lineHeight: newData.line_height,
+        }
+        set(state => ({ ...state, stylesData: { raw: newData, processed } }), false, {
+            type: 'UPDATE_STYLES_DATA', newData
+        })
+    },
+
+    updateEditMode: (newData) => {
+        set(state => ({ ...state, editMode: newData.mode }), false, {
+            type: 'UPDATE_EDIT_MODE', newData
         })
     },
 

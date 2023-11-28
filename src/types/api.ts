@@ -1,11 +1,17 @@
 import { UserInfo } from "./users"
 import { ArticleInfo } from "./articles"
-import { type ProcessedSection } from "./sections"
+import { type ProcessedSection, type RawSection } from "./sections"
 
 type APIState = {
     userData: UserInfo['fullData'][] | []
     articleData: ArticleInfo['fullData'] | null
     sectionData: ProcessedSection | null
+    contentData: Pick<RawSection, "content"> | null
+    stylesData: {
+        raw?: Omit<RawSection, "content">, 
+        processed?: Pick<ProcessedSection, "content"> 
+    }
+    editMode: boolean
     userSession: boolean
     sectionId: number
     articleId: string
@@ -16,6 +22,9 @@ type APIAction = {
     updateUserData: (payload: UserInfo['fullData'][]) => void
     updateArticleData: (payload: ArticleInfo['fullData']) => void
     updateSectionData: (payload: ProcessedSection) => void
+    updateContentData: (payload: Pick<RawSection, "content">) => void
+    updateStylesData: (payload: Omit<RawSection, "content">) => void
+    updateEditMode: (payload: { mode: boolean }) => void
     updateUserSession: (payload: UserState) => void
     updateSectionId: (payload: number) => void
     updateArticleId: (payload: string) => void
