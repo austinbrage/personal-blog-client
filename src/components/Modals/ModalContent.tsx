@@ -47,18 +47,18 @@ export function ModalContent({ mode, modalRef }: Props) {
     }, [modalRef])
 
     return (
-        <Draggable 
-            onDrag={handleDrag} 
-            handle=".modal-header-1"
-            defaultPosition={position}
-        >
-            <div 
-                tabIndex={-1} 
-                ref={modalRef} 
-                aria-hidden="true" 
-                id={`content-modal-${mode}`} 
-                className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                
+        <div 
+            tabIndex={-1} 
+            ref={modalRef} 
+            aria-hidden="true" 
+            id={`content-modal-${mode}`} 
+            className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+        >        
+            <Draggable 
+                onDrag={handleDrag} 
+                handle=".modal-header-1"
+                defaultPosition={position}
+            >
                 <div className="relative p-4 w-full max-w-md max-h-full">
                     <div className="relative rounded-lg shadow backdrop-blur-sm bg-[rgba(55,65,65,0.8)]">
 
@@ -104,7 +104,7 @@ export function ModalContent({ mode, modalRef }: Props) {
                     </div>
                 </div>
 
-            </div> 
-        </Draggable>
+            </Draggable>
+        </div> 
     )
 }
