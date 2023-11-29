@@ -12,6 +12,11 @@ type KeyCommands2 = {
     closeMenu: () => void
 }
 
+type KeyCommands3 = {
+    menuRef: React.RefObject<HTMLDivElement>
+    closeMenu: () => void
+}
+
 export function useMenuRadialCommands({ menuRef, openMenu, closeMenu }: KeyCommands1) {
    
     useEffect(() => {
@@ -80,5 +85,29 @@ export function useModalEditCommands({ menuRef, closeMenu, openMenu }: KeyComman
         }
 
     }, [menuRef, openMenu, closeMenu])
+
+}
+
+export function useEscapeClickOutside({ menuRef, closeMenu }: KeyCommands3) {
+    
+    useEffect(() => {
+
+        const handleOutsideClick = (event: MouseEvent) => {
+            if(!menuRef.current?.contains(event.target as Node)) closeMenu()
+        }
+
+        const handleKeyCommands = (event: KeyboardEvent) => {
+            if(event.key === 'Escape') closeMenu()
+        }
+    
+        window.addEventListener('click', handleOutsideClick) 
+        window.addEventListener('keydown', handleKeyCommands)
+
+        return () => {
+            window.removeEventListener('click', handleOutsideClick)
+            window.removeEventListener('keydown', handleKeyCommands)
+        }
+
+    }, [menuRef, closeMenu])
 
 }
