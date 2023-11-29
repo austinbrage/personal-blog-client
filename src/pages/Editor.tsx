@@ -62,17 +62,16 @@ export const EditorPage = forwardRef(() => {
         modalAdd.current?.classList.remove('hidden')
         modalAdd.current?.classList.add('flex')
     }
-    const closeModalAdd = () => {
-        modalAdd.current?.classList.add('hidden')
-        modalAdd.current?.classList.remove('flex')
-        modalEdit.current?.classList.add('hidden')
-        modalEdit.current?.classList.remove('flex')
-    }
 
     useModalEditCommands({ 
         menuRef: modalAdd, 
         openMenu: openModalAdd, 
-        closeMenu: closeModalAdd 
+        closeMenu: () => {
+            modalAdd.current?.classList.add('hidden')
+            modalAdd.current?.classList.remove('flex')
+            modalEdit.current?.classList.add('hidden')
+            modalEdit.current?.classList.remove('flex')
+        } 
     })
 
     return (
@@ -90,7 +89,7 @@ export const EditorPage = forwardRef(() => {
                 currentArticle={currentArticle}
             />
             <ButtonAdd 
-                toggleModal={openModalAdd}
+                openModal={openModalAdd}
             />
             <MenuTable 
                 postsList={articleList} 
