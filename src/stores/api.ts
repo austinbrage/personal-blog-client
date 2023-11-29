@@ -5,23 +5,15 @@ import { type APIStore } from "../types/api"
 const myMiddlewares = createMiddlewares<APIStore>('GLOBAL_API_STORE')
 
 export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
-    userData: [],
-    userToken: '',
-    articleId: '',
-    sectionId: 0,
     articleData: null,
     sectionData: null,
     contentData: null,
     stylesData: {},
     editMode: false,
-    userSession: false,
-
-    updateUserData: (newData) => {
-        set(state => ({ ...state, userData: newData }), false, {
-            type: 'UPDATE_USER', newData
-        })
-    },
-
+    sectionId: 0,
+    articleId: '',
+    userToken: '',
+    
     updateArticleData: (newData) => {
         set(state => ({ ...state, articleData: newData }), false, {
             type: 'UPDATE_ARTICLE_DATA', newData
@@ -77,9 +69,4 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
             type: 'USER_TOKEN', newToken
         })
     },
-    
-    updateUserSession: (newState) => {
-        newState === 'onSession' && set({ userSession: true }, false, 'ON_SESSION')
-        newState === 'offSession' && set({ userSession: false }, false, 'OFF_SESSION')
-    }
 })))

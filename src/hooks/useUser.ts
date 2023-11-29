@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAPIStore } from '../stores/api'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { UserInfo } from '../types/users'
+import { type UserInfo } from '../types/users'
 
 const userService = new User()
 const TOAST_ID_QUERY = 'USER_TOAST_QUERY'
@@ -14,7 +14,6 @@ export const useValidation = () => {
 
     const navigate = useNavigate()
     const updateUserToken = useAPIStore(state => state.updateUserToken)
-    const updateUserSession = useAPIStore(state => state.updateUserSession)
     
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'validate'],
@@ -32,7 +31,6 @@ export const useValidation = () => {
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && updateUserToken(data.result.token)
-            data.success && updateUserSession('onSession')
             data.success && navigate('/dashboard/create/new-article')
         }
     })   
@@ -47,7 +45,6 @@ export const useRegister = () => {
 
     const navigate = useNavigate()
     const updateUserToken = useAPIStore(state => state.updateUserToken)
-    const updateUserSession = useAPIStore(state => state.updateUserSession)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'register'],
@@ -70,7 +67,6 @@ export const useRegister = () => {
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && updateUserToken(data.result.token)
-            data.success && updateUserSession('onSession')
             data.success && navigate('/dashboard/create/new-article')
         }
     })
