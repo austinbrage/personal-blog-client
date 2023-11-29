@@ -160,3 +160,50 @@ export const useSectionEdit = () => {
         isPending
     }
 }
+
+export const useSectionAdd = () => {
+
+    const queryClient = useQueryClient()
+
+    const userToken = useAPIStore(state => state.userToken)
+    const articleId = useAPIStore(state => state.articleId)
+    const stylesData = useAPIStore(state => state.stylesData)
+    const contentData = useAPIStore(state => state.contentData)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['section', 'add'],
+        mutationFn: sectionService.inserNew,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '400px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+        }
+    })
+
+    const addSection = () => {
+        if(!contentData || !stylesData.raw) return
+        const id = Number(articleId)
+        if(isNaN(id)) return 
+        mutate({ token: userToken, article_id: id, ...contentData, ...stylesData.raw })
+    }
+
+    return {
+        addSection,
+        isPending
+    }
+}
