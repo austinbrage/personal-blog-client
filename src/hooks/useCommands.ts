@@ -88,6 +88,43 @@ export function useModalEditCommands({ menuRef, closeMenu, openMenu }: KeyComman
 
 }
 
+export function useEscape({ menuRef, closeMenu }: KeyCommands3) {
+    
+    useEffect(() => {
+
+        const handleKeyCommands = (event: KeyboardEvent) => {
+            if(event.key === 'Escape') closeMenu()
+        }
+    
+        window.addEventListener('keydown', handleKeyCommands)
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyCommands)
+        }
+
+    }, [menuRef, closeMenu])
+
+}
+
+export function useEscapeEnter({ menuRef, closeMenu, openMenu }: KeyCommands2) {
+    
+    useEffect(() => {
+
+        const handleKeyCommands = (event: KeyboardEvent) => {
+            if(event.key === 'Escape') closeMenu()
+            if(event.ctrlKey && event.key === 'Enter') openMenu()
+        }
+    
+        window.addEventListener('keydown', handleKeyCommands)
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyCommands)
+        }
+
+    }, [menuRef, openMenu, closeMenu])
+
+}
+
 export function useEscapeClickOutside({ menuRef, closeMenu }: KeyCommands3) {
     
     useEffect(() => {

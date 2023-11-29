@@ -9,7 +9,6 @@ import { ModalDelete } from "../components/Modals/ModalDelete"
 import { PublishLabel } from "../components/Sections/PublishLabel"
 import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
-import { useModalEditCommands } from '../hooks/useCommands'
 import { useRef, useState, forwardRef, useMemo } from "react"
 import { useAPIStore } from "../stores/api"
 
@@ -52,6 +51,7 @@ export const EditorPage = forwardRef(() => {
         modalAdd.current?.classList.toggle('flex')
         modalAdd.current?.classList.toggle('hidden')
     }
+    
     const toggleModalEdit = () => {
         setIsToggle(prevState => !prevState)
         modalEdit.current?.classList.toggle('hidden')
@@ -62,17 +62,6 @@ export const EditorPage = forwardRef(() => {
         modalAdd.current?.classList.remove('hidden')
         modalAdd.current?.classList.add('flex')
     }
-
-    useModalEditCommands({ 
-        menuRef: modalAdd, 
-        openMenu: openModalAdd, 
-        closeMenu: () => {
-            modalAdd.current?.classList.add('hidden')
-            modalAdd.current?.classList.remove('flex')
-            modalEdit.current?.classList.add('hidden')
-            modalEdit.current?.classList.remove('flex')
-        } 
-    })
 
     return (
         <div className="p-8 min-h-screen bg-[rgb(15,15,24)]">
