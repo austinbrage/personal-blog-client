@@ -1,5 +1,4 @@
 import { useRef, FormEvent, RefObject } from "react"
-import { useEscapeEnter } from "../../hooks/useCommands"
 import { useArticleAdd } from "../../hooks/useArticles"
 
 type Props = {
@@ -32,18 +31,6 @@ export function ModalAdd({ modalRef, toggleModal }: Props) {
         toggleModal()
         formRef.current?.reset()
     }
-
-    useEscapeEnter({
-        menuRef: modalRef,
-        openMenu: () => {
-            modalRef.current?.classList.remove('hidden')
-            modalRef.current?.classList.add('flex')
-        },
-        closeMenu: () => {
-            modalRef.current?.classList.add('hidden')
-            modalRef.current?.classList.remove('flex')
-        }
-    })
 
     return (
         <div ref={modalRef} id="crud-modal" tabIndex={-1} aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">

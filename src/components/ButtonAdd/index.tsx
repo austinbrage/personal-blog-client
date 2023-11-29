@@ -1,14 +1,45 @@
+import { RefObject } from 'react'
+import { useEscapeEnter } from '../../hooks/useCommands'
 import './ButtonAdd.css'
 
 type Props = {
-    openModal: () =>  void
+    editorMode: string
+    modalAdd: RefObject<HTMLDivElement>
+    modalContent: RefObject<HTMLDivElement>
 }
 
-export function ButtonAdd({ openModal }: Props) {
+export function ButtonAdd({ editorMode, modalAdd, modalContent }: Props) {
     
+    const openModal = () => {
+        editorMode === 'edit' || modalAdd.current?.classList.remove('hidden')
+        editorMode === 'edit' || modalAdd.current?.classList.add('flex')
+
+        editorMode === 'edit' && modalContent.current?.classList.remove('hidden')
+        editorMode === 'edit' && modalContent.current?.classList.add('flex')
+    }
+
+    const closeModal = () => {
+        editorMode === 'edit' || modalAdd.current?.classList.add('hidden')
+        editorMode === 'edit' || modalAdd.current?.classList.remove('flex')
+
+        editorMode === 'edit' && modalContent.current?.classList.add('hidden')
+        editorMode === 'edit' && modalContent.current?.classList.remove('flex')
+    }
+
+    useEscapeEnter({
+        menuRef: editorMode !== 'edit' ? modalAdd : modalContent,
+        openMenu: openModal,
+        closeMenu: closeModal
+    })
+
     return (
         <div className='button-add-section'>
-            <button onClick={openModal} type='button' data-text="Add New Section" data-pos="top align-left">
+            <button 
+                type='button' 
+                onClick={openModal} 
+                data-text={editorMode === 'edit' ? "Add New Section" : "Add New Article"} 
+                data-pos="top align-left"
+            >
             
                 <svg className="injected-svg icon-new" viewBox="0 0 48 48" width="48px" height="48px" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" role="img" aria-labelledby="new-title-10 new-desc-10" data-src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/436544/mui-assets.svg#new">
                     <title id="new-title-10"></title><desc id="new-desc-10">new</desc>
