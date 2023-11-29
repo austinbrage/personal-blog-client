@@ -3,11 +3,10 @@ import { type ProcessedSection, type RawSection } from "./sections"
 
 type APIState = {
     articleData: ArticleInfo['fullData'] | null
-    contentData: Pick<RawSection, "content"> | null
     sectionData: ProcessedSection | null
-    stylesData: {
-        raw?: Omit<RawSection, "content">, 
-        processed?: Pick<ProcessedSection, "content"> 
+    newSectionData: {
+        raw?: RawSection, 
+        processed?: Omit<ProcessedSection, "id">
     }
     editMode: boolean
     sectionId: number
@@ -18,12 +17,11 @@ type APIState = {
 type APIAction = {
     updateArticleData: (payload: ArticleInfo['fullData']) => void
     updateSectionData: (payload: ProcessedSection) => void
-    updateContentData: (payload: Pick<RawSection, "content">) => void
-    updateStylesData: (payload: Omit<RawSection, "content">) => void
-    updateEditMode: (payload: { mode: boolean }) => void
+    updateNewSectionData: (payload: RawSection) => void
     updateSectionId: (payload: number) => void
     updateArticleId: (payload: string) => void
     updateUserToken: (payload: string) => void
+    updateEditMode: (payload: boolean) => void
 }
 
 export type APIStore = APIState & APIAction

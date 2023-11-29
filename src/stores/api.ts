@@ -7,8 +7,7 @@ const myMiddlewares = createMiddlewares<APIStore>('GLOBAL_API_STORE')
 export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     articleData: null,
     sectionData: null,
-    contentData: null,
-    stylesData: {},
+    newSectionData: {},
     editMode: false,
     sectionId: 0,
     articleId: '',
@@ -38,28 +37,23 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
         })
     },
 
-    updateContentData: (newData) => {
-        set(state => ({ ...state, contentData: newData }), false, {
-            type: 'UPDATE_CONTENT_DATA', newData
-        })
-    },
-
-    updateStylesData: (newData) => {
+    updateNewSectionData: (newData) => {
         const processed = {
+            content: newData.content,
+            color: newData.text_color,
             fontSize: newData.font_size,
+            textAlign: newData.text_align,
             fontWeight: newData.font_weight,
             fontFamily: newData.font_family,
-            color: newData.text_color,
-            textAlign: newData.text_align,
             lineHeight: newData.line_height,
         }
         set(state => ({ ...state, stylesData: { raw: newData, processed } }), false, {
-            type: 'UPDATE_STYLES_DATA', newData
+            type: 'UPDATE_NEW_SECTION_DATA', newData
         })
     },
 
     updateEditMode: (newData) => {
-        set(state => ({ ...state, editMode: newData.mode }), false, {
+        set(state => ({ ...state, editMode: newData }), false, {
             type: 'UPDATE_EDIT_MODE', newData
         })
     },
