@@ -1,7 +1,7 @@
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { SelectOption } from "../Dropdowns/SelectOption"
-import { useState, useEffect, type RefObject, type FormEvent } from "react"
+import { useState, useEffect, useCallback, type RefObject, type FormEvent } from "react"
 import Draggable, { type DraggableEvent, type DraggableData } from 'react-draggable'
 import { type ProcessedSection } from "../../types/sections"
 
@@ -42,21 +42,12 @@ export function ModalContent({ mode, modalRef }: Props) {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        console.log(styles)
+        closeModal()
         //? add new section or edit existing one 
     }   
 
-    const closeModal = () => {
-        modalRef.current?.classList.add('hidden')
-        modalRef.current?.classList.remove('flex')
-        mode === 'add' ? setContent('') : setContent(sectionData?.content ?? '')
-    }
-
-    useEscape({
-        menuRef: modalRef,
-        closeMenu: closeModal
-    })
-    
-    useEffect(() => {
+    const resetValues = useCallback(() => {
         mode === 'add' 
             ? setContent('') 
             : setContent(sectionData?.content ?? '')
@@ -65,11 +56,26 @@ export function ModalContent({ mode, modalRef }: Props) {
             ? setStyles(defualtLabels) 
             : setStyles(sectionData?.styles ?? defualtLabels)
     }, [mode, setContent, setStyles, sectionData])
+    
+    const closeModal = () => {
+        modalRef.current?.classList.add('hidden')
+        modalRef.current?.classList.remove('flex')
+        resetValues()
+    }
+    
+    useEffect(() => {
+        resetValues()
+    }, [mode, setContent, setStyles, sectionData, resetValues])
 
     useEffect(() => {
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
     }, [modalRef])
+
+    useEscape({
+        menuRef: modalRef,
+        closeMenu: closeModal
+    })
 
     return (
         <div 
@@ -159,8 +165,11 @@ export function ModalContent({ mode, modalRef }: Props) {
                                 </p>
                                 <SelectOption
                                     label={styles.color}
-                                    setOption={() => {}}
                                     options={['white', 'black', 'gray']}
+                                    setOption={(selected) => setStyles(prevState => ({
+                                        ...prevState,
+                                        color: selected
+                                    }))}
                                 />
                             </div>
 
@@ -170,8 +179,11 @@ export function ModalContent({ mode, modalRef }: Props) {
                                 </p>
                                 <SelectOption
                                     label={styles.fontFamily}
-                                    setOption={() => {}}
                                     options={['sans-serif', 'monospace']}
+                                    setOption={(selected) => setStyles(prevState => ({
+                                        ...prevState,
+                                        fontFamily: selected
+                                    }))}
                                 />
                             </div>  
 
@@ -181,8 +193,11 @@ export function ModalContent({ mode, modalRef }: Props) {
                                 </p>
                                 <SelectOption
                                     label={styles.fontWeight}
-                                    setOption={() => {}}
                                     options={['normal', 'semibold', 'bold']}
+                                    setOption={(selected) => setStyles(prevState => ({
+                                        ...prevState,
+                                        fontWeight: selected
+                                    }))}
                                 />
                             </div>  
                         </div>
