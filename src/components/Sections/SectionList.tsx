@@ -5,11 +5,11 @@ import { useSectionData } from '../../hooks/useSections'
 import { type ProcessedSection } from '../../types/sections'
 
 type Props = {
-    toggleModalDelete: () => void
-    toggleModalContent: () => void
+    openModalDelete: () => void
+    openModalContent: () => void
 }
 
-export function SectionList({ toggleModalDelete, toggleModalContent }: Props) {
+export function SectionList({ openModalDelete, openModalContent }: Props) {
 
     const { sectionData } = useSectionData()
 
@@ -24,12 +24,12 @@ export function SectionList({ toggleModalDelete, toggleModalContent }: Props) {
     const handleDelete = (currentSection: ProcessedSection) => {
         updateSectionId(currentSection.id)
         updateSectionData(currentSection)
-        toggleModalDelete()
+        openModalDelete()
     }
 
     const handleEdition = (currentSection: ProcessedSection) => {
         updateSectionData(currentSection)
-        toggleModalContent()
+        openModalContent()
     }
     
     if(sectionData.length === 0) return (

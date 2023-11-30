@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { DateText } from './DateText'
 import { SectionList } from './SectionList'
 import { ModalDelete } from '../Modals/ModalDelete'
 import { ModalContent } from '../Modals/ModalContent'
+import { useEscape } from '../../hooks/useCommands'
 import { type ArticleInfo } from "../../types/articles"
 
 type Props = {
@@ -13,17 +14,23 @@ export function Sections({ currentArticle }: Props) {
 
     const modalDelete = useRef<HTMLDivElement>(null)
     const modalContent = useRef<HTMLDivElement>(null)
-    const [isToggle, setIsToggle] = useState<boolean>(false)
 
-    const toggleModalDelete = () => {
-        modalDelete.current?.classList.toggle('hidden')
-        modalDelete.current?.classList.toggle('flex')
+    const openModalDelete = () => {
+        modalDelete.current?.classList.remove('hidden')
+        modalDelete.current?.classList.add('flex')
     }
-    const toggleModalContent = () => {
-        setIsToggle(prevState => !prevState)
-        modalContent.current?.classList.toggle('hidden')
-        modalContent.current?.classList.toggle('flex')
+    const openModalContent = () => {
+        modalContent.current?.classList.remove('hidden')
+        modalContent.current?.classList.add('flex')
     }
+
+    useEscape({
+        menuRef: modalContent,
+        closeMenu: () => {
+            modalContent.current?.classList.add('hidden')
+            modalContent.current?.classList.remove('flex')   
+        }
+    })
     
     if(!currentArticle) return
 
@@ -46,21 +53,18 @@ export function Sections({ currentArticle }: Props) {
                 </p>
                 
                 <SectionList
-                    toggleModalDelete={toggleModalDelete}
-                    toggleModalContent={toggleModalContent}
+                    openModalDelete={openModalDelete}
+                    openModalContent={openModalContent}
                 />
 
                 <ModalContent
                     mode='edit'
-                    isToggle={isToggle}
                     modalRef={modalContent}
-                    toggleModal={toggleModalContent}
                 />
 
                 <ModalDelete
-                    modalType='section'
+                    mode='section'
                     modalRef={modalDelete}
-                    toggleModal={toggleModalDelete}
                 />
 
             </div>

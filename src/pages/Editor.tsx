@@ -106,9 +106,8 @@ export const EditorPage = forwardRef(() => {
                 toggleModal={toggleModalEdit}
             />
             <ModalDelete 
-                modalType="article"
-                modalRef={modalDelete} 
-                toggleModal={toggleModalDelete} 
+                mode="article"
+                modalRef={modalDelete}  
             />
 
             {/* //! Hidden components for sections */}
