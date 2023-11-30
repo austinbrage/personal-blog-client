@@ -3,6 +3,7 @@ import { useEscape } from "../../hooks/useCommands"
 import { SelectOption } from "../Dropdowns/SelectOption"
 import { useState, useEffect, type RefObject, type FormEvent } from "react"
 import Draggable, { type DraggableEvent, type DraggableData } from 'react-draggable'
+import { type ProcessedSection } from "../../types/sections"
 
 type Props = {
     mode: 'add' | 'edit'
@@ -10,12 +11,25 @@ type Props = {
 }
 
 type Position = { x: number; y: number }
+type Styles = Pick<ProcessedSection, "styles">['styles']
+
+const defualtLabels: Styles = {
+    color: 'Select color',
+    fontSize: 'Select font', 
+    marginTop: 'Select margin', 
+    textAlign: 'Select align', 
+    fontWeight: 'Select weight', 
+    fontFamily: 'Select family', 
+    lineHeight: 'Select height'
+}
 
 export function ModalContent({ mode, modalRef }: Props) {
 
     const sectionData = useAPIStore(state => state.sectionData)
 
-    const [name, setName] = useState<string>('')
+    const [content, setContent] = useState<string>('')
+    const [styles, setStyles] = useState<Styles>(sectionData?.styles ?? defualtLabels)
+
     const [position1, setPosition1] = useState<Position>({ x: 0, y: 0 })
     const [position2, setPosition2] = useState<Position>({ x: 0, y: 0 })
     
@@ -34,17 +48,23 @@ export function ModalContent({ mode, modalRef }: Props) {
     const closeModal = () => {
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
-        mode === 'add' ? setName('') : setName(sectionData?.content ?? '')
+        mode === 'add' ? setContent('') : setContent(sectionData?.content ?? '')
     }
 
     useEscape({
         menuRef: modalRef,
-        closeMenu: () => setName('')
+        closeMenu: closeModal
     })
     
     useEffect(() => {
-        mode === 'add' ? setName('') : setName(sectionData?.content ?? '')
-    }, [mode, setName, sectionData])
+        mode === 'add' 
+            ? setContent('') 
+            : setContent(sectionData?.content ?? '')
+
+        mode === 'add' 
+            ? setStyles(defualtLabels) 
+            : setStyles(sectionData?.styles ?? defualtLabels)
+    }, [mode, setContent, setStyles, sectionData])
 
     useEffect(() => {
         modalRef.current?.classList.add('hidden')
@@ -92,8 +112,8 @@ export function ModalContent({ mode, modalRef }: Props) {
                                         type="text" 
                                         name="content" 
                                         placeholder="Type section content" 
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)} 
+                                        value={content}
+                                        onChange={(e) => setContent(e.target.value)} 
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
                                     />
                                 </div>
@@ -138,7 +158,7 @@ export function ModalContent({ mode, modalRef }: Props) {
                                     Pick a text color
                                 </p>
                                 <SelectOption
-                                    label="Select color"
+                                    label={styles.color}
                                     setOption={() => {}}
                                     options={['white', 'black', 'gray']}
                                 />
@@ -149,7 +169,7 @@ export function ModalContent({ mode, modalRef }: Props) {
                                     Pick a text font
                                 </p>
                                 <SelectOption
-                                    label="Select font"
+                                    label={styles.fontFamily}
                                     setOption={() => {}}
                                     options={['sans-serif', 'monospace']}
                                 />
@@ -157,12 +177,12 @@ export function ModalContent({ mode, modalRef }: Props) {
 
                             <div className='flex items-center justify-around gap-2 mt-2 ms-3'>
                                 <p className="font-semibold text-lg tracking-wider text-white">
-                                    Pick a text style
+                                    Pick a text weight
                                 </p>
                                 <SelectOption
-                                    label="Select style"
+                                    label={styles.fontWeight}
                                     setOption={() => {}}
-                                    options={['normal', 'italic']}
+                                    options={['normal', 'semibold', 'bold']}
                                 />
                             </div>  
                         </div>
