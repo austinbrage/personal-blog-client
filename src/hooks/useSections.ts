@@ -1,5 +1,5 @@
 import toast from "react-hot-toast"
-import React, { useMemo, useEffect } from "react"
+import { useMemo, useEffect } from "react"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
@@ -32,13 +32,14 @@ export const useSectionData = () => {
                 id: elem.id,
                 content: elem.content,
                 styles: {
-                    fontSize: elem.font_size,
+                    color: elem.text_color,
+                    fontSize: elem.font_size, 
+                    marginTop: elem.margin_top, 
+                    textAlign: elem.text_align,
                     fontWeight: elem.font_weight,
                     fontFamily: elem.font_family,
-                    color: elem.text_color,
-                    textAlign: elem.text_align,
-                    lineHeight: elem.line_height,
-                } as React.CSSProperties
+                    lineHeight: elem.line_height
+                } 
             }
 
         }) : []
@@ -122,8 +123,7 @@ export const useSectionEdit = () => {
 
     const userToken = useAPIStore(state => state.userToken)
     const sectionId = useAPIStore(state => state.sectionId)
-    const stylesData = useAPIStore(state => state.stylesData)
-    const contentData = useAPIStore(state => state.contentData)
+    const newSectionData = useAPIStore(state => state.newSectionData)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'edit'],
@@ -151,8 +151,8 @@ export const useSectionEdit = () => {
     })
 
     const editSection = () => {
-        if(!contentData || !stylesData.raw) return
-        mutate({ token: userToken, id: sectionId, ...contentData, ...stylesData.raw })
+        if(!newSectionData.raw) return
+        mutate({ token: userToken, id: sectionId, ...newSectionData.raw })
     }
 
     return {
@@ -167,8 +167,7 @@ export const useSectionAdd = () => {
 
     const userToken = useAPIStore(state => state.userToken)
     const articleId = useAPIStore(state => state.articleId)
-    const stylesData = useAPIStore(state => state.stylesData)
-    const contentData = useAPIStore(state => state.contentData)
+    const newSectionData = useAPIStore(state => state.newSectionData)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'add'],
@@ -196,10 +195,10 @@ export const useSectionAdd = () => {
     })
 
     const addSection = () => {
-        if(!contentData || !stylesData.raw) return
+        if(!newSectionData.raw) return
         const id = Number(articleId)
         if(isNaN(id)) return 
-        mutate({ token: userToken, article_id: id, ...contentData, ...stylesData.raw })
+        mutate({ token: userToken, article_id: id, ...newSectionData.raw })
     }
 
     return {

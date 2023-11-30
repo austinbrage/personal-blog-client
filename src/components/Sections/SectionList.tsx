@@ -48,7 +48,7 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
                                 : 'transition-all duration-300'
                         }
                     >
-                        <p style={elem.styles}>{elem.content}</p>
+                        <p style={elem.styles as React.CSSProperties}>{elem.content}</p>
                     </div>
 
                     <div 

@@ -1,22 +1,29 @@
-import React from "react"
 import { type APIResponse } from "./api"
 
 //* 1- Section Service Arguments Types 
 export type RawSection = {
     content: string 
     font_size: string 
+    text_color: string
+    margin_top: string 
+    text_align: string 
     font_weight: string 
     font_family: string 
     line_height: string 
-    margin_top: string 
-    text_align: string 
-    text_color: string
 }
 
 export type ProcessedSection = {
     id: number
     content: string
-    styles: React.CSSProperties
+    styles: {
+        color: string
+        fontSize: string 
+        marginTop: string 
+        textAlign: string 
+        fontWeight: string 
+        fontFamily: string 
+        lineHeight: string 
+    }
 }
 
 export type SectionInfo = {
