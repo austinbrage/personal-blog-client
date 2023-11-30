@@ -10,7 +10,8 @@ import {
 } from 'react-icons/io'
 import './MenuRadial.css'
 
-type Porps = {
+type Props = {
+    enabled: boolean
     isPublish?: boolean
     toggleModalEdit: () => void
     toggleModalDelete: () => void
@@ -34,7 +35,7 @@ const PUBLISH_STATE_2: PublishState = {
     iconColor: '#fe00f1'
 }
 
-export function MenuRadial({ isPublish, toggleModalDelete, toggleModalEdit }: Porps) {
+export function MenuRadial({ enabled, isPublish, toggleModalDelete, toggleModalEdit }: Props) {
 
     const menuRadial = useRef<HTMLUListElement>(null)
     const [publishState, setPublishState] = useState<PublishState>(PUBLISH_STATE_1)
@@ -76,6 +77,7 @@ export function MenuRadial({ isPublish, toggleModalDelete, toggleModalEdit }: Po
                 <li 
                     onClick={toggleModalDelete}
                     style={{'--i': 0, "--clr": '#ff2972'} as React.CSSProperties}
+                    className={enabled ? 'pointer-events-auto' : 'pointer-events-none'}
                 >
                     <span data-text="Delete Article" data-pos="top align-right"> 
                         <IoMdClose/> 
@@ -85,6 +87,7 @@ export function MenuRadial({ isPublish, toggleModalDelete, toggleModalEdit }: Po
                 <li 
                     onClick={toggleModalEdit}
                     style={{'--i': 1, "--clr": '#00b0fe', zIndex: -2} as React.CSSProperties}
+                    className={enabled ? 'pointer-events-auto' : 'pointer-events-none'}
                 >
                     <span data-text="Edit Article Name" data-pos="top align-right"> 
                         <IoMdCreate/> 
@@ -93,7 +96,8 @@ export function MenuRadial({ isPublish, toggleModalDelete, toggleModalEdit }: Po
 
                 <li 
                     onClick={togglePublish}
-                    style={{'--i': 2, "--clr": publishDeffered.iconColor} as React.CSSProperties} 
+                    style={{'--i': 2, "--clr": publishDeffered.iconColor} as React.CSSProperties}
+                    className={enabled ? 'pointer-events-auto' : 'pointer-events-none'}
                 >
                     <span data-text={publishDeffered.dataText} data-pos="top align-right"> 
                         {publishDeffered.status ? <IoIosCloudDownload/> : <IoMdCloudUpload/>}

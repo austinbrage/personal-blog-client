@@ -86,6 +86,7 @@ export const EditorPage = forwardRef(() => {
                 toggleModal={toggleModalInfo}
             />
             <MenuRadial
+                enabled={editor !== 'create'}
                 isPublish={currentArticle?.is_publish}
                 toggleModalEdit={toggleModalEdit}  
                 toggleModalDelete={toggleModalDelete}
