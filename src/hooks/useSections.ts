@@ -187,7 +187,7 @@ export const useSectionAdd = () => {
                     `Api message: ${data.result.message}`, 
                     { 
                         id: TOAST_ID_MUTATE, 
-                        style: { minWidth: '400px' } 
+                        style: { minWidth: '550px' } 
                     }
                 )
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })

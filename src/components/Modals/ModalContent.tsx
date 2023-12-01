@@ -1,6 +1,7 @@
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { SelectOption } from "../Dropdowns/SelectOption"
+import { useSectionAdd } from "../../hooks/useSections"
 import { useSectionEdit } from "../../hooks/useSections"
 import { useState, useEffect, useCallback, type RefObject, type FormEvent } from "react"
 import Draggable, { type DraggableEvent, type DraggableData } from 'react-draggable'
@@ -15,18 +16,19 @@ type Position = { x: number; y: number }
 type Styles = Pick<ProcessedSection, "styles">['styles']
 
 const defualtLabels: Styles = {
-    color: 'Select color',
-    fontSize: 'Select font', 
-    marginTop: 'Select margin', 
-    textAlign: 'Select align', 
-    fontWeight: 'Select weight', 
-    fontFamily: 'Select family', 
-    lineHeight: 'Select height'
+    color: 'white',
+    fontSize: '16px', 
+    marginTop: '0.25rem', 
+    textAlign: 'left', 
+    fontWeight: 'normal', 
+    fontFamily: 'sans-serif', 
+    lineHeight: '0.25rem'
 }
 
 export function ModalContent({ mode, modalRef }: Props) {
 
-    const { isPending, editSection } = useSectionEdit()
+    const { isPending: isPendingAdd, addSection } = useSectionAdd()
+    const { isPending: isPendingEdit, editSection } = useSectionEdit()
 
     const sectionData = useAPIStore(state => state.sectionData)
     const updateAddMode = useAPIStore(state => state.updateAddMode)
@@ -48,11 +50,10 @@ export function ModalContent({ mode, modalRef }: Props) {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if(isPending) return
+        if(isPendingAdd || isPendingEdit) return
 
-        mode === 'add' || editSection()
+        mode === 'add' ? addSection() : editSection()
         closeModal()
-        //? add new section or edit existing one 
     }   
 
     const resetValues = useCallback(() => {
