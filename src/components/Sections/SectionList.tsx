@@ -13,6 +13,11 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
 
     const { sectionData } = useSectionData()
 
+    const editMode = useAPIStore(state => state.editMode)
+    const sectionId = useAPIStore(state => state.sectionId)
+    const newSectionData = useAPIStore(state => state.newSectionData)
+
+    const updateEditMode = useAPIStore(state => state.updateEditMode)
     const updateSectionId = useAPIStore(state => state.updateSectionId)
     const updateSectionData = useAPIStore(state => state.updateSectionData)
     
@@ -30,6 +35,8 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
     const handleEdition = (currentSection: ProcessedSection) => {
         updateSectionId(currentSection.id)
         updateSectionData(currentSection)
+
+        updateEditMode(true)
         openModalContent()
     }
     
@@ -49,7 +56,17 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
                                 : 'transition-all duration-300'
                         }
                     >
-                        <p style={elem.styles as React.CSSProperties}>{elem.content}</p>
+                        {(editMode === true && sectionId === elem.id)
+                            ? (
+                                <p style={newSectionData.processed?.styles as React.CSSProperties}>
+                                    {newSectionData.processed?.content}
+                                </p>
+                            ): (
+                                <p style={elem.styles as React.CSSProperties}>
+                                    {elem.content}
+                                </p>
+                            )
+                        }
                     </div>
 
                     <div 

@@ -124,6 +124,7 @@ export const useSectionEdit = () => {
     const userToken = useAPIStore(state => state.userToken)
     const sectionId = useAPIStore(state => state.sectionId)
     const newSectionData = useAPIStore(state => state.newSectionData)
+    const updateEditMode = useAPIStore(state => state.updateEditMode)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'edit'],
@@ -147,6 +148,7 @@ export const useSectionEdit = () => {
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+            data.success && updateEditMode(false)
         }
     })
 
