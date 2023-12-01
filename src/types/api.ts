@@ -8,6 +8,7 @@ type APIState = {
         raw?: RawSection, 
         processed?: Omit<ProcessedSection, "id">
     }
+    addMode: boolean
     editMode: boolean
     sectionId: number
     articleId: string
@@ -21,6 +22,7 @@ type APIAction = {
     updateSectionId: (payload: number) => void
     updateArticleId: (payload: string) => void
     updateUserToken: (payload: string) => void
+    updateAddMode: (payload: boolean) => void
     updateEditMode: (payload: boolean) => void
 }
 

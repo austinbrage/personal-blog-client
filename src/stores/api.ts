@@ -8,6 +8,7 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     articleData: null,
     sectionData: null,
     newSectionData: {},
+    addMode: false,
     editMode: false,
     sectionId: 0,
     articleId: '',
@@ -50,6 +51,12 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
         }
         set(state => ({ ...state, newSectionData: { raw, processed: newData } }), false, {
             type: 'UPDATE_NEW_SECTION_DATA', newData
+        })
+    },
+
+    updateAddMode: (newData) => {
+        set(state => ({ ...state, addMode: newData }), false, {
+            type: 'UPDATE_ADD_MODE', newData
         })
     },
 
