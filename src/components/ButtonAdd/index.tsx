@@ -1,5 +1,6 @@
-import { RefObject } from 'react'
+import { useAPIStore } from '../../stores/api'
 import { useEscapeEnter } from '../../hooks/useCommands'
+import { type RefObject } from 'react'
 import './ButtonAdd.css'
 
 type Props = {
@@ -10,18 +11,22 @@ type Props = {
 
 export function ButtonAdd({ editorMode, modalAdd, modalContent }: Props) {
     
+    const updateAddMode = useAPIStore(state => state.updateAddMode)
+
     const openModal = () => {
         editorMode === 'edit' || modalAdd.current?.classList.remove('hidden')
         editorMode === 'edit' || modalAdd.current?.classList.add('flex')
-
+        
+        editorMode === 'edit' && updateAddMode(true)
         editorMode === 'edit' && modalContent.current?.classList.remove('hidden')
         editorMode === 'edit' && modalContent.current?.classList.add('flex')
     }
 
     const closeModal = () => {
-        editorMode === 'edit' || modalAdd.current?.classList.add('hidden')
         editorMode === 'edit' || modalAdd.current?.classList.remove('flex')
-
+        editorMode === 'edit' || modalAdd.current?.classList.remove('flex')
+        
+        editorMode === 'edit' && updateAddMode(false)
         editorMode === 'edit' && modalContent.current?.classList.add('hidden')
         editorMode === 'edit' && modalContent.current?.classList.remove('flex')
     }

@@ -13,6 +13,7 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
 
     const { sectionData } = useSectionData()
 
+    const addMode = useAPIStore(state => state.addMode)
     const editMode = useAPIStore(state => state.editMode)
     const sectionId = useAPIStore(state => state.sectionId)
     const newSectionData = useAPIStore(state => state.newSectionData)
@@ -97,6 +98,15 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
 
                 </div>
             ))}
+
+            {(addMode === true) && (
+                <div className=''>
+                    <p style={newSectionData.processed?.styles as React.CSSProperties}>
+                        {newSectionData.processed?.content}
+                    </p>
+                </div>
+            )}
+
         </article>
     )
 }

@@ -29,6 +29,8 @@ export function ModalContent({ mode, modalRef }: Props) {
     const { isPending, editSection } = useSectionEdit()
 
     const sectionData = useAPIStore(state => state.sectionData)
+    const updateAddMode = useAPIStore(state => state.updateAddMode)
+    const updateEditMode = useAPIStore(state => state.updateEditMode)
     const updateNewSectionData = useAPIStore(state => state.updateNewSectionData)
 
     const [content, setContent] = useState<string>('')
@@ -66,6 +68,8 @@ export function ModalContent({ mode, modalRef }: Props) {
     const closeModal = () => {
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
+        updateEditMode(false)
+        updateAddMode(false)
         resetValues()
     }
     
