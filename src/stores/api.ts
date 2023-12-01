@@ -38,16 +38,16 @@ export const useAPIStore = create<APIStore>()(myMiddlewares((set) => ({
     },
 
     updateNewSectionData: (newData) => {
-        const processed = {
+        const raw = {
             content: newData.content,
-            color: newData.text_color,
-            fontSize: newData.font_size,
-            textAlign: newData.text_align,
-            fontWeight: newData.font_weight,
-            fontFamily: newData.font_family,
-            lineHeight: newData.line_height,
+            text_color: newData.styles.color,
+            font_size: newData.styles.fontSize,
+            text_align: newData.styles.textAlign,
+            font_weight: newData.styles.fontWeight,
+            font_family: newData.styles.fontFamily,
+            line_height: newData.styles.lineHeight,
         }
-        set(state => ({ ...state, stylesData: { raw: newData, processed } }), false, {
+        set(state => ({ ...state, stylesData: { raw, processed: newData } }), false, {
             type: 'UPDATE_NEW_SECTION_DATA', newData
         })
     },

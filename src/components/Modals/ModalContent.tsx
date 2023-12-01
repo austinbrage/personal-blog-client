@@ -26,6 +26,7 @@ const defualtLabels: Styles = {
 export function ModalContent({ mode, modalRef }: Props) {
 
     const sectionData = useAPIStore(state => state.sectionData)
+    const updateNewSectionData = useAPIStore(state => state.updateNewSectionData)
 
     const [content, setContent] = useState<string>('')
     const [styles, setStyles] = useState<Styles>(sectionData?.styles ?? defualtLabels)
@@ -66,6 +67,10 @@ export function ModalContent({ mode, modalRef }: Props) {
     useEffect(() => {
         resetValues()
     }, [mode, setContent, setStyles, sectionData, resetValues])
+    
+    useEffect(() => {
+        updateNewSectionData({ content, styles })
+    }, [content, styles, updateNewSectionData])
 
     useEffect(() => {
         modalRef.current?.classList.add('hidden')
@@ -175,6 +180,20 @@ export function ModalContent({ mode, modalRef }: Props) {
 
                             <div className='flex items-center justify-around gap-2 mt-2 ms-3'>
                                 <p className="font-semibold text-lg tracking-wider text-white">
+                                    Pick a text size
+                                </p>
+                                <SelectOption
+                                    label={styles.fontSize}
+                                    options={['16px', '18px', '20px', '22px', '26px', '30px']}
+                                    setOption={(selected) => setStyles(prevState => ({
+                                        ...prevState,
+                                        fontSize: selected
+                                    }))}
+                                />
+                            </div>  
+
+                            <div className='flex items-center justify-around gap-2 mt-2 ms-3'>
+                                <p className="font-semibold text-lg tracking-wider text-white">
                                     Pick a text font
                                 </p>
                                 <SelectOption
@@ -197,6 +216,48 @@ export function ModalContent({ mode, modalRef }: Props) {
                                     setOption={(selected) => setStyles(prevState => ({
                                         ...prevState,
                                         fontWeight: selected
+                                    }))}
+                                />
+                            </div>  
+                            
+                            <div className='flex items-center justify-around gap-2 mt-2 ms-3'>
+                                <p className="font-semibold text-lg tracking-wider text-white">
+                                    Pick a text align
+                                </p>
+                                <SelectOption
+                                    label={styles.textAlign}
+                                    options={['left', 'center', 'right']}
+                                    setOption={(selected) => setStyles(prevState => ({
+                                        ...prevState,
+                                        textAlign: selected
+                                    }))}
+                                />
+                            </div>  
+                            
+                            <div className='flex items-center justify-around gap-2 mt-2 ms-3'>
+                                <p className="font-semibold text-lg tracking-wider text-white">
+                                    Pick a text margin
+                                </p>
+                                <SelectOption
+                                    label={styles.marginTop}
+                                    options={['0.25rem', '0.5rem', '0.75rem', '1rem']}
+                                    setOption={(selected) => setStyles(prevState => ({
+                                        ...prevState,
+                                        marginTop: selected
+                                    }))}
+                                />
+                            </div>  
+                            
+                            <div className='flex items-center justify-around gap-2 mt-2 ms-3'>
+                                <p className="font-semibold text-lg tracking-wider text-white">
+                                    Pick a text height
+                                </p>
+                                <SelectOption
+                                    label={styles.lineHeight}
+                                    options={['0.25rem', '0.5rem', '0.75rem', '1rem']}
+                                    setOption={(selected) => setStyles(prevState => ({
+                                        ...prevState,
+                                        lineHeight: selected
                                     }))}
                                 />
                             </div>  
