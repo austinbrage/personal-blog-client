@@ -1,6 +1,7 @@
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { SelectOption } from "../Dropdowns/SelectOption"
+import { useSectionEdit } from "../../hooks/useSections"
 import { useState, useEffect, useCallback, type RefObject, type FormEvent } from "react"
 import Draggable, { type DraggableEvent, type DraggableData } from 'react-draggable'
 import { type ProcessedSection } from "../../types/sections"
@@ -25,6 +26,8 @@ const defualtLabels: Styles = {
 
 export function ModalContent({ mode, modalRef }: Props) {
 
+    const { isPending, editSection } = useSectionEdit()
+
     const sectionData = useAPIStore(state => state.sectionData)
     const updateNewSectionData = useAPIStore(state => state.updateNewSectionData)
 
@@ -43,7 +46,9 @@ export function ModalContent({ mode, modalRef }: Props) {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(styles)
+        if(isPending) return
+
+        mode === 'add' || editSection()
         closeModal()
         //? add new section or edit existing one 
     }   

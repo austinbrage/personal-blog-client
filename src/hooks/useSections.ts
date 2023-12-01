@@ -141,7 +141,7 @@ export const useSectionEdit = () => {
                     `Api message: ${data.result.message}`, 
                     { 
                         id: TOAST_ID_MUTATE, 
-                        style: { minWidth: '400px' } 
+                        style: { minWidth: '500px' } 
                     }
                 )
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })

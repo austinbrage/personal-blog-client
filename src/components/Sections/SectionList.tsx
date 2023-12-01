@@ -28,6 +28,7 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
     }
 
     const handleEdition = (currentSection: ProcessedSection) => {
+        updateSectionId(currentSection.id)
         updateSectionData(currentSection)
         openModalContent()
     }
