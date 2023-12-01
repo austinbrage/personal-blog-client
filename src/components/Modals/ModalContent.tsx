@@ -105,7 +105,7 @@ export function ModalContent({ mode, modalRef }: Props) {
                 handle=".modal-header-1"
                 defaultPosition={position1}
             >
-                <div className="relative p-4 w-full max-w-md max-h-full">
+                <div className="relative top-[-20%] p-4 w-full max-w-md max-h-full">
                     <div className="relative rounded-lg shadow backdrop-blur-sm bg-[rgba(55,65,65,0.8)]">
 
                         <div className="modal-header-1 cursor-grab flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -157,7 +157,7 @@ export function ModalContent({ mode, modalRef }: Props) {
                 handle=".modal-header-2"
                 defaultPosition={position2}
             >
-                <div className="relative p-4 w-full max-w-lg max-h-full">
+                <div className="relative top-[-20%] p-4 w-full max-w-lg max-h-full">
                     <div className="relative h-60 rounded-lg shadow backdrop-blur-sm bg-[rgba(55,65,65,0.8)]">
 
                         <div className="modal-header-2 cursor-grab flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
