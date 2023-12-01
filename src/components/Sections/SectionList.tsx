@@ -48,12 +48,14 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
     return (
         <article className='ms-10'>
             {sectionData.map((elem, index) => (
-                <div key={elem.id} className='flex justify-between align-top h-12'>
+                <div key={elem.id} className='grid grid-cols-[4fr,1fr] h-12'>
 
                     <div 
                         className={
                             index === hoveredIndex 
-                                ? 'scale-125 translate-x-4 transition-all duration-300' 
+                                ? `scale-125 transition-all duration-300
+                                    ${elem.styles.textAlign === 'left' ? 'translate-x-32' : ''}
+                                    ${elem.styles.textAlign === 'right' ? '-translate-x-32' : ''}`.trim() 
                                 : 'transition-all duration-300'
                         }
                     >
@@ -73,9 +75,10 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
                     <div 
                         onMouseLeave={handleMouseLeave}
                         onMouseEnter={() => handleMouseEnter(index)}
-                        className='flex gap-3 h-10'
+                        className='flex items-center justify-end p-4 col-span-1 gap-3 h-10 z-10'
                     >
                         <button
+                            type='button'
                             onClick={() => handleEdition(elem)}
                             className="inline-flex items-center w-max text-sm font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
                         >
@@ -86,6 +89,7 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
                         </button>
 
                         <button 
+                            type='button'
                             onClick={() => handleDelete(elem)}
                             className="inline-flex items-center w-max text-md font-medium rounded-md px-4 py-2 bg-red-600 hover:bg-red-700 text-white"
                         >
@@ -100,10 +104,11 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
             ))}
 
             {(addMode === true) && (
-                <div className=''>
+                <div className='grid grid-cols-[4fr,1fr]'>
                     <p style={newSectionData.processed?.styles as React.CSSProperties}>
                         {newSectionData.processed?.content}
                     </p>
+                    <p></p>
                 </div>
             )}
 
