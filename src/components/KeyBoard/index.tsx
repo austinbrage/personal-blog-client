@@ -1,13 +1,23 @@
-import { LegacyRef } from "react"
 import { Shortcuts } from "./Shortcuts"
 import { shortcutCommands1, shortcutCommands2 } from "./commands"
+import { useEscape } from "../../hooks/useCommands"
+import { type RefObject } from "react"
 
 type Props = {
-    modalRef: LegacyRef<HTMLDivElement>
+    modalRef: RefObject<HTMLDivElement>
     toggleModal: () => void
 }
 
 export function KeyboardInfo({ modalRef, toggleModal }: Props) {
+
+    useEscape({
+        menuRef: modalRef,
+        closeMenu: () => {
+            modalRef.current?.classList.add('hidden')
+            modalRef.current?.classList.remove('flex')
+        }
+    })
+
     return (
         <div ref={modalRef} role="dialog" className="hidden absolute top-32 col-auto col-start-2 row-auto row-start-2 w-full rounded-xl text-left shadow-xl transition-all left-1/3 -translate-x-1/2 bg-[rgb(32,33,35)] md:max-w-[672px] lg:max-w-[796px] xl:max-w-4xl" tabIndex={-1} style={{ pointerEvents: 'auto' }}>
             
