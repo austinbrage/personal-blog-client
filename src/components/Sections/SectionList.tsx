@@ -41,6 +41,14 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
         openModalContent()
     }
     
+    const renderContent = (content?: string) => {
+        if(typeof content === 'undefined') return <span></span>
+
+        return content.split('\n').map((elem, index) => (
+            <span key={index} className='block mb-3'> {elem} </span>
+        ))
+    }
+
     if(sectionData.length === 0) return (
         <article className='ms-10 text-2xl italic tracking-wider'>(No content)</article>
     )
@@ -48,7 +56,7 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
     return (
         <article className='ms-10'>
             {sectionData.map((elem, index) => (
-                <div key={elem.id} className='grid grid-cols-[4fr,1fr] h-12'>
+                <div key={elem.id} className='grid grid-cols-[4fr,1fr] h-12 mt-3'>
 
                     <div 
                         className={
@@ -62,11 +70,11 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
                         {(editMode === true && sectionId === elem.id)
                             ? (
                                 <p style={newSectionData.processed?.styles as React.CSSProperties}>
-                                    {newSectionData.processed?.content}
+                                    {renderContent(newSectionData.processed?.content)}
                                 </p>
                             ): (
                                 <p style={elem.styles as React.CSSProperties}>
-                                    {elem.content}
+                                    {renderContent(elem.content)}
                                 </p>
                             )
                         }
@@ -106,7 +114,7 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
             {(addMode === true) && (
                 <div className='grid grid-cols-[4fr,1fr]'>
                     <p style={newSectionData.processed?.styles as React.CSSProperties}>
-                        {newSectionData.processed?.content}
+                        {renderContent(newSectionData.processed?.content)}
                     </p>
                     <p></p>
                 </div>

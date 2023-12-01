@@ -127,10 +127,10 @@ export function ModalContent({ mode, modalRef }: Props) {
                                     <label htmlFor={mode} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                         Content
                                     </label>
-                                    <input 
+                                    <textarea 
                                         required
+                                        rows={4}
                                         id={mode} 
-                                        type="text" 
                                         name="content" 
                                         placeholder="Type section content" 
                                         value={content}
