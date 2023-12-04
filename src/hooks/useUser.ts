@@ -98,7 +98,12 @@ export const useUserData = () => {
         }
         
         if(!isError && !isLoading && !isPending && !data.success) {
-            toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_QUERY })
+            toast.error(`Api message: ${data.error.message}`,  
+                { 
+                    id: TOAST_ID_QUERY, 
+                    style: { minWidth: '380px' } 
+                }
+            )
         }
 
         if(!isError && !isLoading && !isPending && data.success) {
