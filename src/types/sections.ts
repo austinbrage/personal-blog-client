@@ -1,3 +1,9 @@
+import { sizeOptions } from "../enums/size"
+import { lineOptions } from "../enums/line"
+import { alignOptions } from "../enums/align"
+import { familyOptions } from "../enums/family"
+import { marginOptions } from "../enums/margin"
+import { weightOptions } from "../enums/weight"
 import { type APIResponse } from "./api"
 
 //* 1- Section Service Arguments Types 
@@ -14,12 +20,12 @@ export type RawSection = {
 
 export type Styles = {
     color: string
-    fontSize: string 
-    marginTop: string 
-    textAlign: string 
-    fontWeight: string 
-    fontFamily: string 
-    lineHeight: string 
+    fontSize: sizeOptions 
+    marginTop: marginOptions
+    textAlign: alignOptions 
+    fontWeight: weightOptions 
+    fontFamily: familyOptions 
+    lineHeight: lineOptions 
 }
 
 export type ProcessedSection = {
