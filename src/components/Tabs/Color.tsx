@@ -41,7 +41,7 @@ export function ColorTab({ currentColor, changeColor }: Props) {
                                         style={{ background: color }}
                                         onClick={() => changeColor(color)}
                                         className={`
-                                            ${color === currentColor ? 'border-2 border-black scale-110' : ''} 
+                                            ${color === currentColor ? 'border-2 border-black scale-110' : 'border-0 scale-100'} 
                                             w-6 h-6 m-1 rounded-full cursor-pointer transition-all hover:scale-110
                                         `.trim()}
                                     >

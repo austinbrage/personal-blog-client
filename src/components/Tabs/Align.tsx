@@ -17,8 +17,8 @@ export function AlignTab({ currentAlign, changeAlign }: Props) {
                         key={index}
                         onClick={() => changeAlign(alignValue)}
                         className={`
-                            ${(currentAlign === alignValue) ? 'opacity-100 scale-105' : ''}
-                            flex align-center justify-around p-3 w-36 text-center opacity-70 text-lg font-semibold cursor-pointer rounded-md backdrop-blur-md text-white bg-[rgba(0,0,0,0.3)] transition-all hover:opacity-100 hover:scale-105
+                            ${(currentAlign === alignValue) ? 'opacity-100 scale-105' : 'opacity-70 scale-100'}
+                            flex align-center justify-around p-3 w-36 text-center text-lg font-semibold cursor-pointer rounded-md backdrop-blur-md text-white bg-[rgba(0,0,0,0.3)] transition-all hover:opacity-100 hover:scale-105
                         `.trim()}
                     >
                         <span className="mt-[2px]">

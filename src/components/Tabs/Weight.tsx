@@ -15,8 +15,8 @@ export function WeightTab({ currentWeight, changeWeight }: Props) {
                         key={index}
                         onClick={() => changeWeight(weightValue)}
                         className={`
-                            ${(currentWeight === +weightValue) ? 'opacity-100 scale-105' : ''}
-                            p-3 w-36 text-center opacity-70 text-xl font-semibold cursor-pointer rounded-md backdrop-blur-md text-white bg-[rgba(0,0,0,0.3)] transition-all hover:opacity-100 hover:scale-105
+                            ${(currentWeight === +weightValue) ? 'opacity-100 scale-105' : 'opacity-70 scale-100'}
+                            p-3 w-36 text-center text-xl font-semibold cursor-pointer rounded-md backdrop-blur-md text-white bg-[rgba(0,0,0,0.3)] transition-all hover:opacity-100 hover:scale-105
                         `.trim()}
                     >
                         {weightName}
