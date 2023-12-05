@@ -12,18 +12,20 @@ export type RawSection = {
     line_height: string 
 }
 
+export type Styles = {
+    color: string
+    fontSize: string 
+    marginTop: string 
+    textAlign: string 
+    fontWeight: string 
+    fontFamily: string 
+    lineHeight: string 
+}
+
 export type ProcessedSection = {
     id: number
     content: string
-    styles: {
-        color: string
-        fontSize: string 
-        marginTop: string 
-        textAlign: string 
-        fontWeight: string 
-        fontFamily: string 
-        lineHeight: string 
-    }
+    styles: Styles
 }
 
 export type SectionInfo = {
