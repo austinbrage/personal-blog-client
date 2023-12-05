@@ -6,7 +6,7 @@ import { MenuRadial } from "../components/MenuRadial"
 import { ModalAdd } from "../components/Modals/ModalAdd"
 import { ModalEdit } from "../components/Modals/ModalEdit" 
 import { ModalDelete } from "../components/Modals/ModalDelete"
-import { ModalContent } from "../components/Modals/ModalContent" 
+import { ModalEditorAdd } from "../components/Modals/ModalEditor" 
 import { PublishLabel } from "../components/Sections/PublishLabel"
 import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
@@ -112,8 +112,7 @@ export const EditorPage = forwardRef(() => {
             />
 
             {/* //! Hidden components for sections */}
-            <ModalContent
-                mode="add"
+            <ModalEditorAdd
                 modalRef={modalContent}
             />
 
