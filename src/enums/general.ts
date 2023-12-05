@@ -12,7 +12,7 @@ const mainTitle: Styles = {
     fontSize:   sizeOptions["text-5xl"], 
     marginTop:  marginOptions['m-0'], 
     textAlign:  alignOptions['left'], 
-    fontWeight: weightOptions['bold'].toString(), 
+    fontWeight: weightOptions['bold'], 
     fontFamily: familyOptions['Arial'], 
     lineHeight: lineOptions['lead-8']
 }
@@ -22,7 +22,7 @@ const title: Styles = {
     fontSize:   sizeOptions["text-4xl"], 
     marginTop:  marginOptions['m-2'], 
     textAlign:  alignOptions['left'], 
-    fontWeight: weightOptions['semibold'].toString(), 
+    fontWeight: weightOptions['semibold'], 
     fontFamily: familyOptions['Arial'], 
     lineHeight: lineOptions['lead-7']
 }
@@ -32,7 +32,7 @@ const subtitle: Styles = {
     fontSize:   sizeOptions["text-3xl"], 
     marginTop:  marginOptions['m-2'], 
     textAlign:  alignOptions['left'], 
-    fontWeight: weightOptions['medium'].toString(), 
+    fontWeight: weightOptions['medium'], 
     fontFamily: familyOptions['Arial'], 
     lineHeight: lineOptions['lead-6']
 }
@@ -42,7 +42,7 @@ const paragraph: Styles = {
     fontSize:   sizeOptions["text-lg"], 
     marginTop:  marginOptions['m-2'], 
     textAlign:  alignOptions['left'], 
-    fontWeight: weightOptions['normal'].toString(), 
+    fontWeight: weightOptions['normal'], 
     fontFamily: familyOptions['Arial'], 
     lineHeight: lineOptions['lead-4']
 }
