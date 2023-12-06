@@ -5,9 +5,8 @@ import { RxFontFamily, RxMargin } from "react-icons/rx"
 import { IoPersonCircleSharp } from "react-icons/io5"
 import { RiFontSize2 } from "react-icons/ri"
 import { GiWeight } from "react-icons/gi"
+import type { EditorTabs } from '../../types/sections'
 import './Selector.css'
-
-type EditorTabs = 'general' | 'content' | 'color' | 'size' | 'family' | 'weight' | 'alignment' | 'margin' | 'line'
 
 type Props = {
     changeEditorTab: (tab: EditorTabs) => void

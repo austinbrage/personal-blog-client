@@ -7,6 +7,17 @@ import { weightOptions } from "../enums/weight"
 import { type APIResponse } from "./api"
 
 //* 1- Section Service Arguments Types 
+export type EditorTabs = 
+'alignment' | 
+'general' | 
+'content' | 
+'family' | 
+'weight' | 
+'margin' | 
+'color' | 
+'size' | 
+'line'
+
 export type RawSection = {
     content: string 
     text_color: string

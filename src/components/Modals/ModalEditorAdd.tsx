@@ -15,11 +15,10 @@ import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { useSectionAdd } from "../../hooks/useSections"
 import { useState, useEffect, type RefObject} from "react"
-import type { ContentStyles } from "../../types/sections"
+import type { ContentStyles, EditorTabs } from "../../types/sections"
 import type { DraggableEvent, DraggableData } from 'react-draggable'
 
 type Position = { x: number; y: number }
-type EditorTabs = 'general' | 'content' | 'color' | 'size' | 'family' | 'weight' | 'alignment' | 'margin' | 'line'
 
 type Props = { 
     modalRef: RefObject<HTMLDivElement> 
