@@ -12,6 +12,8 @@ import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
 import { useRef, useState, forwardRef, useMemo } from "react"
 import { useAPIStore } from "../stores/api"
+import { defaultOptions } from '../enums/general'
+import type { ContentStyles } from "../types/sections"
 
 export const EditorPage = forwardRef(() => {
     
@@ -22,8 +24,9 @@ export const EditorPage = forwardRef(() => {
     const updateArticleData = useAPIStore(state => state.updateArticleData)
     
     const articleList = articleData.map(elem => elem.name)
-    
+
     const [isToggle, setIsToggle] = useState<boolean>(false)
+    const [newSection, setNewSection] = useState<ContentStyles>(defaultOptions)
 
     const currentArticle = useMemo(() => {
         const current = articleData
@@ -74,6 +77,7 @@ export const EditorPage = forwardRef(() => {
                 isPublish={currentArticle?.is_publish}
             />
             <Sections
+                newData={newSection}
                 currentArticle={currentArticle}
             />
             <ButtonAdd 
@@ -110,10 +114,10 @@ export const EditorPage = forwardRef(() => {
                 mode="article"
                 modalRef={modalDelete}  
             />
-
-            {/* //! Hidden components for sections */}
             <ModalEditorAdd
+                newData={newSection}
                 modalRef={modalContent}
+                setNewData={setNewSection}
             />
 
         </div>

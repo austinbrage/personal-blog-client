@@ -9,13 +9,13 @@ import { type APIResponse } from "./api"
 //* 1- Section Service Arguments Types 
 export type RawSection = {
     content: string 
-    font_size: string 
     text_color: string
-    margin_top: string 
-    text_align: string 
-    font_weight: string 
-    font_family: string 
-    line_height: string 
+    font_size: sizeOptions
+    margin_top: marginOptions 
+    text_align: alignOptions 
+    font_weight: weightOptions 
+    font_family: familyOptions 
+    line_height: lineOptions 
 }
 
 export type Styles = {
@@ -26,6 +26,11 @@ export type Styles = {
     fontWeight: weightOptions 
     fontFamily: familyOptions 
     lineHeight: lineOptions 
+}
+
+export type ContentStyles = {
+    content: string
+    styles: Styles
 }
 
 export type ProcessedSection = {

@@ -3,7 +3,7 @@ import { useMemo, useEffect } from "react"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { type ProcessedSection } from "../types/sections"
+import type { ContentStyles, ProcessedSection, RawSection } from "../types/sections"
 
 const sectionService = new Section()
 const TOAST_ID_QUERY = 'SECTION_TOAST_QUERY'
@@ -167,7 +167,6 @@ export const useSectionAdd = () => {
 
     const userToken = useAPIStore(state => state.userToken)
     const articleId = useAPIStore(state => state.articleId)
-    const newSectionData = useAPIStore(state => state.newSectionData)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'add'],
@@ -194,11 +193,22 @@ export const useSectionAdd = () => {
         }
     })
 
-    const addSection = () => {
-        if(!newSectionData.raw) return
+    const addSection = (newSection: ContentStyles) => {
         const id = Number(articleId)
         if(isNaN(id)) return 
-        mutate({ token: userToken, article_id: id, ...newSectionData.raw })
+
+        const newRawSection: RawSection = {
+            content: newSection.content,
+            text_color: newSection.styles.color,
+            font_size: newSection.styles.fontSize, 
+            margin_top: newSection.styles.marginTop, 
+            text_align: newSection.styles.textAlign,
+            font_weight: newSection.styles.fontWeight,
+            font_family: newSection.styles.fontFamily,
+            line_height: newSection.styles.lineHeight
+        }
+
+        mutate({ token: userToken, article_id: id, ...newRawSection })
     }
 
     return {

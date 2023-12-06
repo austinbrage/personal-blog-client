@@ -2,14 +2,15 @@ import { useState } from 'react'
 import { IoMdCreate } from 'react-icons/io'
 import { useAPIStore } from '../../stores/api'
 import { useSectionData } from '../../hooks/useSections'
-import { type ProcessedSection } from '../../types/sections'
+import type { ContentStyles, ProcessedSection } from '../../types/sections'
 
 type Props = {
+    newData: ContentStyles
     openModalDelete: () => void
     openModalContent: () => void
 }
 
-export function SectionList({ openModalDelete, openModalContent }: Props) {
+export function SectionList({ newData, openModalDelete, openModalContent }: Props) {
 
     const { sectionData } = useSectionData()
 
@@ -113,8 +114,8 @@ export function SectionList({ openModalDelete, openModalContent }: Props) {
 
             {(addMode === true) && (
                 <div className='grid grid-cols-[4fr,1fr]'>
-                    <p style={newSectionData.processed?.styles as React.CSSProperties}>
-                        {renderContent(newSectionData.processed?.content)}
+                    <p style={newData.styles as React.CSSProperties}>
+                        {renderContent(newData.content)}
                     </p>
                     <p></p>
                 </div>

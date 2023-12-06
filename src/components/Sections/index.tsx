@@ -5,12 +5,14 @@ import { ModalDelete } from '../Modals/ModalDelete'
 import { ModalContent } from '../Modals/ModalContent'
 import { useEscape } from '../../hooks/useCommands'
 import { type ArticleInfo } from "../../types/articles"
+import { type ContentStyles } from '../../types/sections'
 
 type Props = {
+    newData: ContentStyles
     currentArticle: ArticleInfo['fullData'] | null
 }
 
-export function Sections({ currentArticle }: Props) {
+export function Sections({ newData, currentArticle }: Props) {
 
     const modalDelete = useRef<HTMLDivElement>(null)
     const modalContent = useRef<HTMLDivElement>(null)
@@ -53,6 +55,7 @@ export function Sections({ currentArticle }: Props) {
                 </p>
                 
                 <SectionList
+                    newData={newData}
                     openModalDelete={openModalDelete}
                     openModalContent={openModalContent}
                 />

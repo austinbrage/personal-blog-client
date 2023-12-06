@@ -9,62 +9,54 @@ import { AlignTab } from "../Tabs/Align"
 import { MarginTab } from "../Tabs/Margin"
 import { LineHeightTab } from "../Tabs/Line"
 import { FamilyTab } from "../Tabs/Family"
-import { generalOptions } from '../../enums/general'
+import { defaultOptions } from '../../enums/general'
 import { IoArrowRedoCircleSharp } from "react-icons/io5"
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { useSectionAdd } from "../../hooks/useSections"
 import { useState, useEffect, type RefObject} from "react"
-import type { Styles } from "../../types/sections"
+import type { ContentStyles } from "../../types/sections"
 import type { DraggableEvent, DraggableData } from 'react-draggable'
 
 type Position = { x: number; y: number }
-type Props = { modalRef: RefObject<HTMLDivElement> }
 type EditorTabs = 'general' | 'content' | 'color' | 'size' | 'family' | 'weight' | 'alignment' | 'margin' | 'line'
 
-export function ModalEditorAdd({ modalRef }: Props) {
-    
-    const defaultStyles = generalOptions[1].value
-    const updateAddMode = useAPIStore(state => state.updateAddMode)
-    const updateNewSectionData = useAPIStore(state => state.updateNewSectionData)
+type Props = { 
+    modalRef: RefObject<HTMLDivElement> 
+    newData: ContentStyles
+    setNewData: React.Dispatch<React.SetStateAction<ContentStyles>>
+}
 
-    const [edition, setEdition] = useState<EditorTabs>('general')
-
-    const [content, setContent] = useState<string>('New article section')
-    const [styles, setStyles] = useState<Styles>(defaultStyles)
-
-    const [position, setPosition] = useState<Position>({ x: 0, y: 0 })
+export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
     
     const { isPending, addSection } = useSectionAdd()
+    const updateAddMode = useAPIStore(state => state.updateAddMode)
 
-    const handleAddSection = () => {
-        if(isPending) return
-        addSection()
-        closeModal()
-    }   
+    const [edition, setEdition] = useState<EditorTabs>('general')
+    const [position, setPosition] = useState<Position>({ x: 0, y: 0 })
 
     const handleDrag = (_e: DraggableEvent, { deltaX, deltaY }: DraggableData) => {
         setPosition(prevPos => ({ x: prevPos.x + deltaX, y: prevPos.y + deltaY }))
     }
+
+    const handleAddSection = () => {
+        if(isPending) return
+        addSection(newData)
+        closeModal()
+    }   
     
     const closeModal = () => {
+        updateAddMode(false)
+        setNewData(defaultOptions) 
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
-        setContent('New article section') 
-        setStyles(defaultStyles) 
-        updateAddMode(false)
     }
     
     useEffect(() => {
-        updateNewSectionData({ content, styles })
-    }, [content, styles, updateNewSectionData])
-
-    useEffect(() => {
-        setStyles(defaultStyles) 
-        setContent('New article section') 
+        setNewData(defaultOptions)
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
-    }, [modalRef, setContent, setStyles, defaultStyles])
+    }, [modalRef, setNewData])
 
     useEscape({
         menuRef: modalRef,
@@ -109,99 +101,91 @@ export function ModalEditorAdd({ modalRef }: Props) {
 
                                 {(edition === 'general') && (
                                     <GeneralTab
-                                        currentStyles={styles}
-                                        changeStyles={setStyles}
+                                        currentStyles={newData.styles}
+                                        changeStyles={(newStyles) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: newStyles
+                                        }))}
                                     />
                                 )}
                                 
                                 {(edition === 'content') && (
                                     <ContentTab 
-                                        currentContent={content} 
-                                        changeContent={setContent} 
+                                        currentContent={newData.content} 
+                                        changeContent={(newContent) => setNewData(prevData => ({
+                                            ...prevData,
+                                            content: newContent
+                                        }))} 
                                     />
                                 )}
                                 
                                 {(edition === 'color') && (
                                     <ColorTab 
-                                        currentColor={styles.color} 
-                                        changeColor={
-                                            (newColor) => setStyles(prevStyles => ({
-                                                ...prevStyles,
-                                                color: newColor
-                                            }))
-                                        } 
+                                        currentColor={newData.styles.color} 
+                                        changeColor={(newColor) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, color: newColor}
+                                        }))}
                                     />
                                 )}
                                 
                                 {(edition === 'size') && (
                                     <SizeTab 
-                                        currentSize={styles.fontSize} 
-                                        changeSize={
-                                            (newSize) => setStyles(prevStyles => ({
-                                                ...prevStyles,
-                                                fontSize: newSize                                          
-                                            }))
-                                        } 
+                                        currentSize={newData.styles.fontSize} 
+                                        changeSize={(newSize) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, fontSize: newSize}
+                                        }))}
                                     />
                                 )}
 
                                 {(edition === 'family') && (
                                     <FamilyTab 
-                                        currentFamily={styles.fontFamily} 
-                                        changeFamily={
-                                            (newFamily) => setStyles(prevStyles => ({
-                                                ...prevStyles,
-                                                fontFamily: newFamily                                          
-                                            }))
-                                        } 
+                                        currentFamily={newData.styles.fontFamily} 
+                                        changeFamily={(newFamily) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, fontFamily: newFamily}
+                                        }))}
                                     />
                                 )}
                                 
                                 {(edition === 'weight') && (
                                     <WeightTab 
-                                        currentWeight={+styles.fontWeight} 
-                                        changeWeight={
-                                            (newSize) => setStyles(prevStyles => ({
-                                                ...prevStyles,
-                                                fontWeight: newSize                                          
-                                            }))
-                                        } 
+                                        currentWeight={+newData.styles.fontWeight} 
+                                        changeWeight={(newWeight) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, fontWeight: newWeight}
+                                        }))}
                                     />
                                 )}
                                 
                                 {(edition === 'alignment') && (
                                     <AlignTab 
-                                        currentAlign={styles.textAlign} 
-                                        changeAlign={
-                                            (newAlign) => setStyles(prevStyles => ({
-                                                ...prevStyles,
-                                                textAlign: newAlign                                          
-                                            }))
-                                        } 
+                                        currentAlign={newData.styles.textAlign} 
+                                        changeAlign={(newAlign) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, textAlign: newAlign}
+                                        }))}
                                     />
                                 )}
                                 
                                 {(edition === 'margin') && (
                                     <MarginTab 
-                                        currentMargin={styles.marginTop} 
-                                        changeMargin={
-                                            (newMargin) => setStyles(prevStyles => ({
-                                                ...prevStyles,
-                                                marginTop: newMargin                                          
-                                            }))
-                                        } 
+                                        currentMargin={newData.styles.marginTop} 
+                                        changeMargin={(newMargin) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, marginTop: newMargin}
+                                        }))}
                                     />
                                 )}
                                 
                                 {(edition === 'line') && (
                                     <LineHeightTab 
-                                        currentLine={styles.lineHeight} 
-                                        changeLine={
-                                            (newHeight) => setStyles(prevStyles => ({
-                                                ...prevStyles,
-                                                lineHeight: newHeight                                          
-                                            }))
-                                        } 
+                                        currentLine={newData.styles.lineHeight} 
+                                        changeLine={(newLine) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, lineHeight: newLine}
+                                        }))}
                                     />
                                 )}
 

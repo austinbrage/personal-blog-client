@@ -5,7 +5,7 @@ import { familyOptions } from "./family"
 import { colorPalette1 } from "./color"
 import { weightOptions } from "./weight"
 import { marginOptions } from './margin'
-import { type Styles } from "../types/sections"
+import type { ContentStyles, Styles } from "../types/sections"
 
 const mainTitle: Styles = {
     color:      colorPalette1[0][0],
@@ -53,3 +53,8 @@ export const generalOptions = [
     { name:'Subtitle',   value: subtitle  },
     { name:'Paragraph',  value: paragraph },
 ]
+
+export const defaultOptions: ContentStyles = {
+    content: 'New Article Section',
+    styles: title
+}
