@@ -6,7 +6,7 @@ import { MenuRadial } from "../components/MenuRadial"
 import { ModalAdd } from "../components/Modals/ModalAdd"
 import { ModalEdit } from "../components/Modals/ModalEdit" 
 import { ModalDelete } from "../components/Modals/ModalDelete"
-import { ModalEditorAdd } from "../components/Modals/ModalEditor" 
+import { ModalEditorAdd } from "../components/Modals/ModalEditorAdd" 
 import { PublishLabel } from "../components/Sections/PublishLabel"
 import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'

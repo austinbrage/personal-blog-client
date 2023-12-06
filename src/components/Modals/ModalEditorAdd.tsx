@@ -208,7 +208,3 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
         </div>    
     )
 }
-
-// export function ModalEditorChange({ modalRef }: Props) {
-
-// }
