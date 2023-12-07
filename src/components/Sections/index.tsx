@@ -1,9 +1,11 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { DateText } from './DateText'
 import { SectionList } from './SectionList'
 import { ModalDelete } from '../Modals/ModalDelete'
-import { ModalContent } from '../Modals/ModalContent'
+import { ModalEditorChange } from '../Modals/ModalEditorChange'
 import { useEscape } from '../../hooks/useCommands'
+import { useAPIStore } from '../../stores/api'
+import { defaultOptions } from '../../enums/general'
 import { type ArticleInfo } from "../../types/articles"
 import { type ContentStyles } from '../../types/sections'
 
@@ -15,25 +17,31 @@ type Props = {
 export function Sections({ newData, currentArticle }: Props) {
 
     const modalDelete = useRef<HTMLDivElement>(null)
-    const modalContent = useRef<HTMLDivElement>(null)
+    const modalEditor = useRef<HTMLDivElement>(null)
+
+    const updateEditMode = useAPIStore(state => state.updateEditMode)
+
+    const [editSection, setEditSection] = useState<ContentStyles>(defaultOptions)
 
     const openModalDelete = () => {
         modalDelete.current?.classList.remove('hidden')
         modalDelete.current?.classList.add('flex')
     }
-    const openModalContent = () => {
-        modalContent.current?.classList.remove('hidden')
-        modalContent.current?.classList.add('flex')
+    const openModalEditor = () => {
+        updateEditMode(true)
+        modalEditor.current?.classList.remove('hidden')
+        modalEditor.current?.classList.add('flex')
     }
 
     useEscape({
-        menuRef: modalContent,
+        menuRef: modalEditor,
         closeMenu: () => {
-            modalContent.current?.classList.add('hidden')
-            modalContent.current?.classList.remove('flex')   
+            updateEditMode(false)
+            modalEditor.current?.classList.add('hidden')
+            modalEditor.current?.classList.remove('flex')   
         }
     })
-    
+
     if(!currentArticle) return
 
     return (
@@ -56,13 +64,15 @@ export function Sections({ newData, currentArticle }: Props) {
                 
                 <SectionList
                     newData={newData}
+                    editData={editSection}
                     openModalDelete={openModalDelete}
-                    openModalContent={openModalContent}
+                    openModalContent={openModalEditor}
                 />
 
-                <ModalContent
-                    mode='edit'
-                    modalRef={modalContent}
+                <ModalEditorChange
+                    modalRef={modalEditor}
+                    editData={editSection}
+                    setEditData={setEditSection}
                 />
 
                 <ModalDelete

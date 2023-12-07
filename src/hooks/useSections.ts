@@ -123,7 +123,6 @@ export const useSectionEdit = () => {
 
     const userToken = useAPIStore(state => state.userToken)
     const sectionId = useAPIStore(state => state.sectionId)
-    const newSectionData = useAPIStore(state => state.newSectionData)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'edit'],
@@ -150,9 +149,19 @@ export const useSectionEdit = () => {
         }
     })
 
-    const editSection = () => {
-        if(!newSectionData.raw) return
-        mutate({ token: userToken, id: sectionId, ...newSectionData.raw })
+    const editSection = (editedSection: ContentStyles) => {
+        const editedRawSection: RawSection = {
+            content: editedSection.content,
+            text_color: editedSection.styles.color,
+            font_size: editedSection.styles.fontSize, 
+            margin_top: editedSection.styles.marginTop, 
+            text_align: editedSection.styles.textAlign,
+            font_weight: editedSection.styles.fontWeight,
+            font_family: editedSection.styles.fontFamily,
+            line_height: editedSection.styles.lineHeight
+        }
+
+        mutate({ token: userToken, id: sectionId, ...editedRawSection })
     }
 
     return {

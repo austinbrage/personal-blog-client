@@ -6,18 +6,18 @@ import type { ContentStyles, ProcessedSection } from '../../types/sections'
 
 type Props = {
     newData: ContentStyles
+    editData: ContentStyles
     openModalDelete: () => void
     openModalContent: () => void
 }
 
-export function SectionList({ newData, openModalDelete, openModalContent }: Props) {
+export function SectionList({ newData, editData, openModalDelete, openModalContent }: Props) {
 
     const { sectionData } = useSectionData()
 
     const addMode = useAPIStore(state => state.addMode)
     const editMode = useAPIStore(state => state.editMode)
     const sectionId = useAPIStore(state => state.sectionId)
-    const newSectionData = useAPIStore(state => state.newSectionData)
 
     const updateEditMode = useAPIStore(state => state.updateEditMode)
     const updateSectionId = useAPIStore(state => state.updateSectionId)
@@ -62,16 +62,16 @@ export function SectionList({ newData, openModalDelete, openModalContent }: Prop
                     <div 
                         className={
                             index === hoveredIndex 
-                                ? `scale-125 transition-all duration-300
-                                    ${elem.styles.textAlign === 'left' ? 'translate-x-32' : ''}
-                                    ${elem.styles.textAlign === 'right' ? '-translate-x-32' : ''}`.trim() 
+                                ? `scale-110 transition-all duration-300
+                                    ${elem.styles.textAlign === 'left' ? 'translate-x-16' : ''}
+                                    ${elem.styles.textAlign === 'right' ? '-translate-x-16' : ''}`.trim() 
                                 : 'transition-all duration-300'
                         }
                     >
                         {(editMode === true && sectionId === elem.id)
                             ? (
-                                <p style={newSectionData.processed?.styles as React.CSSProperties}>
-                                    {renderContent(newSectionData.processed?.content)}
+                                <p style={editData.styles as React.CSSProperties}>
+                                    {renderContent(editData.content)}
                                 </p>
                             ): (
                                 <p style={elem.styles as React.CSSProperties}>
