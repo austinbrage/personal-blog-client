@@ -9,10 +9,11 @@ import type { EditorTabs } from '../../types/sections'
 import './Selector.css'
 
 type Props = {
+    identifier: "add" | "change"
     changeEditorTab: (tab: EditorTabs) => void
 }
 
-export function Selector({ changeEditorTab }: Props) {
+export function Selector({ identifier, changeEditorTab }: Props) {
 
     const contentHighlight = useRef<HTMLDivElement>(null)
     const [offset, setOffset] = useState<number>(0)
@@ -34,19 +35,19 @@ export function Selector({ changeEditorTab }: Props) {
     
 
     return (
-        <div id="nav-bar">
-            <input id="nav-toggle" type="checkbox" />
+        <div className="nav-bar">
+            <input id={`nav-toggle-${identifier}`} type="checkbox" />
             
-            <div id="nav-header">
-                <p id="nav-title">Editor</p>
-                <label htmlFor="nav-toggle">
-                    <span id="nav-toggle-burger"><FaHamburger/></span>
-                    <span id="nav-toggle-close"><FaBackspace/></span>
+            <div className="nav-header">
+                <p className="nav-title">Editor</p>
+                <label htmlFor={`nav-toggle-${identifier}`}>
+                    <span className="nav-toggle-burger"><FaHamburger/></span>
+                    <span className="nav-toggle-close"><FaBackspace/></span>
                 </label>
                 <hr/>
             </div>
             
-            <div id="nav-content">
+            <div className="nav-content">
                 <div 
                     onClick={() => handleClick(0, 'general')}
                     onMouseEnter={() => handleMouseEnter(0)}
@@ -135,28 +136,28 @@ export function Selector({ changeEditorTab }: Props) {
                     <span className="fas"><FaTextHeight/></span>
                     <span>Line height</span>
                 </div>
-                <div id="nav-content-highlight" ref={contentHighlight}></div>
+                <div className="nav-content-highlight" ref={contentHighlight}></div>
             </div>
             
-            <input id="nav-footer-toggle" type="checkbox" />
+            <input id={`nav-footer-toggle-${identifier}`} type="checkbox" />
             
-            <div id="nav-footer">
-                <div id="nav-footer-heading">
-                    <div id="nav-footer-avatar">
+            <div className="nav-footer">
+                <div className="nav-footer-heading">
+                    <div className="nav-footer-avatar">
                         <span><IoPersonCircleSharp/></span>
                     </div>
-                    <div id="nav-footer-titlebox">
-                        <a id="nav-footer-title" href="https://codepen.io/uahnbu/pens/public" target="_blank">
+                    <div className="nav-footer-titlebox">
+                        <a className="nav-footer-title" href="https://codepen.io/uahnbu/pens/public" target="_blank">
                             Profile
                         </a>
-                        <span id="nav-footer-subtitle">Admin</span>
+                        <span className="nav-footer-subtitle">Admin</span>
                     </div>
-                    <label htmlFor="nav-footer-toggle">
+                    <label htmlFor={`nav-footer-toggle-${identifier}`}>
                         <span className="fas"><IoIosArrowDropupCircle/></span>
                     </label>
                 </div>
                 
-                <div id="nav-footer-content">
+                <div className="nav-footer-content">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </div>
             </div>

@@ -81,6 +81,7 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
                         <div className="relative flex h-[400px] w-[700px] justify-between items-start">
 
                             <Selector
+                                identifier="add"
                                 changeEditorTab={setEdition}
                             />
 

@@ -90,6 +90,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                         <div className="relative flex h-[400px] w-[700px] justify-between items-start">
 
                             <Selector
+                                identifier="change"
                                 changeEditorTab={setEdition}
                             />
 
