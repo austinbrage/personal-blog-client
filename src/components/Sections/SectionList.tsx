@@ -55,16 +55,16 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
     )
 
     return (
-        <article className='ms-10'>
+        <article className='ms-10 mb-24'>
             {sectionData.map((elem, index) => (
-                <div key={elem.id} className='grid grid-cols-[4fr,1fr] h-12 mt-3'>
+                <div key={elem.id} className='grid grid-cols-[4fr,1fr] items-center h-max mt-3'>
 
                     <div 
                         className={
                             index === hoveredIndex 
                                 ? `scale-110 transition-all duration-300
-                                    ${elem.styles.textAlign === 'left' ? 'translate-x-16' : ''}
-                                    ${elem.styles.textAlign === 'right' ? '-translate-x-16' : ''}`.trim() 
+                                    ${elem.styles.textAlign === 'left' ? 'translate-x-12' : ''}
+                                    ${elem.styles.textAlign === 'right' ? '-translate-x-12' : ''}`.trim() 
                                 : 'transition-all duration-300'
                         }
                     >
