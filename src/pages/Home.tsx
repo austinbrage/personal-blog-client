@@ -14,10 +14,10 @@ export function HomePage() {
                 style={{ backgroundImage: "url(https://th.bing.com/th/id/OIP.I96jXmN6P6pK4w26Q9YMcQHaEK?pid=ImgDet&rs=1)" }}
                 className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
             >
-
+                <div className="absolute top-0 left-0 w-[50vw] h-screen backdrop-blur-sm bg-[rgba(107,114,128,0.1)]"></div>
                 <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
                 
-                <div className="w-full px-24 z-10 relative">
+                <div className="w-full px-24 z-10 relative shadow-lg">
                     <h1 className="text-5xl font-extrabold text-left tracking-wide">
                         Keep it special
                     </h1>
