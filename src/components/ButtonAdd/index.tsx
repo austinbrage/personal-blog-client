@@ -23,7 +23,7 @@ export function ButtonAdd({ editorMode, modalAdd, modalContent }: Props) {
     }
 
     const closeModal = () => {
-        editorMode === 'edit' || modalAdd.current?.classList.remove('flex')
+        editorMode === 'edit' || modalAdd.current?.classList.add('hidden')
         editorMode === 'edit' || modalAdd.current?.classList.remove('flex')
         
         editorMode === 'edit' && updateAddMode(false)

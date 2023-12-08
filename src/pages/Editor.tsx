@@ -53,11 +53,6 @@ export const EditorPage = forwardRef(() => {
         modalDelete.current?.classList.toggle('hidden')
         modalDelete.current?.classList.toggle('flex')
     }
-    
-    const toggleModalAdd = () => {
-        modalAdd.current?.classList.toggle('flex')
-        modalAdd.current?.classList.toggle('hidden')
-    }
 
     const toggleModalEdit = () => {
         setIsToggle(prevState => !prevState)
@@ -103,7 +98,6 @@ export const EditorPage = forwardRef(() => {
             />
             <ModalAdd
                 modalRef={modalAdd} 
-                toggleModal={toggleModalAdd}
             />
             <ModalEdit
                 isToggle={isToggle}
