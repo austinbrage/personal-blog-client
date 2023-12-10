@@ -28,7 +28,13 @@ type Props = {
 
 export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
     
-    const { isPending, addSection } = useSectionAdd()
+    const { isPending, addSection } = useSectionAdd({ cleanModal: () => {
+        updateAddMode(false)
+        setNewData(defaultOptions) 
+        modalRef.current?.classList.add('hidden')
+        modalRef.current?.classList.remove('flex')
+    } })
+
     const updateAddMode = useAPIStore(state => state.updateAddMode)
 
     const [edition, setEdition] = useState<EditorTabs>('general')
@@ -41,12 +47,10 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
     const handleAddSection = () => {
         if(isPending) return
         addSection(newData)
-        closeModal()
     }   
     
     const closeModal = () => {
         updateAddMode(false)
-        setNewData(defaultOptions) 
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
     }

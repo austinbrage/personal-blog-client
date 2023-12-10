@@ -117,7 +117,7 @@ export const useSectionDelete = () => {
     }
 }
 
-export const useSectionEdit = () => {
+export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
 
     const queryClient = useQueryClient()
 
@@ -145,6 +145,7 @@ export const useSectionEdit = () => {
                 )
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
+            data.success && cleanModal()
             data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
         }
     })
@@ -170,7 +171,7 @@ export const useSectionEdit = () => {
     }
 }
 
-export const useSectionAdd = () => {
+export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
 
     const queryClient = useQueryClient()
 
@@ -198,6 +199,7 @@ export const useSectionAdd = () => {
                 )
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
+            data.success && cleanModal()
             data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
         }
     })

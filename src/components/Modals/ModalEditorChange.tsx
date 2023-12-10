@@ -28,7 +28,13 @@ type Props = {
 
 export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
     
-    const { isPending, editSection } = useSectionEdit()
+    const { isPending, editSection } = useSectionEdit({ cleanModal: () => {
+        updateEditMode(false)
+        setEditData(originalData) 
+        modalRef.current?.classList.add('hidden')
+        modalRef.current?.classList.remove('flex')
+    } })
+
     const sectionData = useAPIStore(state => state.sectionData)
     const updateEditMode = useAPIStore(state => state.updateEditMode)
 
@@ -47,7 +53,6 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
     const handleEditSection = () => {
         if(isPending) return
         editSection(editData)
-        closeModal()
     }   
     
     const closeModal = () => {
