@@ -58,7 +58,7 @@ export const useArticleData = () => {
     }
 }
 
-export const useArticleAdd = () => {
+export const useArticleAdd = ({ cleanModal }: { cleanModal: () => void }) => {
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -86,6 +86,7 @@ export const useArticleAdd = () => {
                 )
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
+            data.success && cleanModal()
             data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
         }
@@ -149,7 +150,7 @@ export const useArticleDelete = () => {
     }
 }
 
-export const useArticleEdit = () => {
+export const useArticleEdit = ({ cleanModal }: { cleanModal: () => void }) => {
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -178,6 +179,7 @@ export const useArticleEdit = () => {
                 )
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
+            data.success && cleanModal()
             data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
             data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
         }
