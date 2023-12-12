@@ -16,6 +16,7 @@ export type ArticleInfo = {
     }
     data: {
         name: string
+        image: string
         title: string
         keywords: string
         description: string
@@ -24,6 +25,7 @@ export type ArticleInfo = {
     idData: {
         id: number
         name: string
+        image: string
         title: string
         keywords: string
         description: string
@@ -36,7 +38,7 @@ export type ArticleInfo = {
         title: string
         keywords: string
         description: string
-        image: Blob | null
+        image: string | null
         is_publish: boolean
         created_at: string  //Type of string due to the way that mysql returns the value
         updated_at: string  //Type of string due to the way that mysql returns the value
@@ -54,7 +56,7 @@ export interface IArticle {
     url: string
     getData: ({ token }: ArticleInfo['token']) => Promise< ArticleResponse['data'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
-    changeData: ({ id, name, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
-    insertNew: ({ name, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
+    changeData: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
+    insertNew:  ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
     removeData: ({ id, token }: ArticleInfo['id']) => Promise< ArticleResponse['noData'] >
 }

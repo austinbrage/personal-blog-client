@@ -20,7 +20,7 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['data']
     }
 
-    changeData = async ({ id, name, title, keywords, description, token }: ArticleInfo['idData']) => {
+    changeData = async ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => {
         const url = addPath('/data', this.url)
 
         const options = {
@@ -29,7 +29,7 @@ export class Article implements IArticle {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             }),
-            body: JSON.stringify({ id, name, title, keywords, description })
+            body: JSON.stringify({ id, name, image, title, keywords, description })
         }
 
         const response = await fetch(url, options)
@@ -52,14 +52,14 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['noData']
     }
     
-    insertNew = async ({ name, title, keywords, description, token }: ArticleInfo['data']) => {
+    insertNew = async ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => {
         const options = {
             method: 'POST',
             headers: new Headers({
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             }),
-            body: JSON.stringify({ name, title, keywords, description })
+            body: JSON.stringify({ name, image, title, keywords, description })
         }
 
         const response = await fetch(this.url, options)

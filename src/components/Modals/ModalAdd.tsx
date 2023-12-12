@@ -32,6 +32,7 @@ export function ModalAdd({ modalRef }: Props) {
             name: getStringValue('name'),
             title: 'Place an article general title here',
             keywords: 'General, Tech',
+            image: 'https://th.bing.com/th/id/R.f86b00c053d1ec4f336e126c2ca83b95?rik=F8wAroy8bD3rQg&riu=http%3a%2f%2frlv.zcache.com%2ftemplate_blank_add_your_image_text_here_sticker-r64216cd6594f4f23bdad64fee876a3a1_v9waf_8byvr_1200.jpg%3fview_padding%3d%5b0.452380952380952%2c0%2c0.452380952380952%2c0%5d&ehk=%2fu9KDxCwHRqvNRbBmqLTQ7Fl5CaKNMFOXBgs6EpN%2bZg%3d&risl=&pid=ImgRaw&r=0',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Animi libero, nulla odit quam aliquam sed sequi maxime, consequatur, esse similique qui in. A, commodi. Beatae eum doloremque, illo saepe dicta eveniet excepturi ex ipsa nemo corporis vitae, iusto sed? Nemo inventore id ratione fuga facilis enim est reiciendis necessitatibus dolore.'  
         }   
 
