@@ -58,9 +58,23 @@ export function Sections({ newData, currentArticle }: Props) {
                     {currentArticle.title}
                 </h4>
                 
-                <p className="ms-10 my-10 text-2xl font-semibold">
-                    {currentArticle.description}
-                </p>
+                {currentArticle.image ? (
+                    <div className='flex'>
+                        <img 
+                            src={currentArticle.image} 
+                            alt={`${currentArticle.name} image post`} 
+                            style={{ aspectRatio: '16/9' }}
+                            className='ms-10 my-5 w-80 rounded-md'
+                        />
+                        <p className="ms-10 mt-5 mb-10 text-2xl font-semibold">
+                            {currentArticle.description}
+                        </p>
+                    </div>
+                ) : (
+                    <p className="ms-10 mt-5 mb-10 text-2xl font-semibold">
+                        {currentArticle.description}
+                    </p>
+                )}
                 
                 <SectionList
                     newData={newData}
