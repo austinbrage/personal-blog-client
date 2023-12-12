@@ -1,3 +1,4 @@
+import { SectionContent } from './SectionContent'
 import { useState } from 'react'
 import { IoMdCreate } from 'react-icons/io'
 import { useAPIStore } from '../../stores/api'
@@ -41,14 +42,6 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
         updateEditMode(true)
         openModalContent()
     }
-    
-    const renderContent = (content?: string) => {
-        if(typeof content === 'undefined') return <span></span>
-
-        return content.split('\n').map((elem, index) => (
-            <span key={index} className='block mb-3'> {elem} </span>
-        ))
-    }
 
     if(sectionData.length === 0) return (
         <article className='ms-10 text-2xl italic tracking-wider'>(No content)</article>
@@ -71,11 +64,11 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                         {(editMode === true && sectionId === elem.id)
                             ? (
                                 <p style={editData.styles as React.CSSProperties}>
-                                    {renderContent(editData.content)}
+                                    <SectionContent currentData={editData}/>
                                 </p>
                             ): (
                                 <p style={elem.styles as React.CSSProperties}>
-                                    {renderContent(elem.content)}
+                                    <SectionContent currentData={elem}/>
                                 </p>
                             )
                         }
@@ -84,7 +77,7 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                     <div 
                         onMouseLeave={handleMouseLeave}
                         onMouseEnter={() => handleMouseEnter(index)}
-                        className='flex items-center justify-end p-4 col-span-1 gap-3 h-10 z-10'
+                        className='flex items-center justify-end p-4 col-span-1 gap-3 h-10 z-0'
                     >
                         <button
                             type='button'
@@ -115,9 +108,8 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
             {(addMode === true) && (
                 <div className='grid grid-cols-[4fr,1fr]'>
                     <p style={newData.styles as React.CSSProperties}>
-                        {renderContent(newData.content)}
+                        <SectionContent currentData={newData}/>
                     </p>
-                    <p></p>
                 </div>
             )}
 
