@@ -18,8 +18,15 @@ export type EditorTabs =
 'size' | 
 'line'
 
+export type ContentType = 
+'title' |
+'subtitle' |
+'paragraph' |
+'javascript' 
+
 export type RawSection = {
     content: string 
+    content_type: ContentType
     text_color: string
     font_size: sizeOptions
     margin_top: marginOptions 
@@ -41,12 +48,14 @@ export type Styles = {
 
 export type ContentStyles = {
     content: string
+    content_type: ContentType
     styles: Styles
 }
 
 export type ProcessedSection = {
     id: number
     content: string
+    content_type: ContentType
     styles: Styles
 }
 
@@ -82,6 +91,7 @@ export interface ISection {
     changeAll: ({
         id,
         content,
+        content_type,
         font_size,
         font_weight,
         font_family,
@@ -94,6 +104,7 @@ export interface ISection {
     inserNew: ({
         article_id,
         content,
+        content_type,
         font_size,
         font_weight,
         font_family,

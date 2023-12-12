@@ -24,6 +24,7 @@ export class Section implements ISection {
     changeAll = async ({
         id,
         content,
+        content_type,
         font_size,
         font_weight,
         font_family,
@@ -42,6 +43,7 @@ export class Section implements ISection {
             body: JSON.stringify({
                 id,
                 content,
+                content_type,
                 font_size,
                 font_weight,
                 font_family,
@@ -59,6 +61,7 @@ export class Section implements ISection {
     inserNew = async ({
         article_id,
         content,
+        content_type,
         font_size,
         font_weight,
         font_family,
@@ -77,6 +80,7 @@ export class Section implements ISection {
             body: JSON.stringify({
                 article_id,
                 content,
+                content_type,
                 font_size,
                 font_weight,
                 font_family,
