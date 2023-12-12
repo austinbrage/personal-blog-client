@@ -43,7 +43,8 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
     
     const originalData = useMemo(() => ({
         content: sectionData?.content ?? '', 
-        styles: sectionData?.styles ?? defaultOptions.styles
+        styles: sectionData?.styles ?? defaultOptions.styles,
+        content_type: sectionData?.content_type ?? 'paragraph'
     }), [sectionData])
 
     const handleDrag = (_e: DraggableEvent, { deltaX, deltaY }: DraggableData) => {
@@ -115,10 +116,11 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
 
                                 {(edition === 'general') && (
                                     <GeneralTab
-                                        currentStyles={editData.styles}
-                                        changeStyles={(newStyles) => setEditData(prevData => ({
+                                        currentContentType={editData.content_type}
+                                        changeStyles={(newData) => setEditData(prevData => ({
                                             ...prevData,
-                                            styles: newStyles
+                                            styles: newData.newStyles,
+                                            content_type: newData.newContentType
                                         }))}
                                     />
                                 )}

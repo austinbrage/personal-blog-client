@@ -5,17 +5,7 @@ import { familyOptions } from "./family"
 import { colorPalette1 } from "./color"
 import { weightOptions } from "./weight"
 import { marginOptions } from './margin'
-import type { ContentStyles, Styles } from "../types/sections"
-
-const mainTitle: Styles = {
-    color:      colorPalette1[0][0],
-    fontSize:   sizeOptions["text-5xl"], 
-    marginTop:  marginOptions['m-0'], 
-    textAlign:  alignOptions['left'], 
-    fontWeight: weightOptions['bold'], 
-    fontFamily: familyOptions['Arial'], 
-    lineHeight: lineOptions['lead-8']
-}
+import type { ContentStyles, ContentType, Styles } from "../types/sections"
 
 const title: Styles = {
     color:      colorPalette1[0][0],
@@ -47,14 +37,15 @@ const paragraph: Styles = {
     lineHeight: lineOptions['lead-4']
 }
 
-export const generalOptions = [
-    { name:'Main title', value: mainTitle },
-    { name:'Title',      value: title     },
-    { name:'Subtitle',   value: subtitle  },
-    { name:'Paragraph',  value: paragraph },
+export const generalOptions: { name: ContentType, value: Styles }[] = [
+    { name:'title',      value: title     },
+    { name:'subtitle',   value: subtitle  },
+    { name:'paragraph',  value: paragraph },
+    { name:'javascript', value: paragraph },
 ]
 
 export const defaultOptions: ContentStyles = {
     content: 'New Article Section',
+    content_type: 'paragraph',
     styles: title
 }

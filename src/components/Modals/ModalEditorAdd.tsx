@@ -105,10 +105,11 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
 
                                 {(edition === 'general') && (
                                     <GeneralTab
-                                        currentStyles={newData.styles}
-                                        changeStyles={(newStyles) => setNewData(prevData => ({
+                                        currentContentType={newData.content_type}
+                                        changeStyles={(newData) => setNewData(prevData => ({
                                             ...prevData,
-                                            styles: newStyles
+                                            styles: newData.newStyles,
+                                            content_type: newData.newContentType
                                         }))}
                                     />
                                 )}
