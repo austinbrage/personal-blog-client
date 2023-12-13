@@ -43,6 +43,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
     
     const originalData = useMemo(() => ({
         content: sectionData?.content ?? '', 
+        image_url: sectionData?.image_url ?? null,
         styles: sectionData?.styles ?? defaultOptions.styles,
         content_type: sectionData?.content_type ?? 'paragraph'
     }), [sectionData])

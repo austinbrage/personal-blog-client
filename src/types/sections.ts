@@ -29,6 +29,7 @@ export type ContentType =
 export type RawSection = {
     content: string 
     content_type: ContentType
+    image_url: string | null
     text_color: string
     font_size: sizeOptions
     margin_top: marginOptions 
@@ -51,6 +52,7 @@ export type Styles = {
 export type ContentStyles = {
     content: string
     content_type: ContentType
+    image_url: string | null
     styles: Styles
 }
 
@@ -58,6 +60,7 @@ export type ProcessedSection = {
     id: number
     content: string
     content_type: ContentType
+    image_url: string | null
     styles: Styles
 }
 
@@ -94,6 +97,7 @@ export interface ISection {
         id,
         content,
         content_type,
+        image_url,
         font_size,
         font_weight,
         font_family,
@@ -107,6 +111,7 @@ export interface ISection {
         article_id,
         content,
         content_type,
+        image_url,
         font_size,
         font_weight,
         font_family,

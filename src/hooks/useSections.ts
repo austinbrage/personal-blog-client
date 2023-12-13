@@ -32,6 +32,7 @@ export const useSectionData = () => {
                 id: elem.id,
                 content: elem.content,
                 content_type: elem.content_type,
+                image_url: elem.image_url,
                 styles: {
                     color: elem.text_color,
                     fontSize: elem.font_size, 
@@ -155,6 +156,7 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
         const editedRawSection: RawSection = {
             content: editedSection.content,
             content_type: editedSection.content_type,
+            image_url: editedSection.image_url,
             text_color: editedSection.styles.color,
             font_size: editedSection.styles.fontSize, 
             margin_top: editedSection.styles.marginTop, 
@@ -213,6 +215,7 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
         const newRawSection: RawSection = {
             content: newSection.content,
             content_type: newSection.content_type,
+            image_url: newSection.image_url,
             text_color: newSection.styles.color,
             font_size: newSection.styles.fontSize, 
             margin_top: newSection.styles.marginTop, 
