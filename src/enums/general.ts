@@ -38,11 +38,12 @@ const paragraph: Styles = {
 }
 
 export const generalOptions: { name: ContentType, value: Styles }[] = [
+    { name:'image',       value: title     },
     { name:'title',       value: title     },
     { name:'subtitle',    value: subtitle  },
     { name:'paragraph',   value: paragraph },
     { name:'javascript',  value: paragraph },
-    { name:'blockquote', value: paragraph },
+    { name:'blockquote',  value: paragraph },
 ]
 
 export const defaultOptions: ContentStyles = {

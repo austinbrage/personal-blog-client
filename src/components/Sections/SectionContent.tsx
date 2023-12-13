@@ -57,6 +57,10 @@ export function SectionContent({ currentData }: Props) {
         </blockquote>
     )
     
+    if(currentData.content_type === 'image') return (
+        <img src={currentData.content} />
+    )
+
     return currentData.content.split('\n').map((elem, index) => (
         <span key={index} className='block mb-3'> {elem} </span>
     ))

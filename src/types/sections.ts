@@ -19,6 +19,7 @@ export type EditorTabs =
 'line'
 
 export type ContentType = 
+'image' |
 'title' |
 'subtitle' |
 'paragraph' |
