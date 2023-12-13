@@ -22,7 +22,8 @@ export type ContentType =
 'title' |
 'subtitle' |
 'paragraph' |
-'javascript' 
+'javascript' |
+'blockquote' 
 
 export type RawSection = {
     content: string 

@@ -47,6 +47,16 @@ export function SectionContent({ currentData }: Props) {
 
     )
 
+    if(currentData.content_type === 'blockquote') return (
+        <blockquote className='ps-4 py-3 rounded-e-xl font-semibold italic leading-loose border-l-4 border-[#374151] text-white bg-neutral-900'>
+            {
+                currentData.content.split('\n').map((elem, index) => (
+                    <span key={index} className='block mb-3'> {elem} </span>
+                ))
+            }
+        </blockquote>
+    )
+    
     return currentData.content.split('\n').map((elem, index) => (
         <span key={index} className='block mb-3'> {elem} </span>
     ))
