@@ -10,6 +10,7 @@ import { MarginTab } from "../Tabs/Margin"
 import { LineHeightTab } from "../Tabs/Line"
 import { FamilyTab } from "../Tabs/Family"
 import { defaultOptions } from '../../enums/general'
+import { ImageTab, ContentAltTab } from '../Tabs/Image'
 import { IoArrowRedoCircleSharp } from "react-icons/io5"
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
@@ -114,7 +115,7 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
                                     />
                                 )}
                                 
-                                {(edition === 'content') && (
+                                {(edition === 'content' && newData.content_type !== 'image') && (
                                     <ContentTab 
                                         currentContent={newData.content} 
                                         changeContent={(newContent) => setNewData(prevData => ({
@@ -124,6 +125,26 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
                                     />
                                 )}
                                 
+                                {(edition === 'content' && newData.content_type === 'image') && (
+                                    <ContentAltTab 
+                                        currentContent={newData.content} 
+                                        changeContent={(newContent) => setNewData(prevData => ({
+                                            ...prevData,
+                                            content: newContent
+                                        }))} 
+                                    />
+                                )}
+                                
+                                {(edition === 'content' && newData.content_type === 'image') && (
+                                    <ImageTab 
+                                        currentImage={newData.image_url} 
+                                        changeImage={(newImage) => setNewData(prevData => ({
+                                            ...prevData,
+                                            image_url: newImage
+                                        }))} 
+                                    />
+                                )}
+
                                 {(edition === 'color') && (
                                     <ColorTab 
                                         currentColor={newData.styles.color} 

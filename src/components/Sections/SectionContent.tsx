@@ -57,8 +57,8 @@ export function SectionContent({ currentData }: Props) {
         </blockquote>
     )
     
-    if(currentData.content_type === 'image') return (
-        <img src={currentData.content} />
+    if(currentData.content_type === 'image' && currentData.image_url) return (
+        <img alt={currentData.content} src={currentData.image_url} />
     )
 
     return currentData.content.split('\n').map((elem, index) => (

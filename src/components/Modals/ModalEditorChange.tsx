@@ -9,6 +9,7 @@ import { AlignTab } from "../Tabs/Align"
 import { MarginTab } from "../Tabs/Margin"
 import { LineHeightTab } from "../Tabs/Line"
 import { FamilyTab } from "../Tabs/Family"
+import { ImageTab, ContentAltTab } from '../Tabs/Image'
 import { IoArrowRedoCircleSharp } from "react-icons/io5"
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
@@ -77,7 +78,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
         menuRef: modalRef,
         closeMenu: closeModal
     })
-   
+    console.log('CONTENT_TYPE', editData.content_type)
     return (
         <div 
             tabIndex={-1} 
@@ -126,12 +127,32 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                                     />
                                 )}
                                 
-                                {(edition === 'content') && (
+                                {(edition === 'content' && editData.content_type !== 'image') && (
                                     <ContentTab 
                                         currentContent={editData.content} 
                                         changeContent={(newContent) => setEditData(prevData => ({
                                             ...prevData,
                                             content: newContent
+                                        }))} 
+                                    />
+                                )}
+                                
+                                {(edition === 'content' && editData.content_type === 'image') && (
+                                    <ContentAltTab 
+                                        currentContent={editData.content} 
+                                        changeContent={(newContent) => setEditData(prevData => ({
+                                            ...prevData,
+                                            content: newContent
+                                        }))} 
+                                    />
+                                )}
+                                
+                                {(edition === 'content' && editData.content_type === 'image') && (
+                                    <ImageTab 
+                                        currentImage={editData.image_url} 
+                                        changeImage={(newImage) => setEditData(prevData => ({
+                                            ...prevData,
+                                            image_url: newImage
                                         }))} 
                                     />
                                 )}
