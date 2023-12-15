@@ -34,13 +34,16 @@ export const useSectionData = () => {
                 content_type: elem.content_type,
                 image_url: elem.image_url,
                 styles: {
+                    width: elem.width,
+                    height: elem.height,
                     color: elem.text_color,
                     fontSize: elem.font_size, 
                     marginTop: elem.margin_top, 
                     textAlign: elem.text_align,
                     fontWeight: elem.font_weight,
                     fontFamily: elem.font_family,
-                    lineHeight: elem.line_height
+                    lineHeight: elem.line_height,
+                    borderRadius: elem.border_radius
                 } 
             }
 
@@ -157,13 +160,16 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
             content: editedSection.content,
             content_type: editedSection.content_type,
             image_url: editedSection.image_url,
+            width: editedSection.styles.width,
+            height: editedSection.styles.height,
             text_color: editedSection.styles.color,
             font_size: editedSection.styles.fontSize, 
             margin_top: editedSection.styles.marginTop, 
             text_align: editedSection.styles.textAlign,
             font_weight: editedSection.styles.fontWeight,
             font_family: editedSection.styles.fontFamily,
-            line_height: editedSection.styles.lineHeight
+            line_height: editedSection.styles.lineHeight,
+            border_radius: editedSection.styles.borderRadius
         }
 
         mutate({ token: userToken, id: sectionId, ...editedRawSection })
@@ -216,13 +222,16 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
             content: newSection.content,
             content_type: newSection.content_type,
             image_url: newSection.image_url,
+            width: newSection.styles.width,
+            height: newSection.styles.height,
             text_color: newSection.styles.color,
             font_size: newSection.styles.fontSize, 
             margin_top: newSection.styles.marginTop, 
             text_align: newSection.styles.textAlign,
             font_weight: newSection.styles.fontWeight,
             font_family: newSection.styles.fontFamily,
-            line_height: newSection.styles.lineHeight
+            line_height: newSection.styles.lineHeight,
+            border_radius: newSection.styles.borderRadius
         }
 
         mutate({ token: userToken, article_id: id, ...newRawSection })

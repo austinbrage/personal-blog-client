@@ -26,6 +26,8 @@ export class Section implements ISection {
         content,
         content_type,
         image_url,
+        width,
+        height,
         font_size,
         font_weight,
         font_family,
@@ -33,6 +35,7 @@ export class Section implements ISection {
         margin_top,
         text_align,
         text_color,
+        border_radius,
         token
     }: SectionInfo['idData']) => {
         const options = {
@@ -46,13 +49,16 @@ export class Section implements ISection {
                 content,
                 content_type,
                 image_url,
+                width,
+                height,
                 font_size,
                 font_weight,
                 font_family,
                 line_height,
                 margin_top,
                 text_align,
-                text_color
+                text_color,
+                border_radius,
             })
         }
 
@@ -65,6 +71,8 @@ export class Section implements ISection {
         content,
         content_type,
         image_url,
+        width,
+        height,
         font_size,
         font_weight,
         font_family,
@@ -72,6 +80,7 @@ export class Section implements ISection {
         margin_top,
         text_align,
         text_color,
+        border_radius,
         token
     }: SectionInfo['articleIdData']) => {
         const options = {
@@ -85,12 +94,15 @@ export class Section implements ISection {
                 content,
                 content_type,
                 image_url,
+                width,
+                height,
                 font_size,
                 font_weight,
                 font_family,
                 line_height,
                 margin_top,
                 text_align,
+                border_radius,
                 text_color
             })
         }

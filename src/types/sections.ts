@@ -1,9 +1,12 @@
+import { widthOptions } from "../enums/width"
+import { heightOptions } from "../enums/height"
 import { sizeOptions } from "../enums/size"
 import { lineOptions } from "../enums/line"
 import { alignOptions } from "../enums/align"
 import { familyOptions } from "../enums/family"
 import { marginOptions } from "../enums/margin"
 import { weightOptions } from "../enums/weight"
+import { radiusOptions } from "../enums/radius"
 import { type APIResponse } from "./api"
 
 //* 1- Section Service Arguments Types 
@@ -16,7 +19,10 @@ export type EditorTabs =
 'margin' | 
 'color' | 
 'size' | 
-'line'
+'line' |
+'width' |
+'height' |
+'radius' 
 
 export type ContentType = 
 'image' |
@@ -31,22 +37,28 @@ export type RawSection = {
     content_type: ContentType
     image_url: string | null
     text_color: string
+    width: widthOptions
+    height: heightOptions
     font_size: sizeOptions
     margin_top: marginOptions 
     text_align: alignOptions 
     font_weight: weightOptions 
     font_family: familyOptions 
     line_height: lineOptions 
+    border_radius: radiusOptions 
 }
 
 export type Styles = {
     color: string
+    width: widthOptions
+    height: heightOptions
     fontSize: sizeOptions 
     marginTop: marginOptions
     textAlign: alignOptions 
     fontWeight: weightOptions 
     fontFamily: familyOptions 
     lineHeight: lineOptions 
+    borderRadius: radiusOptions 
 }
 
 export type ContentStyles = {
@@ -98,6 +110,8 @@ export interface ISection {
         content,
         content_type,
         image_url,
+        width,
+        height,
         font_size,
         font_weight,
         font_family,
@@ -105,6 +119,7 @@ export interface ISection {
         margin_top,
         text_align,
         text_color, 
+        border_radius,
         token
     }: SectionInfo['idData']) => Promise< SectionResponse['noData'] >
     inserNew: ({
@@ -112,6 +127,8 @@ export interface ISection {
         content,
         content_type,
         image_url,
+        width,
+        height,
         font_size,
         font_weight,
         font_family,
@@ -119,6 +136,7 @@ export interface ISection {
         margin_top,
         text_align,
         text_color, 
+        border_radius,
         token
     }: SectionInfo['articleIdData']) => Promise< SectionResponse['noData'] >
     removeData: ({ id, token }: SectionInfo['id']) => Promise< SectionResponse['noData'] >
