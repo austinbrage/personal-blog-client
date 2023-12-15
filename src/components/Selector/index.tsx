@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { FaBorderAll, FaAlignLeft, FaTextHeight, FaBackspace, FaHamburger } from "react-icons/fa"
 import { IoMdText, IoIosColorPalette, IoIosArrowDropupCircle } from "react-icons/io"
+import { TbArrowAutofitWidth, TbArrowAutofitHeight } from "react-icons/tb" 
+import { AiOutlineRadiusSetting } from "react-icons/ai"
 import { RxFontFamily, RxMargin } from "react-icons/rx"
 import { IoPersonCircleSharp } from "react-icons/io5"
 import { RiFontSize2 } from "react-icons/ri"
@@ -136,6 +138,37 @@ export function Selector({ identifier, changeEditorTab }: Props) {
                     <span className="fas"><FaTextHeight/></span>
                     <span>Line height</span>
                 </div>
+                
+                <div 
+                    onClick={() => handleClick(9, 'width')}
+                    onMouseEnter={() => handleMouseEnter(9)}
+                    onMouseLeave={() => handleMouseEnter(offset)}
+                    className="nav-button"
+                >
+                    <span className="fas"><TbArrowAutofitWidth/></span>
+                    <span>Width</span>
+                </div>
+                
+                <div 
+                    onClick={() => handleClick(10, 'height')}
+                    onMouseEnter={() => handleMouseEnter(10)}
+                    onMouseLeave={() => handleMouseEnter(offset)}
+                    className="nav-button"
+                >
+                    <span className="fas"><TbArrowAutofitHeight/></span>
+                    <span>Height</span>
+                </div>
+                
+                <div 
+                    onClick={() => handleClick(11, 'radius')}
+                    onMouseEnter={() => handleMouseEnter(11)}
+                    onMouseLeave={() => handleMouseEnter(offset)}
+                    className="nav-button"
+                >
+                    <span className="fas"><AiOutlineRadiusSetting/></span>
+                    <span>Radius</span>
+                </div>
+
                 <div className="nav-content-highlight" ref={contentHighlight}></div>
             </div>
             

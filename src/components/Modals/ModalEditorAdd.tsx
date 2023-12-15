@@ -9,6 +9,9 @@ import { AlignTab } from "../Tabs/Align"
 import { MarginTab } from "../Tabs/Margin"
 import { LineHeightTab } from "../Tabs/Line"
 import { FamilyTab } from "../Tabs/Family"
+import { WidthTab } from '../Tabs/Width'
+import { HeightTab } from '../Tabs/height'
+import { RadiusTab } from '../Tabs/Radius'
 import { defaultOptions } from '../../enums/general'
 import { ImageTab, ContentAltTab } from '../Tabs/Image'
 import { IoArrowRedoCircleSharp } from "react-icons/io5"
@@ -211,6 +214,36 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
                                         changeLine={(newLine) => setNewData(prevData => ({
                                             ...prevData,
                                             styles: {...prevData.styles, lineHeight: newLine}
+                                        }))}
+                                    />
+                                )}
+                                
+                                {(edition === 'width') && (
+                                    <WidthTab 
+                                        currentWidth={newData.styles.width} 
+                                        changeWidth={(newWidth) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, width: newWidth}
+                                        }))}
+                                    />
+                                )}
+                                
+                                {(edition === 'height') && (
+                                    <HeightTab 
+                                        currentHeight={newData.styles.height} 
+                                        changeHeight={(newHeight) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, height: newHeight}
+                                        }))}
+                                    />
+                                )}
+                                
+                                {(edition === 'radius') && (
+                                    <RadiusTab 
+                                        currentRadius={newData.styles.borderRadius} 
+                                        changeRadius={(newRadius) => setNewData(prevData => ({
+                                            ...prevData,
+                                            styles: {...prevData.styles, borderRadius: newRadius}
                                         }))}
                                     />
                                 )}
