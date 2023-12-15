@@ -2,11 +2,17 @@ import Prism from 'prismjs'
 import toast from 'react-hot-toast'
 import { IoIosCopy } from "react-icons/io"
 import { useRef, useLayoutEffect } from 'react'
-import { type ContentStyles } from '../../types/sections'
+import type { ContentType, ContentStyles } from '../../types/sections'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-typescript'
 import '../../prism-one-dark.css'
 
 type Props = {
     currentData: ContentStyles
+}
+
+const compareCodeTypes = (type: ContentType) => {
+    return type === 'javascript' || type === 'typescript' || type === 'jsx'
 }
 
 export function SectionContent({ currentData }: Props) {
@@ -23,16 +29,16 @@ export function SectionContent({ currentData }: Props) {
         Prism.highlightAllUnder(codeContainer.current)
     }, [codeContainer, currentData])
 
-    if(currentData.content_type === 'javascript') return ( 
+    if(compareCodeTypes(currentData.content_type)) return ( 
         <div style={{ display: 'flex', justifyContent: currentData.styles.textAlign }}>
             <div style={currentData.styles as React.CSSProperties}>
                 
                 <pre ref={codeContainer} className='flex items-start justify-between align-center h-full'>
 
-                    <code className="language-javascript">
+                    <code className={`language-${currentData.content_type}`}>
                         {currentData.content}
                     </code>
-
+                
                     <button 
                         type='button' 
                         data-text="Copy" 
