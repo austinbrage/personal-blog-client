@@ -48,9 +48,7 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
             
             {(addMode === true) ? (
                 <div className='grid grid-cols-[4fr,1fr]'>
-                    <p style={newData.styles as React.CSSProperties}>
-                        <SectionContent currentData={newData}/>
-                    </p>
+                    <SectionContent currentData={newData}/>
                 </div>
             ) : (
                 <p>(No content)</p>
@@ -73,16 +71,10 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                                 : 'transition-all duration-300'
                         }
                     >
-                        {(editMode === true && sectionId === elem.id)
-                            ? (
-                                <p style={editData.styles as React.CSSProperties}>
-                                    <SectionContent currentData={editData}/>
-                                </p>
-                            ): (
-                                <p style={elem.styles as React.CSSProperties}>
-                                    <SectionContent currentData={elem}/>
-                                </p>
-                            )
+                        {
+                            (editMode === true && sectionId === elem.id)
+                                ? <SectionContent currentData={editData}/>
+                                : <SectionContent currentData={elem}/>
                         }
                     </div>
 
@@ -119,9 +111,7 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
 
             {(addMode === true) && (
                 <div className='grid grid-cols-[4fr,1fr]'>
-                    <p style={newData.styles as React.CSSProperties}>
-                        <SectionContent currentData={newData}/>
-                    </p>
+                    <SectionContent currentData={newData}/>
                 </div>
             )}
 
