@@ -1,7 +1,9 @@
 import React, { useRef } from 'react'
+import { panelTour } from "../../utils/driver"
 import { useNavigate } from 'react-router-dom'
 import { useMenuTableCommands } from '../../hooks/useCommands'
 import './MenuTable.css'
+import '../../driver.css'
 
 type Props = {
     postsList: string[]
@@ -68,8 +70,12 @@ export function MenuTable({ postsList, toggleModal }: Props) {
                         <button type='button'>User profile</button>
                     </li>
 
-                    <li style={{'--i': postsList.length + 2} as React.CSSProperties}>
-                        <button type='button' onClick={toggleModal}>Keyboard shortcuts</button>
+                    <li 
+                        className='flex'
+                        style={{'--i': postsList.length + 2} as React.CSSProperties}
+                    >
+                        <button type='button' onClick={() => panelTour.drive()}>Guide</button>
+                        <button type='button' onClick={toggleModal}>shortcuts</button>
                     </li>
                 </ul>
                 

@@ -1,0 +1,57 @@
+.driver-popover.driverjs-theme {
+    padding: 1.25rem;
+    min-width: 375px;
+    border-radius: 0.75rem;
+    background: #ADA996;
+    background: -webkit-linear-gradient(to right, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996);  
+    background: linear-gradient(to right, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996);
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, 
+                rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, 
+                rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, 
+                rgba(0, 0, 0, 0.06) 0px 2px 1px, 
+                rgba(0, 0, 0, 0.09) 0px 4px 2px, 
+                rgba(0, 0, 0, 0.09) 0px 8px 4px, 
+                rgba(0, 0, 0, 0.09) 0px 16px 8px, 
+                rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.driver-popover.driverjs-theme .driver-popover-title {
+    color: #000;
+    font-size: 1.375rem;
+    white-space: nowrap;
+}
+
+.driver-popover.driverjs-theme .driver-popover-progress-text {
+    color: #000;
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.driver-popover.driverjs-theme .driver-popover-description {
+    color: #000;
+    font-size: 1rem;
+}
+
+.driver-popover.driverjs-theme button {
+    padding: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: transform 0.35s;
+}
+
+.driver-popover.driverjs-theme button:hover {
+    transform: scale(1.2);
+    transition: transform 0.5s;
+}
+
+.driver-popover.driverjs-theme .driver-popover-navigation-btns {
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.driver-popover.driverjs-theme .driver-popover-close-btn {
+    color: #000;
+    font-size: 1.75rem;
+}
