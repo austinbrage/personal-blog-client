@@ -8,6 +8,13 @@ export class Article implements IArticle {
         this.url = addPath(PATHS.ARTICLE, API_URL)
     }
 
+    getKeywords = async () => {
+        const url = addPath('/keywords', this.url)
+
+        const response = await fetch(url)
+        return await response.json() as ArticleResponse['keywords']
+    }
+
     getData = async ({ token }: ArticleInfo['token']) => {
         const options = {
             headers: new Headers({

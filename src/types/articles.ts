@@ -9,6 +9,10 @@ export type ArticleInfo = {
         id: number
         token: string
     }
+    idKeywords: {
+        id: number
+        keyword: string
+    }
     idPublishment: {
         id: number
         is_publish: boolean
@@ -47,6 +51,7 @@ export type ArticleInfo = {
 
 //* 2- Article Service Return Types 
 export type ArticleResponse = {
+    keywords: APIResponse< ArticleInfo['idKeywords'] >
     noData: APIResponse<null>
     data: APIResponse< ArticleInfo['fullData'] >
 }
@@ -54,6 +59,7 @@ export type ArticleResponse = {
 //* 3- Article Service Interface 
 export interface IArticle {
     url: string
+    getKeywords: () => Promise< ArticleResponse['keywords'] > 
     getData: ({ token }: ArticleInfo['token']) => Promise< ArticleResponse['data'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
     changeData: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >

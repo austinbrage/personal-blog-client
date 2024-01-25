@@ -11,6 +11,19 @@ const articleService = new Article()
 const TOAST_ID_QUERY = 'ARTICLE_TOAST_QUERY'
 const TOAST_ID_MUTATE = 'ARTICLE_TOAST_MUTATE'
 
+export const useArticleKeywords = () => {
+
+    const { data } = useQuery({
+        staleTime: Infinity,
+        queryKey: ['article', 'keywords'],
+        queryFn: articleService.getKeywords
+    })
+
+    return {
+        availableKeywords: data?.success ? data.result.data : null
+    }
+}
+
 export const useArticleData = () => {
 
     const userToken = useAPIStore(state => state.userToken)
