@@ -1,11 +1,15 @@
 import { useState } from "react"
 import { FormBody } from "../components/Login/FormBody"
 import { MagicMotion } from 'react-magic-motion'
+import { useNavigate } from 'react-router-dom'
 
 export function HomePage() {
 
+    const navigate = useNavigate()
     const [isSignUp, setIsSignUp] = useState<boolean>(false)
     const toggleSignUp = () => setIsSignUp(prevState => !prevState)
+
+    const goToAboutPage = () => navigate('/about')
 
     return (
         <section className="min-h-screen max-h-screen flex items-stretch text-white">
@@ -52,6 +56,16 @@ export function HomePage() {
                     </div>   
                 </div>
             </MagicMotion>
+
+            <div className="cursor-pointer group" onClick={() => goToAboutPage()}>
+                <span className="fixed -top-12 -left-8 w-[8.8rem] h-[7.5rem] rounded-full backdrop-blur-lg shadow-xl bg-gradient-to-r from-[rgba(191,219,254,0.4)] to-[rgba(165,243,252,0.8)] group-hover:scale-110 transition-all duration-300">
+                </span>
+                <span className="fixed top-0 left-0 ps-1 pt-4">
+                    <p className='text-lg font-bold italic text-slate-800 group-hover:scale-110 transition-all duration-300'>
+                        About Page
+                    </p>
+                </span>
+            </div>
 
         </section>
     )

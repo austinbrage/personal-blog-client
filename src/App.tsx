@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { toastConfig } from './utils/config'
 import { HomePage } from './pages/Home'
+import { AboutPage } from './pages/About'
 import { EditorPage } from './pages/Editor'
 import { ProfilePage } from './pages/Profile'
 import { Toaster } from 'react-hot-toast'
@@ -15,6 +16,10 @@ function App() {
     {
       path: '/',
       element: <HomePage/>
+    },
+    {
+      path: '/about',
+      element: <AboutPage/>
     },
     {
       path: '/dashboard/:editor/:article',
