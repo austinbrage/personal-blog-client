@@ -1,7 +1,9 @@
 import { useRef, useState, useEffect, type FormEvent, type RefObject } from "react"
-import { useArticleEdit } from "../../hooks/useArticles"
+import { useArticleEdit, useArticleKeywords } from "../../hooks/useArticles"
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
+import { IoIosArrowDown } from "react-icons/io"
+import { TiTick } from "react-icons/ti"
 
 type Props = {
     isToggle: boolean
@@ -13,6 +15,8 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     
     const formRef = useRef<HTMLFormElement>(null)    
     
+    const { availableKeywords } = useArticleKeywords()
+
     const { editArticle, isPending } = useArticleEdit({ cleanModal: () => {
         formRef.current?.reset()
         modalRef.current?.classList.add('hidden')
@@ -21,33 +25,36 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
 
     const articleData = useAPIStore(state => state.articleData)
 
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+
     const [name, setName] = useState<string>(articleData?.name ?? '')
     const [title, setTitle] = useState<string>(articleData?.title ?? '')
-    const [image, setImage] = useState<string | null>(articleData?.image ?? null)
+    const [image, setImage] = useState<string>(articleData?.image ?? '')
+    const [keywords, setKeywords] = useState<string>(articleData?.keywords ?? '')
     const [description, setDescription] = useState<string>(articleData?.description ?? '')
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-
         event.preventDefault()
         if(isPending) return
 
-        const data = new FormData(event.currentTarget) 
-        const getStringValue = (key: string) => data.get(key)?.toString() ?? ''
+        editArticle({ name, image, title, keywords, description })
+    }
 
-        const newArticleData = {
-            name: getStringValue('name'),
-            image: getStringValue('image'),
-            title: getStringValue('title'),
-            keywords: 'General',
-            description: getStringValue('description')
-        }   
+    const handleKeywords = (selectedWord: string) => {
+        let arrayKeywords = keywords.split(', ')
 
-        editArticle(newArticleData)
+        arrayKeywords.includes(selectedWord)
+            ? arrayKeywords = arrayKeywords.filter(word => word != selectedWord)
+            : arrayKeywords.push(selectedWord)
+
+        setKeywords(arrayKeywords.join(', '))
     }
 
     useEffect(() => {
         setName(articleData?.name ?? '')
         setTitle(articleData?.title ?? '')
+        setImage(articleData?.image ?? '')
+        setKeywords(articleData?.keywords ?? '')
         setDescription(articleData?.description ?? '')
     }, [articleData, isToggle])
 
@@ -62,7 +69,7 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     return (
         <div ref={modalRef} id="crud-modal-2" tabIndex={-1} aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             
-            <div className="relative p-4 w-full max-w-md max-h-full">
+            <div className="relative p-4 w-full max-w-lg max-h-full">
                 <div className="relative rounded-lg shadow backdrop-blur-sm bg-[rgba(55,65,81,0.85)]">
 
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -80,7 +87,7 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                     <form ref={formRef} onSubmit={handleSubmit} className="p-4 md:p-5">
                         
                         <div className="grid gap-4 mb-4 grid-cols-2">
-                            <div className="col-span-2">
+                            <div className="col-span-1">
                                 <label htmlFor="name2" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     NickName
                                 </label>
@@ -96,7 +103,7 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                                 />
                             </div>
 
-                            <div className="col-span-2">
+                            <div className="col-span-1">
                                 <label htmlFor="title2" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Title
                                 </label>
@@ -111,12 +118,54 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                                 />
                             </div>
 
-                            <div className="col-span-2">
+                            <div className="col-span-1">
+                                <label htmlFor="keywords2" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Keywords
+                                </label>
+                                <div 
+                                    onClick={() => setIsOpen(prev => !prev)}
+                                    className="flex items-center justify-between p-2.5 rounded-lg bg-gray-600 border-gray-500 cursor-pointer"
+                                >
+                                    <p className="whitespace-nowrap overflow-hidden text-ellipsis text-white">
+                                        {keywords}
+                                    </p>
+                                    <span className={`text-lg transition-all ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
+                                        <IoIosArrowDown/>
+                                    </span>
+                                </div>
+                                <div className="relative mt-1">
+                                    {isOpen && (
+                                        <div className="absolute w-full h-32 overflow-y-auto">
+                                            {availableKeywords?.map(data => (
+                                                <div 
+                                                    key={data.id} 
+                                                    onClick={() => handleKeywords(data.keyword)}
+                                                    className={`
+                                                        ${keywords.includes(data.keyword) ? 'bg-[rgb(198,192,192)]' : 'bg-[rgb(147,143,143)]'}
+                                                        flex justify-between text-md italic font-semibold p-2 rounded-md border-b-2 border-slate-900 color-black cursor-pointer
+                                                    `}
+                                                >
+                                                    <p>
+                                                        {data.keyword}
+                                                    </p>
+                                                    {keywords.includes(data.keyword) && (
+                                                        <span className="text-md">
+                                                            <TiTick/>
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="col-span-1">
                                 <label htmlFor="image2" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Image URL
                                 </label>
                                 <input 
-                                    required
+                                    // required
                                     id="image2" 
                                     type="text" 
                                     name="image" 
