@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef } from 'react'
 import { panelTour } from "../../utils/driver"
 import { useNavigate } from 'react-router-dom'
 import { useMenuTableCommands } from '../../hooks/useCommands'
+import { useMenuTablePagination } from '../../hooks/usePagination'
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi"
 import './MenuTable.css'
 import '../../driver.css'
@@ -9,28 +10,6 @@ import '../../driver.css'
 type Props = {
     postsList: string[]
     toggleModal: () => void
-}
-
-const useArticlesPagination = (postsLists: string[]) => {
-
-    const perPage = 3
-    const totalPages = Math.ceil(postsLists.length / perPage)
-    const [currentPage, setCurrentPage] = useState<number>(1)
-    const [mustPaginate, setMustPaginate] = useState<boolean>(false)
-    
-    const goNextPage = () => setCurrentPage(prev => prev + 1)
-    const goPrevPage = () => setCurrentPage(prev => prev - 1)
-
-    const hasNext = () => currentPage < totalPages
-    const hasPrev = () => currentPage > 1
-
-    useEffect(() => {
-        postsLists.length > perPage
-            ? setMustPaginate(true)
-            : setMustPaginate(false)
-    }, [postsLists, setMustPaginate])
-
-    return { currentPage, mustPaginate, goNextPage, goPrevPage, hasNext, hasPrev, perPage, totalPages }
 }
 
 export function MenuTable({ postsList, toggleModal }: Props) {
@@ -69,7 +48,7 @@ export function MenuTable({ postsList, toggleModal }: Props) {
         hasNext, 
         hasPrev,
         perPage
-    } = useArticlesPagination(postsList)
+    } = useMenuTablePagination(postsList)
 
     return (
         <div className='menu-table'>
