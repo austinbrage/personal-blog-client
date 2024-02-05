@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 
-export const useMenuTablePagination = (postsLists: string[]) => {
+type MenuTablePagination = {
+    postsList: string[]
+    perPage: number
+}
 
-    const perPage = 3
-    const totalPages = Math.ceil(postsLists.length / perPage)
+export const useMenuTablePagination = ({ postsList, perPage }: MenuTablePagination) => {
+
+    const totalPages = Math.ceil(postsList.length / perPage)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [mustPaginate, setMustPaginate] = useState<boolean>(false)
     
@@ -14,10 +18,10 @@ export const useMenuTablePagination = (postsLists: string[]) => {
     const hasPrev = () => currentPage > 1
 
     useEffect(() => {
-        postsLists.length > perPage
+        postsList.length > perPage
             ? setMustPaginate(true)
             : setMustPaginate(false)
-    }, [postsLists, setMustPaginate])
+    }, [postsList, perPage, setMustPaginate])
 
     return { currentPage, mustPaginate, goNextPage, goPrevPage, hasNext, hasPrev, perPage, totalPages }
 }

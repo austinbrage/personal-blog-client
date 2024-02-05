@@ -14,6 +14,8 @@ type Props = {
 
 export function MenuTable({ postsList, toggleModal }: Props) {
     
+    const perPage = 3
+
     const navigate = useNavigate()
     const menuTable = useRef<HTMLDivElement>(null)
     const menuToggle = useRef<HTMLDivElement>(null)
@@ -46,9 +48,8 @@ export function MenuTable({ postsList, toggleModal }: Props) {
         goNextPage, 
         goPrevPage, 
         hasNext, 
-        hasPrev,
-        perPage
-    } = useMenuTablePagination(postsList)
+        hasPrev
+    } = useMenuTablePagination({ postsList, perPage})
 
     return (
         <div className='menu-table'>
