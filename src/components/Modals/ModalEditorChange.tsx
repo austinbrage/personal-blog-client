@@ -81,7 +81,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
         menuRef: modalRef,
         closeMenu: closeModal
     })
-    console.log('CONTENT_TYPE', editData.content_type)
+    
     return (
         <div 
             tabIndex={-1} 
