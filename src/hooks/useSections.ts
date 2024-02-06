@@ -30,6 +30,7 @@ export const useSectionData = () => {
 
             return {
                 id: elem.id,
+                sequence: elem.sequence,
                 content: elem.content,
                 content_type: elem.content_type,
                 image_url: elem.image_url,

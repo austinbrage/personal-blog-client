@@ -72,6 +72,7 @@ export type ContentStyles = {
 
 export type ProcessedSection = {
     id: number
+    sequence: number
     content: string
     content_type: ContentType
     image_url: string | null
@@ -95,12 +96,18 @@ export type SectionInfo = {
         article_id: number 
         token: string
     } 
+    fullData: RawSection & {
+        id: number
+        sequence: number
+        article_id: number 
+        token: string
+    }
 }
 
 //* 2- Section Service Interface 
 export type SectionResponse = {
     noData: APIResponse<null>
-    data: APIResponse< SectionInfo['idData'] > // It doesn't contemplate the sequence field
+    data: APIResponse< SectionInfo['fullData'] >
 }
 
 //* 3- Section Service Interface 
