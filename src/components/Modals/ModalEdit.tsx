@@ -206,7 +206,7 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                                 <button
                                     type='button'
                                     // onClick={() => handleEdition(elem)}
-                                    className="inline-flex items-center w-max text-sm font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
+                                    className="pointer-events-none opacity-80 inline-flex items-center w-max text-sm font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
                                 >
                                     <span className="text-lg me-2">
                                         <FaUpload/>
