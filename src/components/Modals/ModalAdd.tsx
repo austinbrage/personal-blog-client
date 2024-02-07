@@ -1,5 +1,7 @@
-import { useRef, type FormEvent, type RefObject } from "react"
+import { useRef, useState, type FormEvent, type RefObject } from "react"
 import { useArticleAdd } from "../../hooks/useArticles"
+import { useSectionAddTemplate } from "../../hooks/useSections"
+import { TemplateOptions } from "../../types/sections"
 
 type Props = {
     modalRef: RefObject<HTMLDivElement> 
@@ -8,17 +10,29 @@ type Props = {
 export function ModalAdd({ modalRef }: Props) {
     
     const formRef = useRef<HTMLFormElement>(null)
-
-    const { addNewArticle, isPending } = useArticleAdd({ cleanModal: () => {
-        formRef.current?.reset()
-        modalRef.current?.classList.add('hidden')
-        modalRef.current?.classList.remove('flex')
-    } })
+    const [option, setOption] = useState<TemplateOptions>(TemplateOptions.none)
 
     const closeModal = () => {
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
     }
+
+    const cleanModal = () => {
+        closeModal()
+        formRef.current?.reset()
+    }
+
+    const { addTemplateSections } = useSectionAddTemplate()
+
+    const addTemplate = (newArticleId: number) => {
+        if(option === TemplateOptions.none) return
+        addTemplateSections({ newArticleId, option })
+    }
+
+    const { addNewArticle, isPending } = useArticleAdd({ 
+        cleanModal, 
+        addTemplate
+    })
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 
@@ -72,6 +86,33 @@ export function ModalAdd({ modalRef }: Props) {
                                     placeholder="Type articles alias name" 
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
                                 />
+                            </div>
+                            <div className="col-span-2">
+                                <p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Template
+                                </p>
+                                <div className='items-center w-full text-sm font-medium rounded-lg sm:flex'>
+                                    {Object.values(TemplateOptions).map(elem => (
+                                        <div className='w-full border-b sm:border-b-0 sm:border-r border-gray-600 cursor-pointer'>
+                                            <div 
+                                                className={`
+                                                    relative flex items-center ps-3 transition-all duration-500
+                                                    ${elem === option 
+                                                        ? 'text-gray-200 bg-gray-600 scale-105 z-50' 
+                                                        : 'text-gray-300 bg-gray-700 scale-100 z-0' 
+                                                    }
+                                                `.trim()}
+                                            >
+                                                <p
+                                                    onClick={() => setOption(elem)}
+                                                    className='w-full py-3 ps-2 text-sm font-medium'
+                                                >
+                                                    {elem}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 

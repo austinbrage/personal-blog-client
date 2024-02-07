@@ -11,6 +11,11 @@ const articleService = new Article()
 const TOAST_ID_QUERY = 'ARTICLE_TOAST_QUERY'
 const TOAST_ID_MUTATE = 'ARTICLE_TOAST_MUTATE'
 
+type ArticleAdd = { 
+    cleanModal: () => void, 
+    addTemplate: (newArticleId: number) => void 
+}
+
 export const useArticleKeywords = () => {
 
     const { data } = useQuery({
@@ -71,7 +76,7 @@ export const useArticleData = () => {
     }
 }
 
-export const useArticleAdd = ({ cleanModal }: { cleanModal: () => void }) => {
+export const useArticleAdd = ({ cleanModal, addTemplate }: ArticleAdd) => {
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -99,9 +104,15 @@ export const useArticleAdd = ({ cleanModal }: { cleanModal: () => void }) => {
                 )
                 : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
-            data.success && cleanModal()
-            data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
-            data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
+            if(data.success) {
+                const newArticleId = data.result.data[0].insertId
+
+                cleanModal()
+                addTemplate(newArticleId)
+                navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
+                queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
+            }
+
         }
     })    
 
