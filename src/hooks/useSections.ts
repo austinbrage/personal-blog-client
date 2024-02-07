@@ -3,7 +3,7 @@ import { useMemo, useEffect } from "react"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import type { ContentStyles, ProcessedSection, RawSection, SectionInfo } from "../types/sections"
+import type { ContentStyles, ProcessedSection, RawSection, SectionInfo, TemplateOptions } from "../types/sections"
 
 const sectionService = new Section()
 const TOAST_ID_QUERY = 'SECTION_TOAST_QUERY'
@@ -247,6 +247,7 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
 
 
 export const useSectionAddMultiple = ({ closeModal }: { closeModal: () => void }) => {
+   
     const queryClient = useQueryClient()
 
     const userToken = useAPIStore(state => state.userToken)
@@ -290,6 +291,47 @@ export const useSectionAddMultiple = ({ closeModal }: { closeModal: () => void }
 
     return {
         addMultipleSections,
+        isPending
+    }
+}
+
+export const useSectionAddTemplate = () => {
+    
+    const queryClient = useQueryClient()
+
+    const userToken = useAPIStore(state => state.userToken)
+    
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['section', 'add', 'template'],
+        mutationFn: sectionService.insertTemplate,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '500px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+        }
+    })
+
+    const addTemplateSections = ({ newArticleId, option }: { newArticleId: number, option: TemplateOptions }) => {
+        mutate({ article_id: newArticleId, template_option: option, token: userToken })
+    }
+
+    return {
+        addTemplateSections,
         isPending
     }
 }

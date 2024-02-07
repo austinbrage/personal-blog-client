@@ -34,6 +34,11 @@ export type ContentType =
 'typescript' |
 'jsx'
 
+export enum TemplateOptions {
+    none = 'none',
+    basic = 'basic'
+} 
+
 export type RawSection = {
     content: string 
     content_type: ContentType
@@ -92,6 +97,11 @@ export type SectionInfo = {
         article_id: string //Type of string due to the searchParams.append functionality 
         token: string
     } 
+    articleIdOption: {
+        article_id: number
+        template_option: TemplateOptions
+        token: string
+    }
     articleIdData: RawSection & { 
         article_id: number 
         token: string
@@ -153,5 +163,6 @@ export interface ISection {
         token
     }: SectionInfo['articleIdData']) => Promise< SectionResponse['noData'] >
     insertMultiple: ({ data, token }: SectionInfo['articleIdDatas']) => Promise< SectionResponse['noData'] >
+    insertTemplate: ({ article_id, template_option, token }: SectionInfo['articleIdOption']) => Promise< SectionResponse['noData'] >
     removeData: ({ id, token }: SectionInfo['id']) => Promise< SectionResponse['noData'] >
 }

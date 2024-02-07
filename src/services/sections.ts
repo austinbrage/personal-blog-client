@@ -127,6 +127,22 @@ export class Section implements ISection {
         return await response.json() as SectionResponse['noData']
     }
 
+    insertTemplate = async ({ article_id, template_option, token }: SectionInfo['articleIdOption']) => {
+        const url = addPath('/template', this.url)
+
+        const options = {
+            method: 'POST',
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify({ article_id, template_option })
+        }
+
+        const response = await fetch(url, options)
+        return await response.json() as SectionResponse['noData']
+    }
+
     removeData = async ({ id, token }: SectionInfo['id']) => {
         const options = {
             method: 'DELETE',
