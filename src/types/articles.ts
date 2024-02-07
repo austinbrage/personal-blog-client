@@ -35,6 +35,15 @@ export type ArticleInfo = {
         description: string
         token: string
     }
+    fullInfo: {
+        affectedRows: number
+        fieldCount: number
+        info: string
+        insertId: number
+        serverStatus: number
+        warningStatus: number
+        changedRows: number
+    }
     fullData: {
         id: number
         user_id: number
@@ -53,6 +62,7 @@ export type ArticleInfo = {
 export type ArticleResponse = {
     keywords: APIResponse< ArticleInfo['idKeywords'] >
     noData: APIResponse<null>
+    info: APIResponse< ArticleInfo['fullInfo'] >
     data: APIResponse< ArticleInfo['fullData'] >
 }
 
@@ -63,6 +73,6 @@ export interface IArticle {
     getData: ({ token }: ArticleInfo['token']) => Promise< ArticleResponse['data'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
     changeData: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
-    insertNew:  ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['noData'] >
+    insertNew:  ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['info'] >
     removeData: ({ id, token }: ArticleInfo['id']) => Promise< ArticleResponse['noData'] >
 }

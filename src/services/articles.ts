@@ -70,7 +70,7 @@ export class Article implements IArticle {
         }
 
         const response = await fetch(this.url, options)
-        return await response.json() as ArticleResponse['noData']
+        return await response.json() as ArticleResponse['info']
     }
     
     removeData = async ({ id, token }: ArticleInfo['id']) => {
