@@ -78,6 +78,7 @@ export const useSectionData = () => {
     }, [isPending, isLoading, isError, data])
 
     return {
+        rawSectionData: data?.success ? data.result.data : [],
         sectionData: dataResult
     }
 }

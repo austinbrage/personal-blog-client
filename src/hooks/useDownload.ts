@@ -4,20 +4,15 @@ import { useAPIStore } from '../stores/api'
 
 export const useDownload = () => {
 
-    const { sectionData } = useSectionData()
+    const { rawSectionData } = useSectionData()
     const articleData = useAPIStore(state => state.articleData)
 
     const downloadAction = useMemo(() => {
         
-        if(!articleData || !sectionData) return () => {}
+        if(!articleData || !rawSectionData) return () => {}
 
-        const requiredData = sectionData.map(({ id, sequence, styles, ...rest}) => ({
-            ...rest,
-            ...styles
-        }))
-    
         const sectionBlobData = new Blob(
-            [JSON.stringify(requiredData)], 
+            [JSON.stringify(rawSectionData)], 
             { type: 'application/json' }
         )
 
@@ -31,7 +26,7 @@ export const useDownload = () => {
             document.body.removeChild(downloadAnchor)
         }
 
-    }, [sectionData, articleData])
+    }, [rawSectionData, articleData])
 
     return downloadAction
 }   
