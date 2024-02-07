@@ -111,6 +111,22 @@ export class Section implements ISection {
         return await response.json() as SectionResponse['noData']
     }
 
+    insertMultiple = async ({ data, token }: SectionInfo['articleIdDatas']) => {
+        const url = addPath('/multiple', this.url)
+
+        const options = {
+            method: 'POST',
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify(data)
+        }
+
+        const response = await fetch(url, options)
+        return await response.json() as SectionResponse['noData']
+    }
+
     removeData = async ({ id, token }: SectionInfo['id']) => {
         const options = {
             method: 'DELETE',

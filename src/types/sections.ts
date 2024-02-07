@@ -96,6 +96,10 @@ export type SectionInfo = {
         article_id: number 
         token: string
     } 
+    articleIdDatas: {
+        data: Array<RawSection & { article_id: number }>
+        token: string
+    }
     fullData: RawSection & {
         id: number
         sequence: number
@@ -148,5 +152,6 @@ export interface ISection {
         border_radius,
         token
     }: SectionInfo['articleIdData']) => Promise< SectionResponse['noData'] >
+    insertMultiple: ({ data, token }: SectionInfo['articleIdDatas']) => Promise< SectionResponse['noData'] >
     removeData: ({ id, token }: SectionInfo['id']) => Promise< SectionResponse['noData'] >
 }

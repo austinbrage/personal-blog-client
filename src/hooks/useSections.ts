@@ -3,7 +3,7 @@ import { useMemo, useEffect } from "react"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import type { ContentStyles, ProcessedSection, RawSection } from "../types/sections"
+import type { ContentStyles, ProcessedSection, RawSection, SectionInfo } from "../types/sections"
 
 const sectionService = new Section()
 const TOAST_ID_QUERY = 'SECTION_TOAST_QUERY'
@@ -241,6 +241,55 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
 
     return {
         addSection,
+        isPending
+    }
+}
+
+
+export const useSectionAddMultiple = ({ closeModal }: { closeModal: () => void }) => {
+    const queryClient = useQueryClient()
+
+    const userToken = useAPIStore(state => state.userToken)
+    const articleId = useAPIStore(state => state.articleId)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['section', 'add', 'multiple'],
+        mutationFn: sectionService.insertMultiple,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '550px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && closeModal()
+            data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+        }
+    })
+
+    const addMultipleSections = (newSections: SectionInfo['fullData'][]) => {
+        const id = Number(articleId)
+        if(isNaN(id)) return 
+
+        const newMultipleSections: SectionInfo['articleIdDatas']['data'] = newSections
+            .map(section => ({ ...section, article_id: id }))
+        
+        mutate({ data: newMultipleSections, token: userToken })
+    }
+
+    return {
+        addMultipleSections,
         isPending
     }
 }
