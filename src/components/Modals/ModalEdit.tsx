@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, type FormEvent, type RefObject } from "rea
 import { useArticleEdit, useArticleKeywords } from "../../hooks/useArticles"
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
+import { useUpload } from "../../hooks/useUpload"
 import { useDownload } from "../../hooks/useDownload"
 import { FaUpload, FaDownload } from "react-icons/fa"
 import { IoIosArrowDown } from "react-icons/io"
@@ -16,8 +17,15 @@ type Props = {
 export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     
     const formRef = useRef<HTMLFormElement>(null)    
+    const fileRef = useRef<HTMLInputElement>(null)    
     
+    const closeModal = () => {
+        modalRef.current?.classList.add('hidden')
+        modalRef.current?.classList.remove('flex')
+    }
+
     const dowloadSections = useDownload()
+    const { handleFileChange } = useUpload({ closeModal })
     const { availableKeywords } = useArticleKeywords()
 
     const { editArticle, isPending } = useArticleEdit({ cleanModal: () => {
@@ -36,6 +44,11 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     const [keywords, setKeywords] = useState<string>(articleData?.keywords ?? '')
     const [description, setDescription] = useState<string>(articleData?.description ?? '')
 
+    const uploadSections = () => {
+        if(!fileRef.current) return
+        fileRef.current.click()
+    }
+    
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(isPending) return
@@ -63,10 +76,7 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
 
     useEscape({
         menuRef: modalRef,
-        closeMenu: () => {
-            modalRef.current?.classList.add('hidden')
-            modalRef.current?.classList.remove('flex')
-        }
+        closeMenu: closeModal
     })
 
     return (
@@ -203,10 +213,18 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                             </button>
 
                             <div className="flex items-center gap-4">
+                                
+                                <input 
+                                    type="file" 
+                                    ref={fileRef}
+                                    className="hidden"
+                                    onChange={(e) => handleFileChange(e)} 
+                                />
+                                
                                 <button
                                     type='button'
-                                    // onClick={() => handleEdition(elem)}
-                                    className="pointer-events-none opacity-80 inline-flex items-center w-max text-sm font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
+                                    onClick={() => uploadSections()}
+                                    className="inline-flex items-center w-max text-sm font-medium rounded-md px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800"
                                 >
                                     <span className="text-lg me-2">
                                         <FaUpload/>
