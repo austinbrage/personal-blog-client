@@ -15,6 +15,27 @@ export class Article implements IArticle {
         return await response.json() as ArticleResponse['keywords']
     }
 
+    getEverything = async ({ limit, offset }: ArticleInfo['pageNoCondition']) => {
+        const url = new URL(addPath('/data/all', this.url))
+
+        url.searchParams.append('limit_query', limit.toString())
+        url.searchParams.append('offset_query', offset.toString())
+
+        const response = await fetch(url)
+        return await response.json() as ArticleResponse['pageData']        
+    }
+
+    getDataByKeywords = async ({ limit, offset, keywords }: ArticleInfo['pageKeywords']) => {
+        const url = new URL(addPath('/data/keywords', this.url))
+
+        url.searchParams.append('limit_query', limit.toString())
+        url.searchParams.append('offset_query', offset.toString())
+        keywords.forEach(keyword => url.searchParams.append('keywords', keyword))
+
+        const response = await fetch(url)
+        return await response.json() as ArticleResponse['pageData']        
+    }
+
     getData = async ({ token }: ArticleInfo['token']) => {
         const options = {
             headers: new Headers({

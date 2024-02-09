@@ -11,12 +11,22 @@ export type ArticleInfo = {
     }
     idKeywords: {
         id: number
+        category: string
         keyword: string
     }
     idPublishment: {
         id: number
         is_publish: boolean
         token: string 
+    }
+    pageNoCondition: {
+        limit: number
+        offset: number
+    }
+    pageKeywords: {
+        limit: number
+        offset: number
+        keywords: string[]
     }
     data: {
         name: string
@@ -61,9 +71,10 @@ export type ArticleInfo = {
 //* 2- Article Service Return Types 
 export type ArticleResponse = {
     keywords: APIResponse< ArticleInfo['idKeywords'] >
-    noData: APIResponse<null>
-    info: APIResponse< ArticleInfo['fullInfo'] >
-    data: APIResponse< ArticleInfo['fullData'] >
+    pageData: APIResponse< ArticleInfo['fullData'][] >
+    info:     APIResponse< ArticleInfo['fullInfo'] >
+    data:     APIResponse< ArticleInfo['fullData'] >
+    noData:   APIResponse<null>
 }
 
 //* 3- Article Service Interface 
@@ -71,6 +82,8 @@ export interface IArticle {
     url: string
     getKeywords: () => Promise< ArticleResponse['keywords'] > 
     getData: ({ token }: ArticleInfo['token']) => Promise< ArticleResponse['data'] >
+    getEverything: ({ limit, offset }: ArticleInfo['pageNoCondition']) => Promise< ArticleResponse['pageData'] >
+    getDataByKeywords: ({ limit, offset, keywords }: ArticleInfo['pageKeywords']) => Promise< ArticleResponse['pageData'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
     changeData: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
     insertNew:  ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['info'] >

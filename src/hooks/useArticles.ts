@@ -1,7 +1,7 @@
 import toast from 'react-hot-toast'
 import { Article } from '../services/articles'
 import { useEffect } from 'react'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useAPIStore } from '../stores/api'
 import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
@@ -26,6 +26,109 @@ export const useArticleKeywords = () => {
 
     return {
         availableKeywords: data?.success ? data.result.data : null
+    }
+}
+
+export const useArticleKeywordData = ({ limit = 10, offset, keywords }: ArticleInfo['pageKeywords']) => {
+
+    const  { data, isPending, isLoading, isError, refetch, fetchNextPage, fetchPreviousPage } = useInfiniteQuery({
+        queryKey: ['article', 'page', offset, keywords ],
+        queryFn: ({ queryKey }) => articleService.getDataByKeywords({
+            limit, 
+            offset: (limit * (+queryKey[2] - 1)), 
+            keywords: Array.isArray(queryKey[3]) ? queryKey[3] : [] 
+        }),
+        getNextPageParam: () => offset + 1,
+        initialPageParam: 0
+    })
+
+    useEffect(() => {
+
+        if(isLoading) {
+            toast.loading('Requesting API', { id: TOAST_ID_QUERY })
+        }
+        
+        if(isError) {
+            toast.error('Internal error, please try again', { id: TOAST_ID_QUERY })
+        }
+
+        if(!isError && !isLoading && !isPending) {
+            const lastData = data?.pages[data?.pages.length - 1]
+
+            lastData.success 
+                ?   toast.success(
+                        `Api message: ${lastData.result.message}`, 
+                        { 
+                            id: TOAST_ID_QUERY, 
+                            style: { minWidth: '440px' } 
+                        }
+                    )
+                :   toast.error(`Api message: ${lastData.error.message}`,  
+                        { 
+                            id: TOAST_ID_QUERY, 
+                            style: { minWidth: '400px' } 
+                        }
+                    )
+        }
+
+    }, [isPending, isLoading, isError, data])
+    
+    return {
+        articleData: data?.pages.flatMap(page => page.success ? page.result.data : []) ?? [],
+        fetchNextArticles: fetchNextPage,
+        fetchPrevArticles: fetchPreviousPage,
+        refetchArticles:   refetch
+    }
+}
+
+export const useArticleAllData = ({ limit = 10, offset }: ArticleInfo['pageNoCondition']) => {
+
+    const  { data, isPending, isLoading, isError, refetch, fetchNextPage, fetchPreviousPage } = useInfiniteQuery({
+        queryKey: ['article', 'page', offset ],
+        queryFn: ({ queryKey }) => articleService.getEverything({
+            limit, 
+            offset: (limit * (+queryKey[2] - 1))
+        }),
+        getNextPageParam: () => offset + 1,
+        initialPageParam: 0
+    })
+
+    useEffect(() => {
+
+        if(isLoading) {
+            toast.loading('Requesting API', { id: TOAST_ID_QUERY })
+        }
+        
+        if(isError) {
+            toast.error('Internal error, please try again', { id: TOAST_ID_QUERY })
+        }
+
+        if(!isError && !isLoading && !isPending) {
+            const lastData = data?.pages[data?.pages.length - 1]
+
+            lastData.success 
+                ?   toast.success(
+                        `Api message: ${lastData.result.message}`, 
+                        { 
+                            id: TOAST_ID_QUERY, 
+                            style: { minWidth: '360px' } 
+                        }
+                    )
+                :   toast.error(`Api message: ${lastData.error.message}`,  
+                        { 
+                            id: TOAST_ID_QUERY, 
+                            style: { minWidth: '380px' } 
+                        }
+                    )
+        }
+
+    }, [isPending, isLoading, isError, data])
+
+    return {
+        articleData: data?.pages.map(page => page.success ? page.result.data : []).flat(2) ?? [],
+        fetchNextArticles: fetchNextPage,
+        fetchPrevArticles: fetchPreviousPage,
+        refetchArticles:   refetch
     }
 }
 
