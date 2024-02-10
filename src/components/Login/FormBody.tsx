@@ -1,14 +1,15 @@
-import React from 'react'
 import toast from 'react-hot-toast'
+import React, { type ReactNode } from 'react'
 import { useValidation, useRegister } from '../../hooks/useUser'
 import { CommonInputs, SignUpInputs } from './FormInputs'
 
 type Props = {
     isSignUp: boolean
     toggleSignUp: () => void
+    children: ReactNode
 }
 
-export function FormBody({ isSignUp, toggleSignUp }: Props) {
+export function FormBody({ isSignUp, toggleSignUp, children }: Props) {
 
     const { isPending: loadingSignIn, signIn } = useValidation()
     const { isPending: loadingSignUp, signUp } = useRegister()
@@ -55,13 +56,14 @@ export function FormBody({ isSignUp, toggleSignUp }: Props) {
                     </div>
                 )}
 
-                <div className='px-4 pb-2 pt-4'>
+                <div className='px-4 pb-0 pt-4'>
                     <button type='submit' className='text-md lg:text-lg text-slate-800 uppercase block tracking-widest font-extrabold w-full p-4 rounded-full bg-gradient-to-r from-slate-300 to-slate-500'>
                         {isSignUp ? 'Register account' : 'Enter into account'}
                     </button>
                     <button type='button' onClick={() => toggleSignUp()} className='block text-md lg:text-lg lg:hidden text-slate-800 uppercase tracking-widest font-extrabold w-full mt-3 p-4 text-lg rounded-full bg-gradient-to-r from-violet-200 to-pink-200'>
                         {isSignUp ? 'Sign In' : 'Sign Up'}
                     </button>
+                    {children}
                 </div>
 
             </form>
