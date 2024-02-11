@@ -59,14 +59,22 @@ export const useArticleKeywordData = ({ perPage, currentPage, keywords }: Articl
         if(!isError && !isLoading && !isPending) {
             const lastData = data?.pages[data?.pages.length - 1]
 
-            lastData.success 
-                ?   toast.success(
-                        `Api message: ${lastData.result.message}`, 
-                        { 
-                            id: TOAST_ID_QUERY, 
-                            style: { minWidth: '360px' } 
-                        }
-                    )
+            lastData.success
+                ?   lastData.result.data.length !== 0
+                        ?   toast.success(
+                                `Api message: ${lastData.result.message}`, 
+                                { 
+                                    id: TOAST_ID_QUERY, 
+                                    style: { minWidth: '360px' } 
+                                }
+                            )
+                        :   toast.success(
+                                `No more published articles available`, 
+                                { 
+                                    id: TOAST_ID_QUERY, 
+                                    style: { minWidth: '360px' } 
+                                }
+                            )         
                 :   toast.error(`Api message: ${lastData.error.message}`,  
                         { 
                             id: TOAST_ID_QUERY, 
@@ -113,14 +121,22 @@ export const useArticleAllData = ({ perPage, currentPage }: ArticleInfo['pageNoC
         if(!isError && !isLoading && !isPending) {
             const lastData = data?.pages[data?.pages.length - 1]
 
-            lastData.success 
-                ?   toast.success(
-                        `Api message: ${lastData.result.message}`, 
-                        { 
-                            id: TOAST_ID_QUERY, 
-                            style: { minWidth: '360px' } 
-                        }
-                    )
+            lastData.success
+                ?   lastData.result.data.length !== 0
+                        ?   toast.success(
+                                `Api message: ${lastData.result.message}`, 
+                                { 
+                                    id: TOAST_ID_QUERY, 
+                                    style: { minWidth: '360px' } 
+                                }
+                            )
+                        :   toast.success(
+                                `No more published articles available`, 
+                                { 
+                                    id: TOAST_ID_QUERY, 
+                                    style: { minWidth: '360px' } 
+                                }
+                            )         
                 :   toast.error(`Api message: ${lastData.error.message}`,  
                         { 
                             id: TOAST_ID_QUERY, 
