@@ -109,7 +109,13 @@ export function LayoutHome({ children }: { children: ReactElement }) {
                     <MagicMotion>
                         <div
                             style={{ backgroundColor: "#161616" }}
-                            className="flex h-full items-center justify-center text-center md:px-16 px-0 z-0"
+                            className={`
+                                flex sticky top-4 max-h-screen h-full items-center justify-center text-center md:px-16 px-0 pt-0 z-0
+                                ${(isSignUp && selected !== childrenRoutes.home)
+                                    ? 'pt-10' 
+                                    : 'pt-0'
+                                }
+                            `}
                         >
                             <div className="w-full py-6 z-20">
                                
