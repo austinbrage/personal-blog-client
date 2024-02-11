@@ -20,12 +20,12 @@ export type ArticleInfo = {
         token: string 
     }
     pageNoCondition: {
-        limit: number
-        offset: number
+        perPage: number
+        currentPage: number
     }
     pageKeywords: {
-        limit: number
-        offset: number
+        perPage: number
+        currentPage: number
         keywords: string[]
     }
     data: {
@@ -82,8 +82,8 @@ export interface IArticle {
     url: string
     getKeywords: () => Promise< ArticleResponse['keywords'] > 
     getData: ({ token }: ArticleInfo['token']) => Promise< ArticleResponse['data'] >
-    getEverything: ({ limit, offset }: ArticleInfo['pageNoCondition']) => Promise< ArticleResponse['pageData'] >
-    getDataByKeywords: ({ limit, offset, keywords }: ArticleInfo['pageKeywords']) => Promise< ArticleResponse['pageData'] >
+    getEverything: ({ perPage, currentPage }: ArticleInfo['pageNoCondition']) => Promise< ArticleResponse['pageData'] >
+    getDataByKeywords: ({ perPage, currentPage, keywords }: ArticleInfo['pageKeywords']) => Promise< ArticleResponse['pageData'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
     changeData: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
     insertNew:  ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['info'] >

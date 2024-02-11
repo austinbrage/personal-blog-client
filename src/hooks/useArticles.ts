@@ -29,17 +29,17 @@ export const useArticleKeywords = () => {
     }
 }
 
-export const useArticleKeywordData = ({ limit = 10, offset, keywords }: ArticleInfo['pageKeywords']) => {
+export const useArticleKeywordData = ({ perPage, currentPage, keywords }: ArticleInfo['pageKeywords']) => {
 
     const  { data, isPending, isLoading, isError, refetch, fetchNextPage, fetchPreviousPage } = useInfiniteQuery({
-        queryKey: ['article', 'page', offset, keywords ],
+        queryKey: ['article', 'page', currentPage, keywords],
         queryFn: ({ queryKey }) => articleService.getDataByKeywords({
-            limit, 
-            offset: (limit * (+queryKey[2] - 1)), 
+            perPage, 
+            currentPage: +queryKey[2], 
             keywords: Array.isArray(queryKey[3]) ? queryKey[3] : [] 
         }),
-        getNextPageParam: () => offset + 1,
-        initialPageParam: 0
+        getNextPageParam: () => currentPage + 1,
+        initialPageParam: 1
     })
 
     useEffect(() => {
@@ -81,16 +81,16 @@ export const useArticleKeywordData = ({ limit = 10, offset, keywords }: ArticleI
     }
 }
 
-export const useArticleAllData = ({ limit = 10, offset }: ArticleInfo['pageNoCondition']) => {
+export const useArticleAllData = ({ perPage, currentPage }: ArticleInfo['pageNoCondition']) => {
 
     const  { data, isPending, isLoading, isError, refetch, fetchNextPage, fetchPreviousPage } = useInfiniteQuery({
-        queryKey: ['article', 'page', offset ],
+        queryKey: ['article', 'page', currentPage],
         queryFn: ({ queryKey }) => articleService.getEverything({
-            limit, 
-            offset: (limit * (+queryKey[2] - 1))
+            perPage, 
+            currentPage: +queryKey[2]
         }),
-        getNextPageParam: () => offset + 1,
-        initialPageParam: 0
+        getNextPageParam: () => currentPage + 1,
+        initialPageParam: 1
     })
 
     useEffect(() => {
