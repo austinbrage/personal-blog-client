@@ -31,15 +31,19 @@ export const useArticleKeywords = () => {
 
 export const useArticleKeywordData = ({ perPage, currentPage, keywords }: ArticleInfo['pageKeywords']) => {
 
-    const  { data, isPending, isLoading, isError, refetch, fetchNextPage, fetchPreviousPage } = useInfiniteQuery({
-        queryKey: ['article', 'page', currentPage, keywords],
-        queryFn: ({ queryKey }) => articleService.getDataByKeywords({
+    const  { data, isPending, isLoading, isError, refetch, fetchNextPage } = useInfiniteQuery({
+        queryKey: ['article', 'page', 'keywordData', keywords],
+        queryFn: ({ pageParam, queryKey }) => articleService.getDataByKeywords({
             perPage, 
-            currentPage: +queryKey[2], 
+            currentPage: pageParam,
             keywords: Array.isArray(queryKey[3]) ? queryKey[3] : [] 
         }),
-        getNextPageParam: () => currentPage + 1,
-        initialPageParam: 1
+        getNextPageParam: (lastPage, _, lastPageParam) => (
+            lastPage.success 
+                ? lastPage.result.currentPage + 1 
+                : lastPageParam
+        ),
+        initialPageParam: currentPage
     })
 
     useEffect(() => {
@@ -60,13 +64,13 @@ export const useArticleKeywordData = ({ perPage, currentPage, keywords }: Articl
                         `Api message: ${lastData.result.message}`, 
                         { 
                             id: TOAST_ID_QUERY, 
-                            style: { minWidth: '440px' } 
+                            style: { minWidth: '360px' } 
                         }
                     )
                 :   toast.error(`Api message: ${lastData.error.message}`,  
                         { 
                             id: TOAST_ID_QUERY, 
-                            style: { minWidth: '400px' } 
+                            style: { minWidth: '380px' } 
                         }
                     )
         }
@@ -76,21 +80,24 @@ export const useArticleKeywordData = ({ perPage, currentPage, keywords }: Articl
     return {
         articleData: data?.pages.flatMap(page => page.success ? page.result.data : []) ?? [],
         fetchNextArticles: fetchNextPage,
-        fetchPrevArticles: fetchPreviousPage,
         refetchArticles:   refetch
     }
 }
 
 export const useArticleAllData = ({ perPage, currentPage }: ArticleInfo['pageNoCondition']) => {
 
-    const  { data, isPending, isLoading, isError, refetch, fetchNextPage, fetchPreviousPage } = useInfiniteQuery({
-        queryKey: ['article', 'page', currentPage],
-        queryFn: ({ queryKey }) => articleService.getEverything({
+    const  { data, isPending, isLoading, isError, refetch, fetchNextPage } = useInfiniteQuery({
+        queryKey: ['article', 'page', 'allData'],
+        queryFn: ({ pageParam }) => articleService.getEverything({
             perPage, 
-            currentPage: +queryKey[2]
+            currentPage: pageParam
         }),
-        getNextPageParam: () => currentPage + 1,
-        initialPageParam: 1
+        getNextPageParam: (lastPage, _, lastPageParam) => (
+            lastPage.success 
+                ? lastPage.result.currentPage + 1 
+                : lastPageParam
+        ),
+        initialPageParam: currentPage
     })
 
     useEffect(() => {
@@ -127,7 +134,6 @@ export const useArticleAllData = ({ perPage, currentPage }: ArticleInfo['pageNoC
     return {
         articleData: data?.pages.map(page => page.success ? page.result.data : []).flat(2) ?? [],
         fetchNextArticles: fetchNextPage,
-        fetchPrevArticles: fetchPreviousPage,
         refetchArticles:   refetch
     }
 }

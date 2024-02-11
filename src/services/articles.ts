@@ -22,7 +22,16 @@ export class Article implements IArticle {
         url.searchParams.append('currentPage', currentPage.toString())
 
         const response = await fetch(url)
-        return await response.json() as ArticleResponse['pageData']        
+        const data = await response.json() as ArticleResponse['pageData']
+
+        const completedData: ArticleResponse['pageData'] = {
+            ...(data.success
+                ? { success: true, result: { ...data.result, currentPage } }
+                : { ...data }
+            )
+        }
+
+        return completedData        
     }
 
     getDataByKeywords = async ({ perPage, currentPage, keywords }: ArticleInfo['pageKeywords']) => {
@@ -33,7 +42,16 @@ export class Article implements IArticle {
         keywords.forEach(keyword => url.searchParams.append('keywords', keyword))
 
         const response = await fetch(url)
-        return await response.json() as ArticleResponse['pageData']        
+        const data = await response.json() as ArticleResponse['pageData']
+
+        const completedData: ArticleResponse['pageData'] = {
+            ...(data.success
+                ? { success: true, result: { ...data.result, currentPage } }
+                : { ...data }
+            )
+        }
+
+        return completedData             
     }
 
     getData = async ({ token }: ArticleInfo['token']) => {

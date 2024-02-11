@@ -42,7 +42,8 @@ type OkResponse<T> = {
     result: { 
         message: string 
         data: T extends null ? null : Array<T> 
-        token: T extends 'token' ? string : null  
+        token: T extends 'token' ? string : null
+        currentPage: T extends Array<object> ? number : null  
     } 
 }
 
