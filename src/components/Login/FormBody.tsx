@@ -56,7 +56,7 @@ export function FormBody({ isSignUp, toggleSignUp, children }: Props) {
                     </div>
                 )}
 
-                <div className='px-4 pb-0 pt-4'>
+                <div className={`px-4 pb-0 pt-4 ${isSignUp ? 'h-16' : 'h-auto'}`}>
                     <button type='submit' className='text-md lg:text-lg text-slate-800 uppercase block tracking-widest font-extrabold w-full p-4 rounded-full bg-gradient-to-r from-slate-300 to-slate-500'>
                         {isSignUp ? 'Register account' : 'Enter into account'}
                     </button>

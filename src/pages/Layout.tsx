@@ -88,7 +88,7 @@ export function LayoutHome({ children }: { children: ReactElement }) {
                 <section 
                     className={`
                         ${selected === childrenRoutes.home 
-                            ? 'lg:block hidden' 
+                            ? 'lg:block hidden w-1/2' 
                             : 'lg:w-1/2 w-full'
                         }
                     `}
@@ -109,13 +109,7 @@ export function LayoutHome({ children }: { children: ReactElement }) {
                     <MagicMotion>
                         <div
                             style={{ backgroundColor: "#161616" }}
-                            className={`
-                                flex sticky top-4 max-h-screen h-full items-center justify-center text-center md:px-16 px-0 pt-0 z-0
-                                ${(isSignUp && selected !== childrenRoutes.home)
-                                    ? 'pt-10' 
-                                    : 'pt-0'
-                                }
-                            `}
+                            className='flex sticky top-4 max-h-screen h-full items-center justify-center text-center md:px-16 px-0 pt-0 z-0'
                         >
                             <div className="w-full py-6 z-20">
                                
