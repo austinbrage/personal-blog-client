@@ -65,7 +65,8 @@ export const useArticleKeywordData = ({ perPage, currentPage, keywords }: Articl
                 ? lastPage.result.currentPage + 1 
                 : lastPageParam
         ),
-        initialPageParam: currentPage
+        initialPageParam: currentPage,
+        enabled: keywords.length > 0
     })
 
     useEffect(() => {
@@ -108,9 +109,9 @@ export const useArticleKeywordData = ({ perPage, currentPage, keywords }: Articl
     }, [isPending, isLoading, isError, data])
     
     return {
-        articleData: data?.pages.flatMap(page => page.success ? page.result.data : []) ?? [],
-        fetchNextArticles: fetchNextPage,
-        refetchArticles:   refetch
+        articleDataFilter: data?.pages.map(page => page.success ? page.result.data : []).flat(2) ?? [],
+        fetchNextArticlesFilter: fetchNextPage,
+        refetchArticlesFilter:   refetch
     }
 }
 
