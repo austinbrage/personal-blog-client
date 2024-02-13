@@ -16,6 +16,10 @@ type ArticleAdd = {
     addTemplate: (newArticleId: number) => void 
 }
 
+type TransformedData = {
+    [category: string]: { id: number; keyword: string }[];
+}
+
 export const useArticleKeywords = () => {
 
     const { data } = useQuery({
@@ -24,8 +28,26 @@ export const useArticleKeywords = () => {
         queryFn: articleService.getKeywords
     })
 
+    const transformData = (acc: TransformedData, item: ArticleInfo['idKeywords']) => {
+        
+        const { id, keyword, category } = item
+
+        acc[category] = acc[category] || []
+        acc[category].push({ id, keyword })
+
+        acc[category].sort((a,b) => a.keyword.length - b.keyword.length)
+
+        return acc
+    }
+
+    const getCategories = (item: ArticleInfo['idKeywords'][]) => {
+        return [...new Set(item.map(elem => elem.category))]
+    }
+
     return {
-        availableKeywords: data?.success ? data.result.data : null
+        availableKeywords: data?.success ? data.result.data : null,
+        availableCategories: data?.success ? getCategories(data.result.data) : null,
+        orderedKeywords: data?.success ? data.result.data.reduce(transformData, {}) : {}
     }
 }
 
