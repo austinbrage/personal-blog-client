@@ -41,6 +41,37 @@ export const useValidation = () => {
     }
 }
 
+export const useOpenAuth = () => {
+
+    const navigate = useNavigate()
+    const updateUserToken = useAPIStore(state => state.updateUserToken)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['user', 'open', 'auth'],
+        mutationFn: userService.openAuth,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID_MUTATE })
+                : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && updateUserToken(data.result.token)
+            data.success && navigate('/dashboard/create/new-article')
+        }
+    })   
+
+    return {
+        signOA: mutate,
+        isPending
+    }
+}
+
 export const useRegister = () => {
 
     const navigate = useNavigate()

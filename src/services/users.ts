@@ -32,6 +32,19 @@ export class User implements IUser {
         return await response.json() as UserResponse['token']
     }
 
+    openAuth = async ({ auth_provider, code }: UserInfo['authInfo']) => {
+        const url = addPath('/oauth', this.url)
+
+        const options = {
+            method: 'POST',
+            headers: new Headers({'Content-Type': 'application/json'}),
+            body: JSON.stringify({ auth_provider, code })
+        }
+
+        const response = await fetch(url, options)
+        return await response.json() as UserResponse['token']
+    }
+
     insertNew = async ({ name, password, email, author }: UserInfo['data']) => {
         const url = addPath('/register', this.url)
 

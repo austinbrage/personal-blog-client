@@ -25,6 +25,10 @@ export type UserInfo = {
         name: string
         password: string
     }
+    authInfo: {
+        auth_provider: string
+        code: string
+    }
     data: {
         name: string
         password: string
@@ -53,6 +57,7 @@ export interface IUser {
     getData: ({ token }: UserInfo['token']) =>                          Promise< UserResponse['data'] >
     removeData: ({ token }: UserInfo['token']) =>                       Promise< UserResponse['noData'] >
     validate: ({ name, password }: UserInfo['credentials']) =>          Promise< UserResponse['token'] >
+    openAuth: ({ auth_provider, code }: UserInfo['authInfo']) =>        Promise< UserResponse['token'] >
     changeName: ({ name, token }: UserInfo['name']) =>                  Promise< UserResponse['noData'] >
     changeEmail: ({ email, token }: UserInfo['email']) =>               Promise< UserResponse['noData'] >
     changeAuthor: ({ author, token }: UserInfo['author']) =>            Promise< UserResponse['noData'] >
