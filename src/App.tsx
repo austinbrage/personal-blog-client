@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { GOOGLE_CLIENT_ID } from './utils/config'
 import { toastConfig } from './utils/config'
 import { HomePage } from './pages/Home'
 import { DemoPage } from './pages/Demo'
@@ -47,10 +49,14 @@ function App() {
   ])
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router}/>
-      <Toaster toastOptions={toastConfig}/>
-    </QueryClientProvider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}/>
+        <Toaster toastOptions={toastConfig}/>
+      </QueryClientProvider>
+      
+    </GoogleOAuthProvider>
   )
 }
 

@@ -1,5 +1,7 @@
+export const GOOGLE_CLIENT_ID: string = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
 export const API_URL = 'http://localhost:3000/personal-blog'
+
 export const PATHS = {
     USER: '/user',
     ARTICLE: '/article',
