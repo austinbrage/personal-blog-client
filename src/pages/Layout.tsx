@@ -111,7 +111,7 @@ export function LayoutHome({ children }: { children: ReactElement }) {
                             style={{ backgroundColor: "#161616" }}
                             className='flex sticky top-4 max-h-screen h-full items-center justify-center text-center md:px-16 px-0 pt-0 z-0'
                         >
-                            <div className="w-full py-6 z-20">
+                            <div className="w-full py-0 z-20">
                                
                                 <h2 className="mb-6 flex flex-wrap flex-col lg:flex-row justify-center text-4xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
