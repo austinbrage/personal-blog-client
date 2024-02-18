@@ -54,7 +54,7 @@ export function Sections({ newData, currentArticle }: Props) {
                 <div className='border-2 ms-5 border-dashed bg-gray-800 border-gray-700'>
                 </div>
 
-                <h4 className="ms-5 mt-5 text-4xl font-bold">
+                <h4 className="ms-5 mt-5 text-5xl font-bold font-dm-sans tracking-wider">
                     {currentArticle.title}
                 </h4>
                 

@@ -11,6 +11,7 @@ export default {
       },
       fontFamily: {
         'main-title': ['Kanit', 'sans-serif'],
+        'dm-sans': ['DM Sans', 'sans-serif'],
         'body': [
           'Inter', 
           'ui-sans-serif', 
