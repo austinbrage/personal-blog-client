@@ -56,7 +56,7 @@ export function Sections({ newData, currentArticle }: Props) {
 
                 <div className="flex flex-col items-center justify-center w-full px-10 mt-5 text-center">
                    
-                    <h4 className="ms-5 mt-5 text-5xl font-bold font-dm-sans tracking-wider">
+                    <h4 className="ms-5 mt-5 text-3xl sm:text-4xl md:text-5xl font-bold font-dm-sans tracking-wider">
                         {currentArticle.title}
                     </h4>
                     
@@ -73,16 +73,16 @@ export function Sections({ newData, currentArticle }: Props) {
                                         src={currentArticle.image} 
                                         alt={`${currentArticle.name} image post`} 
                                         style={{ aspectRatio: '16/9' }}
-                                        className='ms-10 my-5 w-80 rounded-md'
+                                        className='ms-10 my-5 w-56 sm:w-80 rounded-md'
                                     />
                                 )}
-                                <p className="ms-10 mt-5 mb-10 line-clamp-6 font-dm-sans font-semibold text-xl text-start text-[rgb(229,231,235)]">
+                                <p className="ms-10 mt-5 mb-10 line-clamp-6 font-dm-sans font-semibold text-lg md:text-xl text-start text-[rgb(229,231,235)]">
                                     {currentArticle.description}
                                 </p>
                             </div>
-                            <div className='flex gap-5 items-center justify-end me-4 mb-4'>
+                            <div className='flex flex-wrap gap-5 items-center justify-start md:justify-end ms-4 me-0 md:ms-0 md:me-4 mb-4'>
                                 {currentArticle.keywords.split(',').map(elem => (
-                                    <span key={elem} className='py-2 px-3 rounded-lg font-dm-sans  text-md tracking-wide bg-gradient-to-r from-stone-700 to-stone-900'>
+                                    <span key={elem} className='py-2 px-3 rounded-lg font-dm-sans text-sm md:text-md tracking-wide bg-gradient-to-r from-stone-700 to-stone-900'>
                                         {elem}
                                     </span>
                                 ))}
