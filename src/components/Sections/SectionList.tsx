@@ -1,6 +1,7 @@
 import { SectionContent } from './SectionContent'
 import { useState } from 'react'
 import { IoMdCreate } from 'react-icons/io'
+import { FaArrowRightArrowLeft } from "react-icons/fa6"
 import { useAPIStore } from '../../stores/api'
 import { useSectionData } from '../../hooks/useSections'
 import type { ContentStyles, ProcessedSection } from '../../types/sections'
@@ -24,6 +25,7 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
     const updateSectionId = useAPIStore(state => state.updateSectionId)
     const updateSectionData = useAPIStore(state => state.updateSectionData)
     
+    const [showButtons, setShowButtons] = useState<boolean>(true)
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
     const handleMouseLeave = () => setHoveredIndex(null)
@@ -58,10 +60,16 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
     )
 
     return (
-        <article className='ms-10 mb-24'>
+        <article className='relative ms-0 md:ms-10 mb-24'>
             {sectionData.map((elem, index) => (
-                <div key={elem.id} className='grid grid-cols-[4fr,1fr] items-center h-max mt-3'>
-
+                <div 
+                    key={elem.id} 
+                    className={`
+                        items-center h-max mt-3
+                        ${showButtons ? 'grid grid-cols-[4fr,1fr]' : 'flex justify-center w-full md:w-4/5 ms-0 md:ms-10 lg:ms-24'}
+                    `.trim()}  
+                >
+                    
                     <div 
                         className={
                             index === hoveredIndex 
@@ -81,7 +89,10 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                     <div 
                         onMouseLeave={handleMouseLeave}
                         onMouseEnter={() => handleMouseEnter(index)}
-                        className='flex items-center justify-end p-4 col-span-1 gap-3 h-10 z-0'
+                        className={`
+                            items-center justify-end p-4 col-span-1 gap-3 h-10 z-0
+                            ${showButtons ? 'flex' : 'hidden'}
+                        `}
                     >
                         <button
                             type='button'
@@ -91,7 +102,9 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                             <span className="text-lg me-2">
                                 <IoMdCreate/>
                             </span>
-                            Edit
+                            <span className='hidden md:inline'>
+                                Edit
+                            </span>
                         </button>
 
                         <button 
@@ -102,7 +115,9 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
-                            Delete
+                            <span className='hidden md:inline'>
+                                Delete
+                            </span>
                         </button>
                     </div>
 
@@ -114,6 +129,17 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                     <SectionContent currentData={newData}/>
                 </div>
             )}
+
+            <div className='group fixed right-0 top-20 w-10 h-3/4 max-h-screen cursor-pointer'>
+                <div 
+                    onClick={() => setShowButtons(prev => !prev)}
+                    className='relative h-full grid place-content-center rounded-s-lg transition-all duration-500 -right-10 group-hover:right-0 bg-[#18181B]'
+                >
+                    <span className='text-xl'>
+                        <FaArrowRightArrowLeft/>
+                    </span>
+                </div>
+            </div>
 
         </article>
     )
