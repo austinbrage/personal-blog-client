@@ -11,14 +11,12 @@ const TOAST_ID_MUTATE = 'SECTION_TOAST_MUTATE'
 
 export const useSectionData = () => {
     
-    const userToken = useAPIStore(state => state.userToken)
     const articleId = useAPIStore(state => state.articleId)
 
     const { data, isPending, isLoading, isError } = useQuery({
-        queryKey: ['section', 'data', userToken, articleId],
+        queryKey: ['section', 'data', articleId],
         queryFn: ({ queryKey }) => sectionService.getData({ 
-            token: queryKey[2], 
-            article_id: queryKey[3]
+            article_id: queryKey[2]
         }),
 
         enabled: articleId !== '',

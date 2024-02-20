@@ -95,7 +95,6 @@ export type SectionInfo = {
     } 
     articleId: { 
         article_id: string //Type of string due to the searchParams.append functionality 
-        token: string
     } 
     articleIdOption: {
         article_id: number
@@ -127,7 +126,7 @@ export type SectionResponse = {
 //* 3- Section Service Interface 
 export interface ISection {
     url: string
-    getData: ({ article_id, token }: SectionInfo['articleId']) => Promise< SectionResponse['data'] >
+    getData: ({ article_id }: SectionInfo['articleId']) => Promise< SectionResponse['data'] >
     changeAll: ({
         id,
         content,
