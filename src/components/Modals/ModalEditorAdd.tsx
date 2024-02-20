@@ -25,12 +25,13 @@ import type { DraggableEvent, DraggableData } from 'react-draggable'
 type Position = { x: number; y: number }
 
 type Props = { 
+    demoMode?: boolean
     modalRef: RefObject<HTMLDivElement> 
     newData: ContentStyles
     setNewData: React.Dispatch<React.SetStateAction<ContentStyles>>
 }
 
-export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
+export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Props) {
     
     const { isPending, addSection } = useSectionAdd({ cleanModal: () => {
         updateAddMode(false)
@@ -49,7 +50,7 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
     }
 
     const handleAddSection = () => {
-        if(isPending) return
+        if(isPending || demoMode === true) return
         addSection(newData)
     }   
     
@@ -76,7 +77,10 @@ export function ModalEditorAdd({ newData, setNewData, modalRef }: Props) {
             ref={modalRef} 
             aria-hidden="true" 
             id="content-modal-1" 
-            className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+            className={`
+                flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full
+                ${demoMode ? 'justify-start mt-10' : 'justify-center mt-0'}
+            `}
         >        
             <Draggable 
                 onDrag={handleDrag} 

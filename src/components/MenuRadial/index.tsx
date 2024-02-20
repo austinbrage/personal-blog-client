@@ -12,6 +12,7 @@ import './MenuRadial.css'
 
 type Props = {
     enabled: boolean
+    demoMode?: boolean
     isPublish?: boolean
     toggleModalEdit: () => void
     toggleModalDelete: () => void
@@ -35,7 +36,7 @@ const PUBLISH_STATE_2: PublishState = {
     iconColor: '#fe00f1'
 }
 
-export function MenuRadial({ enabled, isPublish, toggleModalDelete, toggleModalEdit }: Props) {
+export function MenuRadial({ demoMode, enabled, isPublish, toggleModalDelete, toggleModalEdit }: Props) {
 
     const menuRadial = useRef<HTMLUListElement>(null)
     const [publishState, setPublishState] = useState<PublishState>(PUBLISH_STATE_1)
@@ -48,7 +49,7 @@ export function MenuRadial({ enabled, isPublish, toggleModalDelete, toggleModalE
     const openMenu = () => menuRadial.current && menuRadial.current.classList.add('active')
 
     const togglePublish = () => {
-        if(isPending) return
+        if(isPending || demoMode === true) return
 
         (publishState === PUBLISH_STATE_1) 
             ?  setPublishState(PUBLISH_STATE_2)
@@ -67,7 +68,7 @@ export function MenuRadial({ enabled, isPublish, toggleModalDelete, toggleModalE
     useMenuRadialCommands({ menuRef: menuRadial, closeMenu, openMenu })
     
     return (
-        <div className="menu-radial">
+        <div className={`menu-radial ${demoMode ? 'menu-radial-demo' : ''}`}>
             <ul className="navigation" ref={menuRadial}>
                 
                 <li className="toggle" onClick={toggleMenu}>

@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
 
+@media (min-width: 1024px) {
+    .menu-table-demo .navigation {
+        position: fixed;
+        top: 50px !important;
+        left: 32% !important;
+    }
+}
+
 .menu-table .navigation
 {
     position: fixed;

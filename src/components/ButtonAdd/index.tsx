@@ -5,15 +5,22 @@ import './ButtonAdd.css'
 
 type Props = {
     editorMode: string
+    demoMode?: boolean
     modalAdd: RefObject<HTMLDivElement>
     modalContent: RefObject<HTMLDivElement>
 }
 
-export function ButtonAdd({ editorMode, modalAdd, modalContent }: Props) {
+export function ButtonAdd({ demoMode, editorMode, modalAdd, modalContent }: Props) {
     
     const updateAddMode = useAPIStore(state => state.updateAddMode)
 
     const openModal = () => {
+        if(demoMode === true) {
+            modalAdd.current?.classList.toggle('flex')
+            modalAdd.current?.classList.toggle('hidden')
+            return
+        }
+
         editorMode === 'edit' || modalAdd.current?.classList.remove('hidden')
         editorMode === 'edit' || modalAdd.current?.classList.add('flex')
         
@@ -23,6 +30,8 @@ export function ButtonAdd({ editorMode, modalAdd, modalContent }: Props) {
     }
 
     const closeModal = () => {
+        if(demoMode === true) return
+
         editorMode === 'edit' || modalAdd.current?.classList.add('hidden')
         editorMode === 'edit' || modalAdd.current?.classList.remove('flex')
         

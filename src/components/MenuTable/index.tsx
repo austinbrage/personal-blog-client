@@ -8,11 +8,12 @@ import './MenuTable.css'
 import '../../driver.css'
 
 type Props = {
+    demoMode?: boolean
     postsList: string[]
     toggleModal: () => void
 }
 
-export function MenuTable({ postsList, toggleModal }: Props) {
+export function MenuTable({ demoMode, postsList, toggleModal }: Props) {
     
     const perPage = 3
 
@@ -34,6 +35,7 @@ export function MenuTable({ postsList, toggleModal }: Props) {
     }
 
     const changePathroute = ({ type, article }: { type: string, article?: string }) => {
+        if(demoMode === true) return
         article
             ? navigate(`/dashboard/${type}/${article.replace(/\s/g, "-")}`)
             : navigate(`/dashboard/${type}`)
@@ -52,7 +54,7 @@ export function MenuTable({ postsList, toggleModal }: Props) {
     } = useMenuTablePagination({ postsList, perPage})
 
     return (
-        <div className='menu-table'>
+        <div className={`menu-table ${demoMode ? 'menu-table-demo' : ''}`}>
             <div className="navigation" ref={menuTable}>
                 
                 <div className="toggle" ref={menuToggle} onClick={toggleMenu}>
