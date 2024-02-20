@@ -1,22 +1,28 @@
 import { useState, useEffect } from 'react'
+import { useAPIStore } from '../stores/api' 
+import { useNavigate } from 'react-router-dom' 
 import { useArticleKeywordData, useArticleAllData } from "../hooks/useArticles"
 import { SelectKeywords } from '../components/Dropdowns/SelectKeyword'
 import { type ArticleInfo } from '../types/articles'
 
+const DEFAULT_PAGE_CONFIG = {
+    perPage: 2, 
+    currentPage: 1 
+}
+
 export function PostPage() {
+    
+    const navigate = useNavigate()
+    const updateArticleId = useAPIStore(state => state.updateArticleId)
+    const updateArticleData = useAPIStore(state => state.updateArticleData)
 
     const [selectedKeys, setSelectedKeys] = useState<string[]>([])
     const [currentData, setCurrentData] = useState<ArticleInfo['fullData'][]>([])
 
-    const { articleData, fetchNextArticles } = useArticleAllData({ 
-        perPage: 2, 
-        currentPage: 1 
-    })
-
+    const { articleData, fetchNextArticles } = useArticleAllData({ ...DEFAULT_PAGE_CONFIG })
     const { articleDataFilter, fetchNextArticlesFilter } = useArticleKeywordData({ 
-        perPage: 2, 
-        currentPage: 1, 
-        keywords: selectedKeys 
+        keywords: selectedKeys, 
+        ...DEFAULT_PAGE_CONFIG 
     })
 
     const handleShowMore = () => {
@@ -24,7 +30,13 @@ export function PostPage() {
             ? fetchNextArticles()
             : fetchNextArticlesFilter()
     }
- 
+
+    const handleNavigation = (post: ArticleInfo['fullData']) => {
+        updateArticleData(post)
+        updateArticleId(post.id.toString())
+        navigate(`/article/${post.id}/${post.name.replace(/\s/g, "-")}`)
+    }
+    
     useEffect(() => {
         selectedKeys.length === 0
             ? setCurrentData(articleData)
@@ -34,8 +46,8 @@ export function PostPage() {
     return (
         <div className="w-full h-full p-5 pt-16 text-white bg-[#2e2e2e]">
             
-            <div className='flex items-center justify-between mb-10'>
-                <h3 className='font-semibold tracking-wider text-4xl'>
+            <div className='flex items-center justify-between mb-4'>
+                <h3 className='font-bold tracking-wider text-[2.5rem] text-transparent bg-clip-text bg-gradient-to-r from-slate-300 to-slate-500'>
                     Published Posts
                 </h3>
                 <SelectKeywords {...{selectedKeys, setSelectedKeys}}/>
@@ -45,6 +57,7 @@ export function PostPage() {
                 {currentData.map(post => (
                     <article
                         key={post.id}
+                        onClick={() => handleNavigation(post)}
                         className="rounded-lg shadow-2xl shadow-gray-500/20 transition-all scale-100 bg-[hsl(227.1,46.7%,5.9%)] hover:scale-105 hover:transition-all cursor-pointer"
                     >
                         {post.image && (
@@ -56,7 +69,7 @@ export function PostPage() {
                                 />
                             </div>
                         )}
-                        <div className="flex flex-col justify-between px-5 py-8 md:px-8">
+                        <div className="flex flex-col justify-between px-5 py-5 md:px-8">
                             <div className="relative z-10">
                                 <h3 className="text-2xl font-bold text-white">
                                     {post.title}
@@ -75,7 +88,7 @@ export function PostPage() {
                 <button 
                     type="button"
                     onClick={() => handleShowMore()}
-                    className='text-2xl'
+                    className='text-2xl mt-5'
                 >
                     Show more
                 </button>

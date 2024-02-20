@@ -9,9 +9,11 @@ import { PostPage } from './pages/Post'
 import { LayoutHome } from './pages/Layout'
 import { EditorPage } from './pages/Editor'
 import { ProfilePage } from './pages/Profile'
+import { ArticlePage } from './pages/Article'
 import { Toaster } from 'react-hot-toast'
-import './App.css'
 import { type ReactElement } from 'react'
+import './Buttons.css'
+import './App.css'
 
 function ApplyLayout({ component }: { component: ReactElement }) {
   return (
@@ -37,6 +39,10 @@ function App() {
     {
       path: '/post',
       element: <ApplyLayout component={<PostPage/>}/>
+    },
+    {
+      path: '/article/:id/:article',
+      element: <ApplyLayout component={<ArticlePage/>}/>
     },
     {
       path: '/dashboard/:editor/:article',
