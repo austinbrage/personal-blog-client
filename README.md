@@ -14,3 +14,7 @@ The CLIENT will be available at `http://localhost:5173`.
 <img alt="Website Logo" src="https://github.com/austinbrage/personal-blog-client/blob/main/public/dashboard-1.png" width="600" height="300">
 
 <img alt="Website Logo" src="https://github.com/austinbrage/personal-blog-client/blob/main/public/dashboard-2.png" width="600" height="300">
+
+### _**How does the profile management looks like?**_
+
+<img alt="Website Logo" src="https://github.com/austinbrage/personal-blog-client/blob/main/public/profile.png" width="600" height="300">
