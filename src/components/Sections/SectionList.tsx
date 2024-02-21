@@ -66,7 +66,16 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                     key={elem.id} 
                     className={`
                         items-center h-max mt-3
-                        ${showButtons ? 'grid grid-cols-[4fr,1fr]' : 'flex justify-center w-full md:w-4/5 ms-0 md:ms-10 lg:ms-24'}
+                        ${
+                            showButtons 
+                                ? 'grid grid-cols-[4fr,1fr]' 
+                                : `
+                                    flex w-full md:w-4/5 ms-0 md:ms-10 lg:ms-24
+                                    ${elem.styles.textAlign === 'left' ? 'justify-start' : ''}
+                                    ${elem.styles.textAlign === 'right' ? 'justify-end'  : ''}
+                                    ${elem.styles.textAlign === 'center' ? 'justify-center' : ''}
+                                `
+                        }
                     `.trim()}  
                 >
                     
