@@ -1,6 +1,6 @@
 {
   "name": "blog-site-client",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "description": "Client interface for management of users and blog articles",
   "type": "module",
   "main": "index.tsx",
