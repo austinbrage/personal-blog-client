@@ -21,8 +21,7 @@ export const EditorPage = forwardRef(() => {
     const { editor, article } = useParams()
     const { articleData } = useArticleData()
 
-    const { updateArticleId } = useContext(ArticleContext)
-    const updateArticleData = useAPIStore(state => state.updateArticleData)
+    const { updateArticleId, updateArticleData } = useContext(ArticleContext)
     
     const articleList = articleData.map(elem => elem.name)
 

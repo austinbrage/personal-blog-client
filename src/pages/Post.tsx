@@ -15,8 +15,7 @@ export function PostPage() {
     
     const navigate = useNavigate()
 
-    const { updateArticleId } = useContext(ArticleContext)
-    const updateArticleData = useAPIStore(state => state.updateArticleData)
+    const { updateArticleId, updateArticleData } = useContext(ArticleContext)
 
     const [selectedKeys, setSelectedKeys] = useState<string[]>([])
     const [currentData, setCurrentData] = useState<ArticleInfo['fullData'][]>([])

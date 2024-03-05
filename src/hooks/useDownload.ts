@@ -1,11 +1,12 @@
-import { useMemo } from 'react'
+import { useMemo, useContext } from 'react'
+import { ArticleContext } from '../context/articles' 
 import { useSectionData } from "./useSections"
 import { useAPIStore } from '../stores/api'
 
 export const useDownload = () => {
 
     const { rawSectionData } = useSectionData()
-    const articleData = useAPIStore(state => state.articleData)
+    const { articleData } = useContext(ArticleContext)
 
     const downloadAction = useMemo(() => {
         

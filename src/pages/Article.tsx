@@ -1,6 +1,8 @@
+import { useContext } from "react"
 import { useAPIStore } from "../stores/api"
 import { useNavigate } from "react-router-dom" 
 import { useSectionData } from "../hooks/useSections"
+import { ArticleContext } from "../context/articles"
 import { SectionContent } from "../components/Sections/SectionContent"
 
 export function ArticlePage() {
@@ -8,7 +10,7 @@ export function ArticlePage() {
     const { sectionData } = useSectionData()
     
     const navigate = useNavigate()
-    const articleData = useAPIStore(state => state.articleData)
+    const { articleData } = useContext(ArticleContext)
 
     if(articleData === null) return (
         <div className="h-screen text-xl text-white">
