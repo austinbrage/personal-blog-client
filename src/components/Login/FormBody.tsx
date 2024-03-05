@@ -1,5 +1,5 @@
-import toast from 'react-hot-toast'
 import React, { type ReactNode } from 'react'
+import toast, { type ToastPosition } from 'react-hot-toast'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useValidation, useRegister, useOpenAuth } from '../../hooks/useUser'
 import { CommonInputs, SignUpInputs } from './FormInputs'
@@ -9,6 +9,18 @@ type Props = {
     toggleSignUp: () => void
     children: ReactNode
 }
+
+const customToast = {
+    icon: '⚠️',
+    duration: 5000,
+    position: "bottom-right" as ToastPosition,
+    style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+        minWidth: '370px'
+    }
+}    
 
 export function FormBody({ isSignUp, toggleSignUp, children }: Props) {
 
@@ -55,6 +67,11 @@ export function FormBody({ isSignUp, toggleSignUp, children }: Props) {
         flow: 'auth-code'
     })
 
+    const handleOAuth = () => {
+        toast('Warning:  Google sign-up may take a while', customToast)
+        googleOAuth()
+    }
+
     return (
         <>
             <form onSubmit={(e) => handleSubmit(e)} className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
@@ -72,7 +89,7 @@ export function FormBody({ isSignUp, toggleSignUp, children }: Props) {
                     
                     <button 
                         type='button'
-                        onClick={() => googleOAuth()}
+                        onClick={() => handleOAuth()}
                         className="float-right max-w-xs flex text-sm leading-5 font-bold text-center align-middle items-center border gap-3 text-[#c4d2dc] bg-[#19242b] cursor-pointer transition-all duration-[0.25s] ease-[cubic-bezier(0,0.87,0.12,1)] px-[1.4rem] py-2 rounded-lg border-solid border-[rgba(255,255,255,0.25)] hover:scale-[1.025] active:scale-[0.975]"
                     >
                         <svg
