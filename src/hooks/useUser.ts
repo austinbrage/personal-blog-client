@@ -58,7 +58,12 @@ export const useOpenAuth = () => {
         },
         onSuccess: async (data) => {
             data.success
-                ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID_MUTATE })
+                ? toast.success(`Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '400px' } 
+                    }
+                )
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
             data.success && updateToken(data.result.token)
