@@ -1,6 +1,7 @@
 import toast from "react-hot-toast"
 import { useMemo, useEffect, useContext } from "react"
 import { UserContext } from "../context/users"
+import { ArticleContext } from "../context/articles"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
@@ -12,7 +13,7 @@ const TOAST_ID_MUTATE = 'SECTION_TOAST_MUTATE'
 
 export const useSectionData = () => {
     
-    const articleId = useAPIStore(state => state.articleId)
+    const { articleId } = useContext(ArticleContext)
 
     const { data, isPending, isLoading, isError } = useQuery({
         queryKey: ['section', 'data', articleId],
@@ -188,7 +189,7 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
     const queryClient = useQueryClient()
 
     const { token } = useContext(UserContext)
-    const articleId = useAPIStore(state => state.articleId)
+    const { articleId } = useContext(ArticleContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'add'],
@@ -251,7 +252,7 @@ export const useSectionAddMultiple = ({ closeModal }: { closeModal: () => void }
     const queryClient = useQueryClient()
 
     const { token } = useContext(UserContext)
-    const articleId = useAPIStore(state => state.articleId)
+    const { articleId } = useContext(ArticleContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'add', 'multiple'],

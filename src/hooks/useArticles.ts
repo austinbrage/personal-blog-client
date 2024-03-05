@@ -2,6 +2,7 @@ import toast from 'react-hot-toast'
 import { Article } from '../services/articles'
 import { useEffect, useContext } from 'react'
 import { UserContext } from '../context/users'
+import { ArticleContext } from '../context/articles'
 import { useQuery, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useAPIStore } from '../stores/api'
 import { useNavigate } from 'react-router-dom'
@@ -281,7 +282,7 @@ export const useArticleDelete = () => {
     const queryClient = useQueryClient()
     
     const { token } = useContext(UserContext)
-    const articleId = useAPIStore(state => state.articleId)
+    const { articleId } = useContext(ArticleContext)
     
     const { mutate, isPending } = useMutation({
         mutationKey: ['article', 'delete'],
@@ -311,10 +312,9 @@ export const useArticleDelete = () => {
 
     const deleteArticle = () => {
         const id = Number(articleId)
-
         if(isNaN(id)) return 
 
-        mutate({ id: id, token })
+        mutate({ id, token })
     }
 
     return {
@@ -329,7 +329,7 @@ export const useArticleEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     const queryClient = useQueryClient()
 
     const { token } = useContext(UserContext)
-    const articleId = useAPIStore(state => state.articleId)
+    const { articleId } = useContext(ArticleContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['article', 'edit'],
@@ -375,7 +375,7 @@ export const useArticlePublish = () => {
     const queryClient = useQueryClient()
 
     const { token } = useContext(UserContext)
-    const articleId = useAPIStore(state => state.articleId)
+    const { articleId } = useContext(ArticleContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['article', 'publish'],
@@ -405,7 +405,7 @@ export const useArticlePublish = () => {
     const publishArticle = (data: Pick<ArticleInfo['idPublishment'], "is_publish">) => {
         const id = Number(articleId)
         if(isNaN(id)) return 
-        mutate({ id: id, token, is_publish: data.is_publish })
+        mutate({ id, token, is_publish: data.is_publish })
     }
 
     return {

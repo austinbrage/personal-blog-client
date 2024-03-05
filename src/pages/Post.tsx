@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { ArticleContext } from '../context/articles'
 import { useAPIStore } from '../stores/api' 
 import { useNavigate } from 'react-router-dom' 
 import { useArticleKeywordData, useArticleAllData } from "../hooks/useArticles"
@@ -13,7 +14,8 @@ const DEFAULT_PAGE_CONFIG = {
 export function PostPage() {
     
     const navigate = useNavigate()
-    const updateArticleId = useAPIStore(state => state.updateArticleId)
+
+    const { updateArticleId } = useContext(ArticleContext)
     const updateArticleData = useAPIStore(state => state.updateArticleData)
 
     const [selectedKeys, setSelectedKeys] = useState<string[]>([])

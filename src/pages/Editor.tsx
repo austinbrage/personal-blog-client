@@ -10,7 +10,8 @@ import { ModalEditorAdd } from "../components/Modals/ModalEditorAdd"
 import { PublishLabel } from "../components/Sections/PublishLabel"
 import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
-import { useRef, useState, forwardRef, useMemo } from "react"
+import { useRef, useState, forwardRef, useMemo, useContext } from "react"
+import { ArticleContext } from "../context/articles"
 import { useAPIStore } from "../stores/api"
 import { defaultOptions } from '../enums/general'
 import type { ContentStyles } from "../types/sections"
@@ -20,7 +21,7 @@ export const EditorPage = forwardRef(() => {
     const { editor, article } = useParams()
     const { articleData } = useArticleData()
 
-    const updateArticleID = useAPIStore(state => state.updateArticleId)
+    const { updateArticleId } = useContext(ArticleContext)
     const updateArticleData = useAPIStore(state => state.updateArticleData)
     
     const articleList = articleData.map(elem => elem.name)
@@ -32,11 +33,11 @@ export const EditorPage = forwardRef(() => {
         const current = articleData
             .find(elem => elem.name === article?.replace(/-/g, " ")) 
 
-        current && updateArticleID(current.id.toString())
+        current && updateArticleId(current.id.toString())
         current && updateArticleData(current)
 
         return current ?? null
-    }, [updateArticleData, updateArticleID, articleData, article])
+    }, [updateArticleData, updateArticleId, articleData, article])
     
     const modalAdd = useRef<HTMLDivElement>(null)
     const modalContent = useRef<HTMLDivElement>(null)
