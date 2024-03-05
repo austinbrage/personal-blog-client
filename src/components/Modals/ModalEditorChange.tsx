@@ -18,7 +18,8 @@ import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { defaultOptions } from '../../enums/general'
 import { useSectionEdit } from "../../hooks/useSections"
-import { useMemo, useState, useEffect, type RefObject } from "react"
+import { SectionContext } from '../../context/sections'
+import { useMemo, useState, useEffect, useContext, type RefObject } from "react"
 import type { DraggableEvent, DraggableData } from 'react-draggable'
 import type { ContentStyles, EditorTabs } from "../../types/sections"
 
@@ -39,7 +40,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
         modalRef.current?.classList.remove('flex')
     } })
 
-    const sectionData = useAPIStore(state => state.sectionData)
+    const { sectionData } = useContext(SectionContext)
     const updateEditMode = useAPIStore(state => state.updateEditMode)
 
     const [edition, setEdition] = useState<EditorTabs>('general')

@@ -20,10 +20,9 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
 
     const addMode = useAPIStore(state => state.addMode)
     const editMode = useAPIStore(state => state.editMode)
-    const { sectionId, updateSectionId } = useContext(SectionContext)
+    const { sectionId, updateSectionId, updateSectionData } = useContext(SectionContext)
 
     const updateEditMode = useAPIStore(state => state.updateEditMode)
-    const updateSectionData = useAPIStore(state => state.updateSectionData)
     
     const [showButtons, setShowButtons] = useState<boolean>(true)
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
