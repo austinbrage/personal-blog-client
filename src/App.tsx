@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GOOGLE_CLIENT_ID } from './utils/config'
 import { toastConfig } from './utils/config'
+import { NotFoundPage } from './pages/404'
 import { HomePage } from './pages/Home'
 import { DemoPage } from './pages/Demo'
 import { PostPage } from './pages/Post'
@@ -51,6 +52,10 @@ function App() {
     {
       path: '/dashboard/profile',
       element: <ProfilePage/>
+    },
+    {
+      path: '*',
+      element: <NotFoundPage/>
     },
   ])
 
