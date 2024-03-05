@@ -14,15 +14,28 @@ const intialContext: Context = {
     updateEditMode: () => {},
 }
 
+
 export const ModeContext = createContext<Context>(intialContext)
 
 export const ModeContextProvider = ({ children }: { children: ReactNode }) => {
 
-    const [addMode, setAddMode] = useState<boolean>(false)
-    const [editMode, setEditMode] = useState<boolean>(false)
+    const storedAddMode = localStorage.getItem('addMode')
+    const initialAddMode = storedAddMode ? JSON.parse(storedAddMode) : false
 
-    const updateAddMode = (newValue: boolean) => setAddMode(newValue)
-    const updateEditMode = (newValue: boolean) => setEditMode(newValue)
+    const storedEditMode = localStorage.getItem('editMode')
+    const initialEditMode = storedEditMode ? JSON.parse(storedEditMode) : false 
+
+    const [addMode, setAddMode] = useState<boolean>(initialAddMode)
+    const [editMode, setEditMode] = useState<boolean>(initialEditMode)
+
+    const updateAddMode = (newValue: boolean) => {
+        setAddMode(newValue)
+        localStorage.setItem('addMode', JSON.stringify(newValue))
+    }
+    const updateEditMode = (newValue: boolean) => {
+        setEditMode(newValue)
+        localStorage.setItem('editMode', JSON.stringify(newValue))
+    }
     
     return (
         <ModeContext.Provider value={{ addMode, editMode, updateAddMode, updateEditMode }}>

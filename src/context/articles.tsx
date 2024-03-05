@@ -15,15 +15,28 @@ const initialContext: Context = {
     updateArticleId: () => {}
 }
 
+
 export const ArticleContext = createContext<Context>(initialContext)
 
 export const ArticleContextProvider = ({ children }: { children: ReactNode }) => {
     
-    const [articleData, setArticleData] = useState<ArticleInfo['fullData'] | null>(null)
-    const [articleId, setArticleId] = useState<string>('')
+    const storedData = localStorage.getItem('articleData')
+    const intialData = storedData ? JSON.parse(storedData) : null
 
-    const updateArticleData = (newData: ArticleInfo['fullData']) => setArticleData(newData) 
-    const updateArticleId = (newId: string) => setArticleId(newId)
+    const storedId = localStorage.getItem('articleId')
+    const initialId = storedId ?? ''
+
+    const [articleData, setArticleData] = useState<ArticleInfo['fullData'] | null>(intialData)    
+    const [articleId, setArticleId] = useState<string>(initialId)
+
+    const updateArticleData = (newData: ArticleInfo['fullData']) => {
+        setArticleData(newData)
+        localStorage.setItem('articleData', JSON.stringify(newData))
+    } 
+    const updateArticleId = (newId: string) => {
+        setArticleId(newId)
+        localStorage.setItem('articleId', newId)
+    }
     
     return (
         <ArticleContext.Provider value={{ articleData, articleId, updateArticleData, updateArticleId }}>
