@@ -1,6 +1,5 @@
 import { MdLogout } from "react-icons/md"
 import { useUserData } from "../hooks/useUser"
-import { useAPIStore } from "../stores/api"
 import { useNavigate } from "react-router-dom"
 import { useQueryClient } from "@tanstack/react-query"
 import { FaUserEdit } from "react-icons/fa"
@@ -9,7 +8,8 @@ import { ModalEmail } from '../components/User/ModalEmail'
 import { ModalAuthor } from '../components/User/ModalAuthor'
 import { ModalRemove } from '../components/User/ModalRemove'
 import { ModalPassword } from '../components/User/ModalPassword'
-import { useRef, useState, forwardRef } from 'react'
+import { UserContext } from '../context/users'
+import { useRef, useState, useContext, forwardRef } from 'react'
 
 export const ProfilePage = forwardRef(() => {
     
@@ -17,11 +17,11 @@ export const ProfilePage = forwardRef(() => {
     const { userData } = useUserData()
     
     const queryClient = useQueryClient()
-    const updateUserToken = useAPIStore(state => state.updateUserToken)
+    const { updateToken } = useContext(UserContext)
     
     const handleLogout = () => {
         navigate('/')
-        updateUserToken('')
+        updateToken('')
         queryClient.invalidateQueries({ queryKey: ['user', 'data'] })
         queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
         queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
