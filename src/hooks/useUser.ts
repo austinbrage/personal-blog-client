@@ -1,8 +1,8 @@
 import toast from 'react-hot-toast'
 import { User } from '../services/users'
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
+import { UserContext } from '../context/users'
 import { useNavigate } from 'react-router-dom'
-import { useAPIStore } from '../stores/api'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { type UserInfo } from '../types/users'
 
@@ -13,7 +13,7 @@ const TOAST_ID_MUTATE = 'USER_TOAST_MUTATE'
 export const useValidation = () => {
 
     const navigate = useNavigate()
-    const updateUserToken = useAPIStore(state => state.updateUserToken)
+    const { updateToken } = useContext(UserContext)
     
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'validate'],
@@ -30,7 +30,7 @@ export const useValidation = () => {
                 ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID_MUTATE })
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
-            data.success && updateUserToken(data.result.token)
+            data.success && updateToken(data.result.token)
             data.success && navigate('/dashboard/create/new-article')
         }
     })   
@@ -44,7 +44,7 @@ export const useValidation = () => {
 export const useOpenAuth = () => {
 
     const navigate = useNavigate()
-    const updateUserToken = useAPIStore(state => state.updateUserToken)
+    const { updateToken } = useContext(UserContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'open', 'auth'],
@@ -61,7 +61,7 @@ export const useOpenAuth = () => {
                 ? toast.success(`Api message: ${data.result.message}`, { id: TOAST_ID_MUTATE })
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
-            data.success && updateUserToken(data.result.token)
+            data.success && updateToken(data.result.token)
             data.success && navigate('/dashboard/create/new-article')
         }
     })   
@@ -75,7 +75,7 @@ export const useOpenAuth = () => {
 export const useRegister = () => {
 
     const navigate = useNavigate()
-    const updateUserToken = useAPIStore(state => state.updateUserToken)
+    const { updateToken } = useContext(UserContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'register'],
@@ -97,7 +97,7 @@ export const useRegister = () => {
                 )
                 : toast.error(  `Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
 
-            data.success && updateUserToken(data.result.token)
+            data.success && updateToken(data.result.token)
             data.success && navigate('/dashboard/create/new-article')
         }
     })
@@ -110,10 +110,10 @@ export const useRegister = () => {
 
 export const useUserData = () => {
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
 
     const { data, isPending, isLoading, isError, refetch } = useQuery({
-        queryKey: ['user', 'data', userToken],
+        queryKey: ['user', 'data', token],
         queryFn: ({ queryKey }) => userService.getData({ token: queryKey[2] }),
         staleTime: Infinity
     })
@@ -152,7 +152,7 @@ export const useUserData = () => {
 export const useUserName = () => {
 
     const queryClient = useQueryClient()
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     
     const { mutate, isPending, data } = useMutation({
         mutationKey: ['user', 'editName'],
@@ -179,7 +179,7 @@ export const useUserName = () => {
     })
 
     const editUserName = (data: Omit<UserInfo['name'], "token">) => {
-        mutate({ token: userToken, name: data.name })
+        mutate({ token, name: data.name })
     }
 
     return {
@@ -192,7 +192,7 @@ export const useUserName = () => {
 export const useUserEmail = () => {
 
     const queryClient = useQueryClient()
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     
     const { mutate, isPending, data } = useMutation({
         mutationKey: ['user', 'editEmail'],
@@ -219,7 +219,7 @@ export const useUserEmail = () => {
     })
 
     const editUserEmail = (data: Omit<UserInfo['email'], "token">) => {
-        mutate({ token: userToken, email: data.email })
+        mutate({ token, email: data.email })
     }
 
     return {
@@ -232,7 +232,7 @@ export const useUserEmail = () => {
 export const useUserAuthor = () => {
 
     const queryClient = useQueryClient()
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     
     const { mutate, isPending, data } = useMutation({
         mutationKey: ['user', 'editAuthor'],
@@ -259,7 +259,7 @@ export const useUserAuthor = () => {
     })
 
     const editUserAuthor = (data: Omit<UserInfo['author'], "token">) => {
-        mutate({ token: userToken, author: data.author })
+        mutate({ token, author: data.author })
     }
 
     return {
@@ -271,7 +271,7 @@ export const useUserAuthor = () => {
 
 export const useUserPassword = () => {
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     
     const { mutate, isPending, data } = useMutation({
         mutationKey: ['user', 'editPassword'],
@@ -296,7 +296,7 @@ export const useUserPassword = () => {
     })
 
     const editUserPassword = (data: Omit<UserInfo['password'], "token">) => {
-        mutate({ token: userToken, password: data.password })
+        mutate({ token, password: data.password })
     }
 
     return {
@@ -309,7 +309,7 @@ export const useUserPassword = () => {
 export const useUserDelete = () => {
 
     const navigate = useNavigate()
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     
     const { mutate, isPending } = useMutation({
         mutationKey: ['user', 'remove'],
@@ -336,7 +336,7 @@ export const useUserDelete = () => {
     })
 
     const deleteUser = () => {
-        mutate({ token: userToken })
+        mutate({ token })
     }
 
     return {

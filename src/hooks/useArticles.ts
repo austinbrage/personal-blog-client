@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast'
 import { Article } from '../services/articles'
-import { useEffect } from 'react'
+import { useEffect, useContext } from 'react'
+import { UserContext } from '../context/users'
 import { useQuery, useMutation, useInfiniteQuery } from '@tanstack/react-query'
 import { useAPIStore } from '../stores/api'
 import { useNavigate } from 'react-router-dom'
@@ -179,10 +180,10 @@ export const useArticleAllData = ({ perPage, currentPage }: ArticleInfo['pageNoC
 
 export const useArticleData = () => {
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
 
     const { data, isPending, isLoading, isError, refetch } = useQuery({
-        queryKey: ['article', 'data', userToken],
+        queryKey: ['article', 'data', token],
         queryFn: ({ queryKey }) => articleService.getData({ token: queryKey[2] }),
         staleTime: Infinity
     })
@@ -229,7 +230,7 @@ export const useArticleAdd = ({ cleanModal, addTemplate }: ArticleAdd) => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['article', 'addNew'],
@@ -265,7 +266,7 @@ export const useArticleAdd = ({ cleanModal, addTemplate }: ArticleAdd) => {
     })    
 
     const addNewArticle = (data: Omit<ArticleInfo['data'], "token">) => {
-        mutate({ token: userToken, ...data })
+        mutate({ token, ...data })
     }
 
     return {
@@ -279,7 +280,7 @@ export const useArticleDelete = () => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     const articleId = useAPIStore(state => state.articleId)
     
     const { mutate, isPending } = useMutation({
@@ -313,7 +314,7 @@ export const useArticleDelete = () => {
 
         if(isNaN(id)) return 
 
-        mutate({ id: id, token: userToken })
+        mutate({ id: id, token })
     }
 
     return {
@@ -327,7 +328,7 @@ export const useArticleEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     const articleId = useAPIStore(state => state.articleId)
 
     const { mutate, isPending } = useMutation({
@@ -360,7 +361,7 @@ export const useArticleEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     const editArticle = (data: Omit<ArticleInfo['data'], "token">) => {
         const id = Number(articleId)
         if(isNaN(id)) return 
-        mutate({ id: id, token: userToken, ...data })
+        mutate({ id, token, ...data })
     }
 
     return {
@@ -373,7 +374,7 @@ export const useArticlePublish = () => {
 
     const queryClient = useQueryClient()
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     const articleId = useAPIStore(state => state.articleId)
 
     const { mutate, isPending } = useMutation({
@@ -404,7 +405,7 @@ export const useArticlePublish = () => {
     const publishArticle = (data: Pick<ArticleInfo['idPublishment'], "is_publish">) => {
         const id = Number(articleId)
         if(isNaN(id)) return 
-        mutate({ id: id, token: userToken, is_publish: data.is_publish })
+        mutate({ id: id, token, is_publish: data.is_publish })
     }
 
     return {

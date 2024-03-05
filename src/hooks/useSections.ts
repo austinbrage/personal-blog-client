@@ -1,5 +1,6 @@
 import toast from "react-hot-toast"
-import { useMemo, useEffect } from "react"
+import { useMemo, useEffect, useContext } from "react"
+import { UserContext } from "../context/users"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
@@ -84,7 +85,8 @@ export const useSectionData = () => {
 export const useSectionDelete = () => {
 
     const queryClient = useQueryClient()
-    const userToken = useAPIStore(state => state.userToken)
+
+    const { token } = useContext(UserContext)
     const sectionId = useAPIStore(state => state.sectionId)
 
     const { mutate, isPending } = useMutation({
@@ -113,7 +115,7 @@ export const useSectionDelete = () => {
     })
 
     const deleteSection = () => {
-        mutate({ token: userToken, id: sectionId })
+        mutate({ token, id: sectionId })
     }
 
     return {
@@ -126,7 +128,7 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
 
     const queryClient = useQueryClient()
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     const sectionId = useAPIStore(state => state.sectionId)
 
     const { mutate, isPending } = useMutation({
@@ -172,7 +174,7 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
             border_radius: editedSection.styles.borderRadius
         }
 
-        mutate({ token: userToken, id: sectionId, ...editedRawSection })
+        mutate({ token, id: sectionId, ...editedRawSection })
     }
 
     return {
@@ -185,7 +187,7 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
 
     const queryClient = useQueryClient()
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     const articleId = useAPIStore(state => state.articleId)
 
     const { mutate, isPending } = useMutation({
@@ -234,7 +236,7 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
             border_radius: newSection.styles.borderRadius
         }
 
-        mutate({ token: userToken, article_id: id, ...newRawSection })
+        mutate({ token, article_id: id, ...newRawSection })
     }
 
     return {
@@ -248,7 +250,7 @@ export const useSectionAddMultiple = ({ closeModal }: { closeModal: () => void }
    
     const queryClient = useQueryClient()
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     const articleId = useAPIStore(state => state.articleId)
 
     const { mutate, isPending } = useMutation({
@@ -284,7 +286,7 @@ export const useSectionAddMultiple = ({ closeModal }: { closeModal: () => void }
         const newMultipleSections: SectionInfo['articleIdDatas']['data'] = newSections
             .map(section => ({ ...section, article_id: id }))
         
-        mutate({ data: newMultipleSections, token: userToken })
+        mutate({ data: newMultipleSections, token })
     }
 
     return {
@@ -297,7 +299,7 @@ export const useSectionAddTemplate = () => {
     
     const queryClient = useQueryClient()
 
-    const userToken = useAPIStore(state => state.userToken)
+    const { token } = useContext(UserContext)
     
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'add', 'template'],
@@ -325,7 +327,7 @@ export const useSectionAddTemplate = () => {
     })
 
     const addTemplateSections = ({ newArticleId, option }: { newArticleId: number, option: TemplateOptions }) => {
-        mutate({ article_id: newArticleId, template_option: option, token: userToken })
+        mutate({ article_id: newArticleId, template_option: option, token })
     }
 
     return {
