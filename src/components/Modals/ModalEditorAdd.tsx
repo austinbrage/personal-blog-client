@@ -18,7 +18,8 @@ import { IoArrowRedoCircleSharp } from "react-icons/io5"
 import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { useSectionAdd } from "../../hooks/useSections"
-import { useState, useEffect, type RefObject} from "react"
+import { useState, useEffect, useContext, type RefObject} from "react"
+import { ModeContext } from '../../context/modes'
 import type { ContentStyles, EditorTabs } from "../../types/sections"
 import type { DraggableEvent, DraggableData } from 'react-draggable'
 
@@ -40,7 +41,7 @@ export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Prop
         modalRef.current?.classList.remove('flex')
     } })
 
-    const updateAddMode = useAPIStore(state => state.updateAddMode)
+    const { updateAddMode } = useContext(ModeContext)
 
     const [edition, setEdition] = useState<EditorTabs>('general')
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 })

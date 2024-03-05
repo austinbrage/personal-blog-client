@@ -19,6 +19,7 @@ import { useEscape } from "../../hooks/useCommands"
 import { defaultOptions } from '../../enums/general'
 import { useSectionEdit } from "../../hooks/useSections"
 import { SectionContext } from '../../context/sections'
+import { ModeContext } from '../../context/modes'
 import { useMemo, useState, useEffect, useContext, type RefObject } from "react"
 import type { DraggableEvent, DraggableData } from 'react-draggable'
 import type { ContentStyles, EditorTabs } from "../../types/sections"
@@ -41,7 +42,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
     } })
 
     const { sectionData } = useContext(SectionContext)
-    const updateEditMode = useAPIStore(state => state.updateEditMode)
+    const { updateEditMode } = useContext(ModeContext)
 
     const [edition, setEdition] = useState<EditorTabs>('general')
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 })

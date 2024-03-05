@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useContext } from 'react'
+import { ModeContext } from '../../context/modes'
 import { DateText } from './DateText'
 import { SectionList } from './SectionList'
 import { ModalDelete } from '../Modals/ModalDelete'
@@ -19,7 +20,7 @@ export function Sections({ newData, currentArticle }: Props) {
     const modalDelete = useRef<HTMLDivElement>(null)
     const modalEditor = useRef<HTMLDivElement>(null)
 
-    const updateEditMode = useAPIStore(state => state.updateEditMode)
+    const { updateEditMode } = useContext(ModeContext)
 
     const [editSection, setEditSection] = useState<ContentStyles>(defaultOptions)
 

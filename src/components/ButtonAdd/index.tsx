@@ -1,6 +1,7 @@
 import { useAPIStore } from '../../stores/api'
 import { useEscapeEnter } from '../../hooks/useCommands'
-import { type RefObject } from 'react'
+import { useContext, type RefObject } from 'react'
+import { ModeContext } from '../../context/modes'
 import './ButtonAdd.css'
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
 
 export function ButtonAdd({ demoMode, editorMode, modalAdd, modalContent }: Props) {
     
-    const updateAddMode = useAPIStore(state => state.updateAddMode)
+    const { updateAddMode } = useContext(ModeContext)
 
     const openModal = () => {
         if(demoMode === true) {

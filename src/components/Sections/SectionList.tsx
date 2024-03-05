@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react'
+import { ModeContext } from '../../context/modes'
 import { SectionContext } from '../../context/sections'
 import { SectionContent } from './SectionContent'
 import { IoMdCreate } from 'react-icons/io'
@@ -18,11 +19,8 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
 
     const { sectionData } = useSectionData()
 
-    const addMode = useAPIStore(state => state.addMode)
-    const editMode = useAPIStore(state => state.editMode)
+    const { addMode, editMode, updateEditMode } = useContext(ModeContext)
     const { sectionId, updateSectionId, updateSectionData } = useContext(SectionContext)
-
-    const updateEditMode = useAPIStore(state => state.updateEditMode)
     
     const [showButtons, setShowButtons] = useState<boolean>(true)
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
