@@ -12,9 +12,27 @@ import { EditorPage } from './pages/Editor'
 import { ProfilePage } from './pages/Profile'
 import { ArticlePage } from './pages/Article'
 import { Toaster } from 'react-hot-toast'
+import { UserContextProvider } from './context/users'
+import { ModeContextProvider } from './context/modes'
+import { ArticleContextProvider } from './context/articles'
+import { SectionContextProvider } from './context/sections'
 import { type ReactElement } from 'react'
 import './Buttons.css'
 import './App.css'
+
+function ApplyContext({ children }: { children: ReactElement }) {
+  return (
+    <UserContextProvider>
+        <ModeContextProvider>
+            <ArticleContextProvider>
+                <SectionContextProvider>
+                    {children}
+                </SectionContextProvider>
+            </ArticleContextProvider>
+        </ModeContextProvider>
+    </UserContextProvider>
+  )
+}
 
 function ApplyLayout({ component }: { component: ReactElement }) {
   return (
@@ -61,11 +79,15 @@ function App() {
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      
+      <ApplyContext>
+        
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router}/>
+          <Toaster toastOptions={toastConfig}/>
+        </QueryClientProvider>
 
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router}/>
-        <Toaster toastOptions={toastConfig}/>
-      </QueryClientProvider>
+      </ApplyContext>
       
     </GoogleOAuthProvider>
   )
