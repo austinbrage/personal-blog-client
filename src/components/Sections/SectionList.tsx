@@ -1,5 +1,6 @@
+import { useState, useContext } from 'react'
+import { SectionContext } from '../../context/sections'
 import { SectionContent } from './SectionContent'
-import { useState } from 'react'
 import { IoMdCreate } from 'react-icons/io'
 import { FaArrowRightArrowLeft } from "react-icons/fa6"
 import { useAPIStore } from '../../stores/api'
@@ -19,10 +20,9 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
 
     const addMode = useAPIStore(state => state.addMode)
     const editMode = useAPIStore(state => state.editMode)
-    const sectionId = useAPIStore(state => state.sectionId)
+    const { sectionId, updateSectionId } = useContext(SectionContext)
 
     const updateEditMode = useAPIStore(state => state.updateEditMode)
-    const updateSectionId = useAPIStore(state => state.updateSectionId)
     const updateSectionData = useAPIStore(state => state.updateSectionData)
     
     const [showButtons, setShowButtons] = useState<boolean>(true)

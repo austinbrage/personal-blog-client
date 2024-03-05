@@ -2,6 +2,7 @@ import toast from "react-hot-toast"
 import { useMemo, useEffect, useContext } from "react"
 import { UserContext } from "../context/users"
 import { ArticleContext } from "../context/articles"
+import { SectionContext } from "../context/sections"
 import { Section } from "../services/sections"
 import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
@@ -88,7 +89,7 @@ export const useSectionDelete = () => {
     const queryClient = useQueryClient()
 
     const { token } = useContext(UserContext)
-    const sectionId = useAPIStore(state => state.sectionId)
+    const { sectionId } = useContext(SectionContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'delete'],
@@ -130,7 +131,7 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     const queryClient = useQueryClient()
 
     const { token } = useContext(UserContext)
-    const sectionId = useAPIStore(state => state.sectionId)
+    const { sectionId } = useContext(SectionContext)
 
     const { mutate, isPending } = useMutation({
         mutationKey: ['section', 'edit'],
