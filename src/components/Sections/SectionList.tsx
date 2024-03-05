@@ -4,7 +4,6 @@ import { SectionContext } from '../../context/sections'
 import { SectionContent } from './SectionContent'
 import { IoMdCreate } from 'react-icons/io'
 import { FaArrowRightArrowLeft } from "react-icons/fa6"
-import { useAPIStore } from '../../stores/api'
 import { useSectionData } from '../../hooks/useSections'
 import type { ContentStyles, ProcessedSection } from '../../types/sections'
 

@@ -12,7 +12,6 @@ import { KeyboardInfo } from "../components/KeyBoard"
 import { useArticleData } from '../hooks/useArticles'
 import { useRef, useState, forwardRef, useMemo, useContext } from "react"
 import { ArticleContext } from "../context/articles"
-import { useAPIStore } from "../stores/api"
 import { defaultOptions } from '../enums/general'
 import type { ContentStyles } from "../types/sections"
 

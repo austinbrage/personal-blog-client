@@ -5,7 +5,6 @@ import { SectionList } from './SectionList'
 import { ModalDelete } from '../Modals/ModalDelete'
 import { ModalEditorChange } from '../Modals/ModalEditorChange'
 import { useEscape } from '../../hooks/useCommands'
-import { useAPIStore } from '../../stores/api'
 import { defaultOptions } from '../../enums/general'
 import { type ArticleInfo } from "../../types/articles"
 import { type ContentStyles } from '../../types/sections'

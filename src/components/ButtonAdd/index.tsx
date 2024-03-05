@@ -1,4 +1,3 @@
-import { useAPIStore } from '../../stores/api'
 import { useEscapeEnter } from '../../hooks/useCommands'
 import { useContext, type RefObject } from 'react'
 import { ModeContext } from '../../context/modes'

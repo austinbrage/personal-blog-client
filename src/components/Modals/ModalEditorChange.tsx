@@ -14,7 +14,6 @@ import { HeightTab } from '../Tabs/height'
 import { RadiusTab } from '../Tabs/Radius'
 import { ImageTab, ContentAltTab } from '../Tabs/Image'
 import { IoArrowRedoCircleSharp } from "react-icons/io5"
-import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { defaultOptions } from '../../enums/general'
 import { useSectionEdit } from "../../hooks/useSections"

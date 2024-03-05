@@ -4,7 +4,6 @@ import { UserContext } from "../context/users"
 import { ArticleContext } from "../context/articles"
 import { SectionContext } from "../context/sections"
 import { Section } from "../services/sections"
-import { useAPIStore } from "../stores/api"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import type { ContentStyles, ProcessedSection, RawSection, SectionInfo, TemplateOptions } from "../types/sections"
 

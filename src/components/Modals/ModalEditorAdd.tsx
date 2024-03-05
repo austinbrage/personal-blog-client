@@ -15,7 +15,6 @@ import { RadiusTab } from '../Tabs/Radius'
 import { defaultOptions } from '../../enums/general'
 import { ImageTab, ContentAltTab } from '../Tabs/Image'
 import { IoArrowRedoCircleSharp } from "react-icons/io5"
-import { useAPIStore } from "../../stores/api"
 import { useEscape } from "../../hooks/useCommands"
 import { useSectionAdd } from "../../hooks/useSections"
 import { useState, useEffect, useContext, type RefObject} from "react"

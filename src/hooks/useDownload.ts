@@ -1,7 +1,6 @@
 import { useMemo, useContext } from 'react'
 import { ArticleContext } from '../context/articles' 
 import { useSectionData } from "./useSections"
-import { useAPIStore } from '../stores/api'
 
 export const useDownload = () => {
 
