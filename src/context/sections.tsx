@@ -4,19 +4,19 @@ import type { RawSection, ProcessedSection } from '../types/sections'
 type OmitedAttr = "content_type" | "image_url" | "border_radius" | "width" | "height"
 
 type Context = {
-    sectionId: string
+    sectionId: number
     sectionData: ProcessedSection | null
     newSectionData: {
         raw?: Omit<RawSection, OmitedAttr>
         processed?: Omit<ProcessedSection, "id">
     }
-    updateSectionId: (newId: string) => void
+    updateSectionId: (newId: number) => void
     updateSectionData: (newData: ProcessedSection) => void
     updateNewSectionData: (newData: Omit<ProcessedSection, "id">) => void
 }
 
 const initialContext: Context = {
-    sectionId: '',
+    sectionId: 0,
     sectionData: null,
     newSectionData: {},
     updateSectionId: () => {},
@@ -28,11 +28,11 @@ export const SectionContext = createContext<Context>(initialContext)
 
 export const SectionContextProvider = ({ children }: { children: ReactNode }) => {
 
-    const [sectionId, setSectionId] = useState<string>('')
+    const [sectionId, setSectionId] = useState<number>(0)
     const [sectionData, setSectionData] = useState<Context['sectionData']>(null)
     const [newSectionData, setNewSectionData] = useState<Context['newSectionData']>({})
 
-    const updateSectionId = (newId: string) => setSectionId(newId)
+    const updateSectionId = (newId: number) => setSectionId(newId)
     const updateSectionData = (newData: Context['sectionData']) => setSectionData(newData)
     
     const updateNewSectionData = (newData: Omit<ProcessedSection, "id">) => {
