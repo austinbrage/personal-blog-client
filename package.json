@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "ts-check": "tsc -p tsconfig.json --noEmit",
+    "typescheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
