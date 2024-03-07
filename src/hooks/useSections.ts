@@ -336,3 +336,44 @@ export const useSectionAddTemplate = () => {
         isPending
     }
 }
+
+export const useSectionSequence = () => {
+
+    const queryClient = useQueryClient()
+
+    const { token } = useContext(UserContext)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['section', 'edit', 'sequence'],
+        mutationFn: sectionService.changeSequence,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '500px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+        }
+    })
+
+    const editSequences = (data: SectionInfo['idSequence'][]) => {
+        mutate({ data, token })
+    }
+
+    return {
+        editSequences,
+        isPending
+    }
+}

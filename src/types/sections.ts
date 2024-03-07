@@ -93,6 +93,17 @@ export type SectionInfo = {
         id: number 
         token: string
     } 
+    idSequence: {
+        id: number
+        sequence: number
+    }
+    idSequenceData: {
+        data: {
+            id: number
+            sequence: number
+        }[]
+        token: string
+    }
     articleId: { 
         article_id: string //Type of string due to the searchParams.append functionality 
     } 
@@ -127,6 +138,7 @@ export type SectionResponse = {
 export interface ISection {
     url: string
     getData: ({ article_id }: SectionInfo['articleId']) => Promise< SectionResponse['data'] >
+    changeSequence: ({ data, token }: SectionInfo['idSequenceData']) => Promise< SectionResponse['noData'] >
     changeAll: ({
         id,
         content,

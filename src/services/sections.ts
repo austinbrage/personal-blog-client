@@ -1,5 +1,6 @@
 import { addPath, PATHS, API_URL } from "../utils/config"
 import type { ISection, SectionInfo, SectionResponse } from "../types/sections"
+import { APIResponse } from "../types/api"
 
 export class Section implements ISection {
     url: string
@@ -16,6 +17,22 @@ export class Section implements ISection {
         const response = await fetch(url)
         return await response.json() as SectionResponse['data']
     }   
+
+    changeSequence =  async ({ data, token }: SectionInfo['idSequenceData']) => {
+        const url = addPath('/sequence', this.url)
+
+        const options = {
+            method: 'PUT',
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify(data)
+        }
+
+        const response = await fetch(url, options)
+        return await response.json() as SectionResponse['noData']
+    }
 
     changeAll = async ({
         id,
