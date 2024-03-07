@@ -1,7 +1,8 @@
-import { useState, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { ModeContext } from '../../context/modes'
 import { SectionContext } from '../../context/sections'
 import { SectionContent } from './SectionContent'
+import { SectionOrder } from './SectionOrder'
 import { IoMdCreate } from 'react-icons/io'
 import { FaArrowRightArrowLeft } from "react-icons/fa6"
 import { useSectionData } from '../../hooks/useSections'
@@ -21,11 +22,17 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
     const { addMode, editMode, updateEditMode } = useContext(ModeContext)
     const { sectionId, updateSectionId, updateSectionData } = useContext(SectionContext)
     
+    const [changeMode, setChangeMode] = useState<boolean>(false)
     const [showButtons, setShowButtons] = useState<boolean>(true)
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
     const handleMouseLeave = () => setHoveredIndex(null)
     const handleMouseEnter = (index: number) => setHoveredIndex(index)
+
+    const updateChangeMode = (newMode: 'invert' | 'off') => {
+        newMode === 'invert' && setChangeMode(prevState => !prevState)
+        newMode === 'off' && setChangeMode(false)
+    }
 
     const handleDelete = (currentSection: ProcessedSection) => {
         updateSectionId(currentSection.id)
@@ -40,6 +47,10 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
         updateEditMode(true)
         openModalContent()
     }
+    
+    useEffect(() => {
+        setShowButtons(!changeMode)
+    }, [changeMode])
 
     if(sectionData.length === 0) return (
         <article className='ms-10 mb-24 text-2xl italic tracking-wider'>
@@ -56,8 +67,11 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
     )
 
     return (
-        <article className='relative ms-0 md:ms-10 mb-24'>
-            {sectionData.map((elem, index) => (
+        <article className='relative ms-0 md:ms-10 mt-12 mb-24'>
+
+            <SectionOrder {...{sectionData, changeMode, updateChangeMode}}/>
+
+            {(changeMode === false) && sectionData.map((elem, index) => (
                 <div 
                     key={elem.id} 
                     className={`
