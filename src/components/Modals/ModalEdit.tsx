@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect, useContext, type FormEvent, type RefObject } from "react"
 import { useArticleEdit, useArticleKeywords } from "../../hooks/useArticles"
+import { useUploadSections, useUploadArticle } from "../../hooks/useUpload"
 import { ArticleContext } from "../../context/articles"
 import { useEscape } from "../../hooks/useCommands"
-import { useUpload } from "../../hooks/useUpload"
 import { useDownload } from "../../hooks/useDownload"
 import { FaUpload, FaDownload } from "react-icons/fa"
 import { IoIosArrowDown } from "react-icons/io"
@@ -17,26 +17,31 @@ type Props = {
 export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     
     const formRef = useRef<HTMLFormElement>(null)    
-    const fileRef = useRef<HTMLInputElement>(null)    
+    const sectionFileRef = useRef<HTMLInputElement>(null)    
+    const articleFileRef = useRef<HTMLInputElement>(null)    
     
     const closeModal = () => {
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
     }
 
-    const dowloadSections = useDownload()
-    const { handleFileChange } = useUpload({ closeModal })
-    const { availableKeywords } = useArticleKeywords()
-
-    const { editArticle, isPending } = useArticleEdit({ cleanModal: () => {
+    const cleanModal = () => {
         formRef.current?.reset()
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
-    } })
+    }
+
+    const dowloadSections = useDownload()
+
+    const { availableKeywords } = useArticleKeywords()
+    const { handleSectionChange } = useUploadSections({ closeModal })
+    const { editArticle, isPending } = useArticleEdit({ cleanModal })
+    const { file, editArticleFile, handleArticleChange } = useUploadArticle({ cleanModal })
 
     const { articleData } = useContext(ArticleContext)
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [imageMode, setImageMode] = useState<'url' | 'file'>('url')
 
     const [name, setName] = useState<string>(articleData?.name ?? '')
     const [title, setTitle] = useState<string>(articleData?.title ?? '')
@@ -45,15 +50,22 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     const [description, setDescription] = useState<string>(articleData?.description ?? '')
 
     const uploadSections = () => {
-        if(!fileRef.current) return
-        fileRef.current.click()
+        if(!sectionFileRef.current) return
+        sectionFileRef.current.click()
+    }
+
+    const uploadPostFile = () => {
+        if(!articleFileRef.current) return
+        articleFileRef.current.click()
     }
     
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(isPending) return
 
-        editArticle({ name, image, title, keywords, description })
+        file
+            ? editArticleFile({ name, title, keywords, description })
+            : editArticle({ name, image, title, keywords, description })
     }
 
     const handleKeywords = (selectedWord: string) => {
@@ -174,8 +186,25 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                             </div>
 
                             <div className="col-span-1">
-                                <label htmlFor="image2" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label 
+                                    htmlFor="image2" 
+                                    onClick={() => setImageMode('url')}
+                                    className={`
+                                        ${imageMode === 'url' ? 'opacity-100' : 'opacity-50'} 
+                                        block mb-2 text-sm font-medium text-white cursor-pointer
+                                    `.trim()}
+                                >
                                     Image URL
+                                </label>
+                                <label 
+                                    htmlFor="imageFile" 
+                                    onClick={() => setImageMode('file')}
+                                    className={`
+                                        ${imageMode === 'file' ? 'opacity-100' : 'opacity-50'} 
+                                        absolute top-[11.2rem] right-10 block mb-2 text-sm font-medium text-white cursor-pointer
+                                    `.trim()}
+                                >
+                                    Image File
                                 </label>
                                 <input 
                                     // required
@@ -184,10 +213,34 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                                     name="image" 
                                     value={image ? image : ''}
                                     onChange={(e) => setImage(e.target.value)} 
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type articles complete title" 
+                                    placeholder="Type articles complete title" 
+                                    className={`
+                                        ${imageMode === 'url' ? 'block' : 'hidden'}               
+                                        bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500
+                                    `.trim()}
                                 />
+                                <input 
+                                    type="file" 
+                                    id="articleFile"  
+                                    ref={articleFileRef}
+                                    className="hidden"
+                                    onChange={(e) => handleArticleChange(e)} 
+                                />
+                                <button
+                                    type='button'
+                                    onClick={() => uploadPostFile()}
+                                    className={`
+                                        ${imageMode === 'file' ? 'block' : 'hidden'} 
+                                        inline-flex items-center justify-center w-full text-sm font-medium rounded-md px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800
+                                    `.trim()}
+                                >
+                                    <span className="text-lg me-2">
+                                        <FaUpload/>
+                                    </span>
+                                    Choose file
+                                </button>  
                             </div>
-                            
+
                             <div className="col-span-2">
                                 <label htmlFor="description2" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Article Description
@@ -216,9 +269,10 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                                 
                                 <input 
                                     type="file" 
-                                    ref={fileRef}
+                                    id="sectionFile" 
+                                    ref={sectionFileRef}
                                     className="hidden"
-                                    onChange={(e) => handleFileChange(e)} 
+                                    onChange={(e) => handleSectionChange(e)} 
                                 />
                                 
                                 <button

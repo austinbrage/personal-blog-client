@@ -1,8 +1,49 @@
 import toast from 'react-hot-toast'
 import { useState, useEffect, type ChangeEvent } from "react"
 import { useSectionAddMultiple } from './useSections'
+import { useArticleEditFile } from './useArticles'
+import { type ArticleInfo } from '../types/articles'
 
-export const useUpload = ({ closeModal }: { closeModal: () => void }) => {
+export const useUploadArticle = ({ cleanModal }: { cleanModal: () => void }) => {
+
+    const [file, setFile] = useState<File | null>(null)
+
+    const { isPending, editArticle } = useArticleEditFile({ cleanModal })
+
+    const handleChange = (insertedFile: ChangeEvent<HTMLInputElement>) => {
+        if(!insertedFile.target.files) return 
+        setFile(insertedFile.target.files[0])
+    }
+
+    useEffect(() => {
+        
+        if(!file) return
+        
+        if(file.size > 100 * 1024) {
+            return void toast.error('Error, file must not exceed 100KB')
+        }
+
+        const acceptedTypes = ['image/jpeg', 'image/png', 'image/webp']
+
+        if(!acceptedTypes.includes(file.type)) {
+            return void toast.error('Error, file can only be jpeg, png or webp')
+        }
+
+    }, [file, setFile])
+
+    const editArticleFile = (data: Omit<ArticleInfo['dataFile'], "image" | "token">) => {
+        if(isPending || !file) return
+        editArticle({ image: file, ...data })
+    }
+
+    return {
+        handleArticleChange: handleChange,
+        editArticleFile,
+        file
+    }
+}
+
+export const useUploadSections = ({ closeModal }: { closeModal: () => void }) => {
 
     const [file, setFile] = useState<File | null>(null)
     
@@ -44,6 +85,6 @@ export const useUpload = ({ closeModal }: { closeModal: () => void }) => {
     }, [file, setFile, isPending, addMultipleSections])
     
     return {
-        handleFileChange: handleChange
+        handleSectionChange: handleChange
     }
 }
