@@ -81,6 +81,29 @@ export class Article implements IArticle {
         const response = await fetch(url, options)
         return await response.json() as ArticleResponse['noData']
     }
+
+    changeDataFile = async ({ id, name, image, title, keywords, description, token }: ArticleInfo['idDataFile']) => {
+        const url = addPath('/data/s3', this.url)
+
+        const formData = new FormData()
+        formData.append('id', id.toString())
+        formData.append('name', name)
+        formData.append('image', image)
+        formData.append('title', title)
+        formData.append('keywords', keywords)
+        formData.append('description', description)
+
+        const options = {
+            method: 'PATCH',
+            headers: new Headers({
+                'Authorization': `Bearer ${token}`
+            }),
+            body: formData
+        }
+
+        const response = await fetch(url, options)
+        return await response.json() as ArticleResponse['noData']
+    }
     
     changePublishment = async ({ id, is_publish, token }: ArticleInfo['idPublishment']) => {
         const url = addPath('/publishment', this.url)

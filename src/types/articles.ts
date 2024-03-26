@@ -36,10 +36,27 @@ export type ArticleInfo = {
         description: string
         token: string
     }
+    dataFile: {
+        name: string
+        image: Blob
+        title: string
+        keywords: string
+        description: string
+        token: string
+    }
     idData: {
         id: number
         name: string
         image: string
+        title: string
+        keywords: string
+        description: string
+        token: string
+    }
+    idDataFile: {
+        id: number
+        name: string
+        image: Blob
         title: string
         keywords: string
         description: string
@@ -85,6 +102,7 @@ export interface IArticle {
     getEverything: ({ perPage, currentPage }: ArticleInfo['pageNoCondition']) => Promise< ArticleResponse['pageData'] >
     getDataByKeywords: ({ perPage, currentPage, keywords }: ArticleInfo['pageKeywords']) => Promise< ArticleResponse['pageData'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
+    changeDataFile: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idDataFile']) => Promise< ArticleResponse['noData'] >
     changeData: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
     insertNew:  ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['info'] >
     removeData: ({ id, token }: ArticleInfo['id']) => Promise< ArticleResponse['noData'] >

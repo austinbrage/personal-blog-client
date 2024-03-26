@@ -369,6 +369,53 @@ export const useArticleEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     }
 }
 
+export const useArticleEditFile = ({ cleanModal }: { cleanModal: () => void }) => {
+
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
+    const { token } = useContext(UserContext)
+    const { articleId } = useContext(ArticleContext)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['article', 'edit', 'file'],
+        mutationFn: articleService.changeDataFile,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data, variables) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '400px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && cleanModal()
+            data.success && navigate(`/dashboard/edit/${variables.name.replace(/\s/g, "-")}`)
+            data.success && queryClient.invalidateQueries({ queryKey: ['article', 'data'] })
+        }
+    })
+
+    const editArticle = (data: Omit<ArticleInfo['dataFile'], "token">) => {
+        const id = Number(articleId)
+        if(isNaN(id)) return 
+        mutate({ id, token, ...data })
+    }
+
+    return {
+        editArticle,
+        isPending
+    }
+}
+
 export const useArticlePublish = () => {
 
     const queryClient = useQueryClient()
