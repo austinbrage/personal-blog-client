@@ -73,7 +73,7 @@ export function SectionContent({ currentData }: Props) {
         </div>
     )
     
-    if(currentData.content_type === 'image' && currentData.image) return (
+    if(currentData.content_type === 'image_url' && currentData.image) return (
         <div style={{ display: 'flex', justifyContent: currentData.styles.textAlign }}>
             <img 
                 alt={currentData.content} 

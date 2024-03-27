@@ -122,7 +122,7 @@ export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Prop
                                     />
                                 )}
                                 
-                                {(edition === 'content' && newData.content_type !== 'image') && (
+                                {(edition === 'content' && newData.content_type !== 'image_url') && (
                                     <ContentTab 
                                         currentContent={newData.content} 
                                         changeContent={(newContent) => setNewData(prevData => ({
@@ -132,7 +132,7 @@ export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Prop
                                     />
                                 )}
                                 
-                                {(edition === 'content' && newData.content_type === 'image') && (
+                                {(edition === 'content' && newData.content_type === 'image_url') && (
                                     <ContentAltTab 
                                         currentContent={newData.content} 
                                         changeContent={(newContent) => setNewData(prevData => ({
@@ -142,7 +142,7 @@ export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Prop
                                     />
                                 )}
                                 
-                                {(edition === 'content' && newData.content_type === 'image') && (
+                                {(edition === 'content' && newData.content_type === 'image_url') && (
                                     <ImageTab 
                                         currentImage={newData.image} 
                                         changeImage={(newImage) => setNewData(prevData => ({

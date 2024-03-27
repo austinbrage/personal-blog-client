@@ -25,8 +25,9 @@ export type EditorTabs =
 'radius' 
 
 export type ContentType = 
-'image' |
 'title' |
+'image_s3' |
+'image_url' |
 'subtitle' |
 'paragraph' |
 'blockquote' |

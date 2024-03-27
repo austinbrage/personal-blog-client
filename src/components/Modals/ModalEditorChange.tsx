@@ -131,7 +131,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                                     />
                                 )}
                                 
-                                {(edition === 'content' && editData.content_type !== 'image') && (
+                                {(edition === 'content' && editData.content_type !== 'image_url') && (
                                     <ContentTab 
                                         currentContent={editData.content} 
                                         changeContent={(newContent) => setEditData(prevData => ({
@@ -141,7 +141,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                                     />
                                 )}
                                 
-                                {(edition === 'content' && editData.content_type === 'image') && (
+                                {(edition === 'content' && editData.content_type === 'image_url') && (
                                     <ContentAltTab 
                                         currentContent={editData.content} 
                                         changeContent={(newContent) => setEditData(prevData => ({
@@ -151,7 +151,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                                     />
                                 )}
                                 
-                                {(edition === 'content' && editData.content_type === 'image') && (
+                                {(edition === 'content' && editData.content_type === 'image_url') && (
                                     <ImageTab 
                                         currentImage={editData.image} 
                                         changeImage={(newImage) => setEditData(prevData => ({
