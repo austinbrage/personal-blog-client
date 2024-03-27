@@ -42,7 +42,7 @@ export enum TemplateOptions {
 export type RawSection = {
     content: string 
     content_type: ContentType
-    image_url: string | null
+    image: string | null
     text_color: string
     width: widthOptions
     height: heightOptions
@@ -71,7 +71,7 @@ export type Styles = {
 export type ContentStyles = {
     content: string
     content_type: ContentType
-    image_url: string | null
+    image: string | null
     styles: Styles
 }
 
@@ -80,7 +80,7 @@ export type ProcessedSection = {
     sequence: number
     content: string
     content_type: ContentType
-    image_url: string | null
+    image: string | null
     styles: Styles
 }
 
@@ -143,7 +143,7 @@ export interface ISection {
         id,
         content,
         content_type,
-        image_url,
+        image,
         width,
         height,
         font_size,
@@ -160,7 +160,7 @@ export interface ISection {
         article_id,
         content,
         content_type,
-        image_url,
+        image,
         width,
         height,
         font_size,

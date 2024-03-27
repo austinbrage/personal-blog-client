@@ -73,11 +73,11 @@ export function SectionContent({ currentData }: Props) {
         </div>
     )
     
-    if(currentData.content_type === 'image' && currentData.image_url) return (
+    if(currentData.content_type === 'image' && currentData.image) return (
         <div style={{ display: 'flex', justifyContent: currentData.styles.textAlign }}>
             <img 
                 alt={currentData.content} 
-                src={currentData.image_url} 
+                src={currentData.image} 
                 style={currentData.styles as React.CSSProperties}
                 className='max-[940px]:!w-auto'
             />

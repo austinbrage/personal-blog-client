@@ -63,6 +63,6 @@ export const generalOptions: { name: ContentType, value: Styles }[] = [
 export const defaultOptions: ContentStyles = {
     content: 'New Article Section',
     content_type: 'paragraph',
-    image_url: null,
-    styles: title
+    styles: title,
+    image: null
 }

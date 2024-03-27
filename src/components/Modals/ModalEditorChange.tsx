@@ -47,8 +47,8 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 })
     
     const originalData = useMemo(() => ({
+        image: sectionData?.image ?? null,
         content: sectionData?.content ?? '', 
-        image_url: sectionData?.image_url ?? null,
         styles: sectionData?.styles ?? defaultOptions.styles,
         content_type: sectionData?.content_type ?? 'paragraph'
     }), [sectionData])
@@ -153,10 +153,10 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                                 
                                 {(edition === 'content' && editData.content_type === 'image') && (
                                     <ImageTab 
-                                        currentImage={editData.image_url} 
+                                        currentImage={editData.image} 
                                         changeImage={(newImage) => setEditData(prevData => ({
                                             ...prevData,
-                                            image_url: newImage
+                                            image: newImage
                                         }))} 
                                     />
                                 )}

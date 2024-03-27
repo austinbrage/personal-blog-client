@@ -33,7 +33,7 @@ export const useSectionData = () => {
                 sequence: elem.sequence,
                 content: elem.content,
                 content_type: elem.content_type,
-                image_url: elem.image_url,
+                image: elem.image,
                 styles: {
                     width: elem.width,
                     height: elem.height,
@@ -162,7 +162,7 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
         const editedRawSection: RawSection = {
             content: editedSection.content,
             content_type: editedSection.content_type,
-            image_url: editedSection.image_url,
+            image: editedSection.image,
             width: editedSection.styles.width,
             height: editedSection.styles.height,
             text_color: editedSection.styles.color,
@@ -224,7 +224,7 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
         const newRawSection: RawSection = {
             content: newSection.content,
             content_type: newSection.content_type,
-            image_url: newSection.image_url,
+            image: newSection.image,
             width: newSection.styles.width,
             height: newSection.styles.height,
             text_color: newSection.styles.color,

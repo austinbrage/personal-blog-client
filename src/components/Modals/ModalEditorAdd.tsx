@@ -144,10 +144,10 @@ export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Prop
                                 
                                 {(edition === 'content' && newData.content_type === 'image') && (
                                     <ImageTab 
-                                        currentImage={newData.image_url} 
+                                        currentImage={newData.image} 
                                         changeImage={(newImage) => setNewData(prevData => ({
                                             ...prevData,
-                                            image_url: newImage
+                                            image: newImage
                                         }))} 
                                     />
                                 )}
