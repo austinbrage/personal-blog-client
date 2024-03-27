@@ -27,8 +27,8 @@ type Position = { x: number; y: number }
 type Props = { 
     demoMode?: boolean
     modalRef: RefObject<HTMLDivElement> 
-    newData: ContentStyles
-    setNewData: React.Dispatch<React.SetStateAction<ContentStyles>>
+    newData: ContentStyles<string>
+    setNewData: React.Dispatch<React.SetStateAction<ContentStyles<string>>>
 }
 
 export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Props) {

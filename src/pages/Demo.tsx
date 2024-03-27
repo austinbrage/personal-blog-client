@@ -9,7 +9,7 @@ import { defaultOptions } from "../enums/general";
 export function DemoPage() {
 
     const modalRef = useRef<HTMLDivElement>(null)
-    const [newSection, setNewSection] = useState<ContentStyles>(defaultOptions)
+    const [newSection, setNewSection] = useState<ContentStyles<string>>(defaultOptions)
     
     return (
         <div className="p-8 pt-16 h-screen max-h-screen bg-[rgb(15,15,24)]">

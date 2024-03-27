@@ -40,10 +40,10 @@ export enum TemplateOptions {
     basic = 'basic'
 } 
 
-export type RawSection = {
+export type RawSection<T extends string | Blob> = {
     content: string 
     content_type: ContentType
-    image: string | null
+    image: T extends string ? string | null : T
     text_color: string
     width: widthOptions
     height: heightOptions
@@ -69,10 +69,10 @@ export type Styles = {
     borderRadius: radiusOptions 
 }
 
-export type ContentStyles = {
+export type ContentStyles<T> = {
     content: string
     content_type: ContentType
-    image: string | null
+    image: T extends string ? string | null : T
     styles: Styles
 }
 
@@ -90,7 +90,7 @@ export type SectionInfo = {
         id: number 
         token: string
     }
-    idData: RawSection & { 
+    idData: RawSection<string> & { 
         id: number 
         token: string
     } 
@@ -113,15 +113,15 @@ export type SectionInfo = {
         template_option: TemplateOptions
         token: string
     }
-    articleIdData: RawSection & { 
+    articleIdData: RawSection<string> & { 
         article_id: number 
         token: string
     } 
     articleIdDatas: {
-        data: Array<RawSection & { article_id: number }>
+        data: Array<RawSection<string> & { article_id: number }>
         token: string
     }
-    fullData: RawSection & {
+    fullData: RawSection<string> & {
         id: number
         sequence: number
         article_id: number 

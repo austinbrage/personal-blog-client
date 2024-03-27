@@ -60,7 +60,7 @@ export const generalOptions: { name: ContentType, value: Styles }[] = [
     { name:'jsx',         value: paragraph },
 ]
 
-export const defaultOptions: ContentStyles = {
+export const defaultOptions: ContentStyles<string> = {
     content: 'New Article Section',
     content_type: 'paragraph',
     styles: title,

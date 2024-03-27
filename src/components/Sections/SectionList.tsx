@@ -9,8 +9,8 @@ import { useSectionData } from '../../hooks/useSections'
 import type { ContentStyles, ProcessedSection } from '../../types/sections'
 
 type Props = {
-    newData: ContentStyles
-    editData: ContentStyles
+    newData: ContentStyles<string>
+    editData: ContentStyles<string>
     openModalDelete: () => void
     openModalContent: () => void
 }

@@ -8,7 +8,7 @@ import 'prismjs/components/prism-typescript'
 import '../../prism-one-dark.css'
 
 type Props = {
-    currentData: ContentStyles
+    currentData: ContentStyles<string>
 }
 
 const compareCodeTypes = (type: ContentType) => {

@@ -158,8 +158,8 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
         }
     })
 
-    const editSection = (editedSection: ContentStyles) => {
-        const editedRawSection: RawSection = {
+    const editSection = (editedSection: ContentStyles<string>) => {
+        const editedRawSection: RawSection<string> = {
             content: editedSection.content,
             content_type: editedSection.content_type,
             image: editedSection.image,
@@ -217,11 +217,11 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
         }
     })
 
-    const addSection = (newSection: ContentStyles) => {
+    const addSection = (newSection: ContentStyles<string>) => {
         const id = Number(articleId)
         if(isNaN(id)) return 
 
-        const newRawSection: RawSection = {
+        const newRawSection: RawSection<string> = {
             content: newSection.content,
             content_type: newSection.content_type,
             image: newSection.image,

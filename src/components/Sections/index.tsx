@@ -10,7 +10,7 @@ import { type ArticleInfo } from "../../types/articles"
 import { type ContentStyles } from '../../types/sections'
 
 type Props = {
-    newData: ContentStyles
+    newData: ContentStyles<string>
     currentArticle: ArticleInfo['fullData'] | null
 }
 
@@ -21,7 +21,7 @@ export function Sections({ newData, currentArticle }: Props) {
 
     const { updateEditMode } = useContext(ModeContext)
 
-    const [editSection, setEditSection] = useState<ContentStyles>(defaultOptions)
+    const [editSection, setEditSection] = useState<ContentStyles<string>>(defaultOptions)
 
     const openModalDelete = () => {
         modalDelete.current?.classList.remove('hidden')

@@ -25,7 +25,7 @@ export const EditorPage = forwardRef(() => {
     const articleList = articleData.map(elem => elem.name)
 
     const [isToggle, setIsToggle] = useState<boolean>(false)
-    const [newSection, setNewSection] = useState<ContentStyles>(defaultOptions)
+    const [newSection, setNewSection] = useState<ContentStyles<string>>(defaultOptions)
 
     const currentArticle = useMemo(() => {
         const current = articleData

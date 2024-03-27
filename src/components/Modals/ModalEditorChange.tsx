@@ -27,8 +27,8 @@ type Position = { x: number; y: number }
 
 type Props = { 
     modalRef: RefObject<HTMLDivElement> 
-    editData: ContentStyles
-    setEditData: React.Dispatch<React.SetStateAction<ContentStyles>>
+    editData: ContentStyles<string>
+    setEditData: React.Dispatch<React.SetStateAction<ContentStyles<string>>>
 }
 
 export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
