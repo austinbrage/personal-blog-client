@@ -19,6 +19,7 @@ import { defaultOptions } from '../../enums/general'
 import { useSectionEdit } from "../../hooks/useSections"
 import { SectionContext } from '../../context/sections'
 import { ModeContext } from '../../context/modes'
+import { useUploadSectionEdit } from '../../hooks/useUpload'
 import { useMemo, useState, useEffect, useContext, type RefObject } from "react"
 import type { DraggableEvent, DraggableData } from 'react-draggable'
 import type { ContentStyles, EditorTabs } from "../../types/sections"
@@ -33,12 +34,15 @@ type Props = {
 
 export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
     
-    const { isPending, editSection } = useSectionEdit({ cleanModal: () => {
+    const cleanModal = () => {
         updateEditMode(false)
         setEditData(originalData) 
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
-    } })
+    }
+
+    const { isPending, editSection } = useSectionEdit({ cleanModal })
+    const { file, cleanFile, editSectionFile, handleSectionChange } = useUploadSectionEdit({ cleanModal })
 
     const { sectionData } = useContext(SectionContext)
     const { updateEditMode } = useContext(ModeContext)
@@ -59,15 +63,8 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
 
     const handleEditSection = () => {
         if(isPending) return
-        editSection(editData)
+        file ? editSectionFile(editData) : editSection(editData)
     }   
-    
-    const closeModal = () => {
-        updateEditMode(false)
-        setEditData(originalData) 
-        modalRef.current?.classList.add('hidden')
-        modalRef.current?.classList.remove('flex')
-    }
     
     useEffect(() => {
         setEditData(originalData)
@@ -80,7 +77,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
 
     useEscape({
         menuRef: modalRef,
-        closeMenu: closeModal
+        closeMenu: cleanModal
     })
     
     return (
@@ -110,7 +107,7 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                                     New Section
                                 </h3>
-                                <button onClick={closeModal} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                                <button onClick={cleanModal} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                                     <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                     </svg>
@@ -153,7 +150,10 @@ export function ModalEditorChange({ editData, setEditData, modalRef }: Props) {
                                 
                                 {(edition === 'content' && editData.content_type === 'image_url') && (
                                     <ImageTab 
-                                        currentImage={editData.image} 
+                                        file={file}
+                                        cleanFile={cleanFile}
+                                        currentImage={editData.image}
+                                        handleSectionChange={handleSectionChange} 
                                         changeImage={(newImage) => setEditData(prevData => ({
                                             ...prevData,
                                             image: newImage
