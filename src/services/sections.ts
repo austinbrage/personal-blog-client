@@ -1,6 +1,5 @@
 import { addPath, PATHS, API_URL } from "../utils/config"
 import type { ISection, SectionInfo, SectionResponse } from "../types/sections"
-import { APIResponse } from "../types/api"
 
 export class Section implements ISection {
     url: string
@@ -76,6 +75,37 @@ export class Section implements ISection {
         }
 
         const response = await fetch(this.url, options)
+        return await response.json() as SectionResponse['noData']
+    }
+    
+    changeAllFile = async (data: SectionInfo['idDataFile']) => {
+        const url = addPath('/s3', this.url)
+
+        const formData = new FormData()
+        formData.append('id', data.id.toString())
+        formData.append('content', data.content)
+        formData.append('content_type', data.content_type)
+        formData.append('image', data.image)
+        formData.append('width', data.width)
+        formData.append('height', data.height)
+        formData.append('font_size', data.font_size)
+        formData.append('font_weight', data.font_weight)
+        formData.append('font_family', data.font_family)
+        formData.append('line_height', data.line_height)
+        formData.append('margin_top', data.margin_top)
+        formData.append('text_align', data.text_align)
+        formData.append('text_color', data.text_color)
+        formData.append('border_radius', data.border_radius)
+
+        const options = {
+            method: 'PUT',
+            headers: new Headers({
+                'Authorization': `Bearer ${data.token}`
+            }),
+            body: formData
+        }
+
+        const response = await fetch(url, options)
         return await response.json() as SectionResponse['noData']
     }
     

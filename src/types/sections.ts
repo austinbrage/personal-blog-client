@@ -94,6 +94,10 @@ export type SectionInfo = {
         id: number 
         token: string
     } 
+    idDataFile: RawSection<Blob> & { 
+        id: number 
+        token: string
+    } 
     idSequence: {
         id: number
         sequence: number
@@ -157,6 +161,23 @@ export interface ISection {
         border_radius,
         token
     }: SectionInfo['idData']) => Promise< SectionResponse['noData'] >
+    changeAllFile: ({
+        id,
+        content,
+        content_type,
+        image,
+        width,
+        height,
+        font_size,
+        font_weight,
+        font_family,
+        line_height,
+        margin_top,
+        text_align,
+        text_color, 
+        border_radius,
+        token
+    }: SectionInfo['idDataFile']) => Promise< SectionResponse['noData'] >
     inserNew: ({
         article_id,
         content,

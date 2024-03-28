@@ -184,6 +184,65 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     }
 }
 
+export const useSectionEditFile = ({ cleanModal }: { cleanModal: () => void }) => {
+
+    const queryClient = useQueryClient()
+
+    const { token } = useContext(UserContext)
+    const { sectionId } = useContext(SectionContext)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['section', 'edit', 'file'],
+        mutationFn: sectionService.changeAllFile,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '500px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && cleanModal()
+            data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+        }
+    })
+
+    const editSection = (editedSection: ContentStyles<Blob>) => {
+        const editedRawSection: RawSection<Blob> = {
+            content: editedSection.content,
+            content_type: editedSection.content_type,
+            image: editedSection.image,
+            width: editedSection.styles.width,
+            height: editedSection.styles.height,
+            text_color: editedSection.styles.color,
+            font_size: editedSection.styles.fontSize, 
+            margin_top: editedSection.styles.marginTop, 
+            text_align: editedSection.styles.textAlign,
+            font_weight: editedSection.styles.fontWeight,
+            font_family: editedSection.styles.fontFamily,
+            line_height: editedSection.styles.lineHeight,
+            border_radius: editedSection.styles.borderRadius
+        }
+
+        mutate({ token, id: sectionId, ...editedRawSection })
+    }
+
+    return {
+        editSection,
+        isPending
+    }
+}
+
 export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
 
     const queryClient = useQueryClient()
