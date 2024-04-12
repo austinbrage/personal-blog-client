@@ -20,8 +20,8 @@ export const useUploadArticle = ({ cleanModal }: { cleanModal: () => void }) => 
         
         if(!file) return
         
-        if(file.size > 100 * 1024) {
-            return void toast.error('Error, file must not exceed 100KB')
+        if(file.size > 2 * 1024 * 1024) {
+            return void toast.error('Error, file must not exceed 2MB')
         }
 
         const acceptedTypes = ['image/jpeg', 'image/png', 'image/webp']
@@ -107,9 +107,9 @@ export const useUploadSectionEdit = ({ cleanModal }: { cleanModal: () => void })
         
         if(!file) return
         
-        if(file.size > 100 * 1024) {
+        if(file.size > 2 * 1024 * 1024) {
             cleanFile()
-            return void toast.error('Error, file must not exceed 100KB')
+            return void toast.error('Error, file must not exceed 2MB')
         }
 
         const acceptedTypes = ['image/jpeg', 'image/png', 'image/webp']
