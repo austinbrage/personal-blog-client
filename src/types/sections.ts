@@ -121,6 +121,10 @@ export type SectionInfo = {
         article_id: number 
         token: string
     } 
+    articleIdDataFile: RawSection<Blob> & { 
+        article_id: number 
+        token: string
+    } 
     articleIdDatas: {
         data: Array<RawSection<string> & { article_id: number }>
         token: string
@@ -195,6 +199,23 @@ export interface ISection {
         border_radius,
         token
     }: SectionInfo['articleIdData']) => Promise< SectionResponse['noData'] >
+    insertNewFile: ({
+        article_id,
+        content,
+        content_type,
+        image,
+        width,
+        height,
+        font_size,
+        font_weight,
+        font_family,
+        line_height,
+        margin_top,
+        text_align,
+        text_color, 
+        border_radius,
+        token
+    }: SectionInfo['articleIdDataFile']) => Promise< SectionResponse['noData'] >
     insertMultiple: ({ data, token }: SectionInfo['articleIdDatas']) => Promise< SectionResponse['noData'] >
     insertTemplate: ({ article_id, template_option, token }: SectionInfo['articleIdOption']) => Promise< SectionResponse['noData'] >
     removeData: ({ id, token }: SectionInfo['id']) => Promise< SectionResponse['noData'] >

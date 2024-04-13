@@ -305,6 +305,68 @@ export const useSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
     }
 }
 
+export const useSectionAddFile = ({ cleanModal }: { cleanModal: () => void }) => {
+
+    const queryClient = useQueryClient()
+
+    const { token } = useContext(UserContext)
+    const { articleId } = useContext(ArticleContext)
+
+    const { mutate, isPending } = useMutation({
+        mutationKey: ['section', 'add', 'file'],
+        mutationFn: sectionService.insertNewFile,
+
+        onMutate: () => {
+            toast.loading('Requesting API', { id: TOAST_ID_MUTATE })
+        },
+        onError: () => {
+            toast.error('Internal error, please try again', { id: TOAST_ID_MUTATE })
+        },
+        onSuccess: async (data) => {
+            data.success
+                ? toast.success(
+                    `Api message: ${data.result.message}`, 
+                    { 
+                        id: TOAST_ID_MUTATE, 
+                        style: { minWidth: '550px' } 
+                    }
+                )
+                : toast.error(`Api message: ${data.error.message}`,  { id: TOAST_ID_MUTATE })
+
+            data.success && cleanModal()
+            data.success && queryClient.invalidateQueries({ queryKey: ['section', 'data'] })
+        }
+    })
+
+    const addSection = (newSection: ContentStyles<Blob>) => {
+        const id = Number(articleId)
+        if(isNaN(id)) return 
+
+        const newRawSection: RawSection<Blob> = {
+            content: newSection.content,
+            content_type: newSection.content_type,
+            image: newSection.image,
+            width: newSection.styles.width,
+            height: newSection.styles.height,
+            text_color: newSection.styles.color,
+            font_size: newSection.styles.fontSize, 
+            margin_top: newSection.styles.marginTop, 
+            text_align: newSection.styles.textAlign,
+            font_weight: newSection.styles.fontWeight,
+            font_family: newSection.styles.fontFamily,
+            line_height: newSection.styles.lineHeight,
+            border_radius: newSection.styles.borderRadius
+        }
+
+        mutate({ token, article_id: id, ...newRawSection })
+    }
+
+    return {
+        addSection,
+        isPending
+    }
+}
+
 
 export const useSectionAddMultiple = ({ closeModal }: { closeModal: () => void }) => {
    
