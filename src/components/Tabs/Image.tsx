@@ -103,7 +103,7 @@ export function ImageTab({ file, cleanFile, currentImage, changeImage, handleSec
                             </button>
                         )
                     }
-                    <p className="truncate flex items-center justify-center italic tracking-wider">
+                    <p className="truncate flex items-center justify-center italic tracking-wider text-white">
                         {file ? file.name : 'No file inserted'}
                     </p>
                 </div>
