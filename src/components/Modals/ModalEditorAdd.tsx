@@ -19,6 +19,7 @@ import { useEscape } from "../../hooks/useCommands"
 import { useSectionAdd } from "../../hooks/useSections"
 import { useState, useEffect, useContext, type RefObject} from "react"
 import { ModeContext } from '../../context/modes'
+import { useUploadSectionAdd } from '../../hooks/useUpload'
 import type { ContentStyles, EditorTabs } from "../../types/sections"
 import type { DraggableEvent, DraggableData } from 'react-draggable'
 
@@ -33,12 +34,15 @@ type Props = {
 
 export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Props) {
     
-    const { isPending, addSection } = useSectionAdd({ cleanModal: () => {
+    const cleanModal = () => {
         updateAddMode(false)
         setNewData(defaultOptions) 
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
-    } })
+    }
+
+    const { isPending, addSection } = useSectionAdd({ cleanModal })
+    const { file, cleanFile, addSectionFile, handleSectionChange } = useUploadSectionAdd({ cleanModal })
 
     const { updateAddMode } = useContext(ModeContext)
 
@@ -51,7 +55,7 @@ export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Prop
 
     const handleAddSection = () => {
         if(isPending || demoMode === true) return
-        addSection(newData)
+        file ? addSectionFile(newData) : addSection(newData)
     }   
     
     const closeModal = () => {
@@ -144,7 +148,10 @@ export function ModalEditorAdd({ demoMode, newData, setNewData, modalRef }: Prop
                                 
                                 {(edition === 'content' && newData.content_type === 'image_url') && (
                                     <ImageTab 
+                                        file={file}
+                                        cleanFile={cleanFile}
                                         currentImage={newData.image} 
+                                        handleSectionChange={handleSectionChange} 
                                         changeImage={(newImage) => setNewData(prevData => ({
                                             ...prevData,
                                             image: newImage

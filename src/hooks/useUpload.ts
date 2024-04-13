@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast'
 import { useState, useEffect, type ChangeEvent } from "react"
-import { useSectionAddMultiple, useSectionEditFile } from './useSections'
+import { useSectionAddMultiple, useSectionEditFile, useSectionAddFile } from './useSections'
 import { useArticleEditFile } from './useArticles'
 import { type ArticleInfo } from '../types/articles'
 import { type ContentStyles } from '../types/sections'
@@ -129,6 +129,50 @@ export const useUploadSectionEdit = ({ cleanModal }: { cleanModal: () => void })
     return {
         handleSectionChange: handleChange,
         editSectionFile,
+        cleanFile,
+        file
+    }   
+}
+
+export const useUploadSectionAdd = ({ cleanModal }: { cleanModal: () => void }) => {
+
+    const [file, setFile] = useState<File | null>(null)
+    
+    const { addSection, isPending } = useSectionAddFile({ cleanModal })
+    
+    const handleChange = (insertedFile: ChangeEvent<HTMLInputElement>) => {
+        if(!insertedFile.target.files) return 
+        setFile(insertedFile.target.files[0])
+    }
+
+    const cleanFile = () => setFile(null)
+
+    useEffect(() => {
+        
+        if(!file) return
+        
+        if(file.size > 2 * 1024 * 1024) {
+            cleanFile()
+            return void toast.error('Error, file must not exceed 2MB')
+        }
+
+        const acceptedTypes = ['image/jpeg', 'image/png', 'image/webp']
+
+        if(!acceptedTypes.includes(file.type)) {
+            cleanFile()
+            return void toast.error('Error, file can only be jpeg, png or webp')
+        }
+
+    }, [file, setFile])
+
+    const addSectionFile = (data: Omit<ContentStyles<Blob>, "image">) => {
+        if(isPending || !file) return
+        addSection({ ...data, image: file })
+    }
+
+    return {
+        handleSectionChange: handleChange,
+        addSectionFile,
         cleanFile,
         file
     }   
