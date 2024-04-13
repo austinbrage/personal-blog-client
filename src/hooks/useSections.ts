@@ -159,9 +159,18 @@ export const useSectionEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     })
 
     const editSection = (editedSection: ContentStyles<string>) => {
+
+        let isImageS3
+        
+        const isImageS3URL = editedSection.image?.includes('https://personal-blog-bucket')
+        const isImageType = editedSection.content_type.includes('image')
+
+        if(isImageS3URL && isImageType) isImageS3 = true
+        else isImageS3 = false
+
         const editedRawSection: RawSection<string> = {
             content: editedSection.content,
-            content_type: editedSection.content_type,
+            content_type: isImageS3 ? 'image_s3' : editedSection.content_type,
             image: editedSection.image,
             width: editedSection.styles.width,
             height: editedSection.styles.height,
