@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { ModeContext } from '../../context/modes'
+import { ImageContext } from '../../context/images'
 import { SectionContext } from '../../context/sections'
 import { SectionContent } from './SectionContent'
 import { SectionOrder } from './SectionOrder'
@@ -19,6 +20,7 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
 
     const { sectionData } = useSectionData()
 
+    const { imageToAdd, imageToEdit } = useContext(ImageContext)
     const { addMode, editMode, updateEditMode } = useContext(ModeContext)
     const { sectionId, updateSectionId, updateSectionData } = useContext(SectionContext)
     
@@ -100,7 +102,7 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
                     >
                         {
                             (editMode === true && sectionId === elem.id)
-                                ? <SectionContent currentData={editData}/>
+                                ? <SectionContent imageUrl={imageToEdit} currentData={editData}/>
                                 : <SectionContent currentData={elem}/>
                         }
                     </div>
@@ -145,7 +147,7 @@ export function SectionList({ newData, editData, openModalDelete, openModalConte
 
             {(addMode === true) && (
                 <div className='grid grid-cols-[4fr,1fr]'>
-                    <SectionContent currentData={newData}/>
+                    <SectionContent imageUrl={imageToAdd} currentData={newData}/>
                 </div>
             )}
 

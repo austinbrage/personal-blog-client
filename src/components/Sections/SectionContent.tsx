@@ -9,13 +9,14 @@ import '../../prism-one-dark.css'
 
 type Props = {
     currentData: ContentStyles<string>
+    imageUrl?: string | null
 }
 
 const compareCodeTypes = (type: ContentType) => {
     return type === 'javascript' || type === 'typescript' || type === 'jsx'
 }
 
-export function SectionContent({ currentData }: Props) {
+export function SectionContent({ currentData, imageUrl }: Props) {
 
     const codeContainer = useRef<HTMLPreElement>(null)
     
@@ -73,11 +74,11 @@ export function SectionContent({ currentData }: Props) {
         </div>
     )
     
-    if(currentData.content_type.includes('image') && currentData.image) return (
+    if(currentData.content_type.includes('image')) return (
         <div style={{ display: 'flex', justifyContent: currentData.styles.textAlign }}>
             <img 
                 alt={currentData.content} 
-                src={currentData.image} 
+                src={(imageUrl ? imageUrl : currentData.image) ?? ''} 
                 style={currentData.styles as React.CSSProperties}
                 className='max-[940px]:!w-auto'
             />

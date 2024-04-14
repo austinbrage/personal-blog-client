@@ -14,6 +14,7 @@ import { ArticlePage } from './pages/Article'
 import { Toaster } from 'react-hot-toast'
 import { UserContextProvider } from './context/users'
 import { ModeContextProvider } from './context/modes'
+import { ImageContextProvider } from './context/images'
 import { ArticleContextProvider } from './context/articles'
 import { SectionContextProvider } from './context/sections'
 import { type ReactElement } from 'react'
@@ -26,7 +27,9 @@ function ApplyContext({ children }: { children: ReactElement }) {
         <ModeContextProvider>
             <ArticleContextProvider>
                 <SectionContextProvider>
-                    {children}
+                    <ImageContextProvider>
+                      {children}
+                    </ImageContextProvider>
                 </SectionContextProvider>
             </ArticleContextProvider>
         </ModeContextProvider>

@@ -1,5 +1,6 @@
 import toast from 'react-hot-toast'
-import { useState, useEffect, type ChangeEvent } from "react"
+import { ImageContext } from '../context/images'
+import { useState, useEffect, useContext, useCallback, type ChangeEvent } from "react"
 import { useSectionAddMultiple, useSectionEditFile, useSectionAddFile } from './useSections'
 import { useArticleEditFile } from './useArticles'
 import { type ArticleInfo } from '../types/articles'
@@ -94,14 +95,19 @@ export const useUploadSectionEdit = ({ cleanModal }: { cleanModal: () => void })
 
     const [file, setFile] = useState<File | null>(null)
     
+    const { updateImageToEdit } = useContext(ImageContext)
     const { editSection, isPending } = useSectionEditFile({ cleanModal })
     
     const handleChange = (insertedFile: ChangeEvent<HTMLInputElement>) => {
         if(!insertedFile.target.files) return 
         setFile(insertedFile.target.files[0])
+        updateImageToEdit(insertedFile.target.files[0])
     }
 
-    const cleanFile = () => setFile(null)
+    const cleanFile = useCallback(() => {
+        setFile(null)
+        updateImageToEdit(null)
+    }, [updateImageToEdit])
 
     useEffect(() => {
         
@@ -119,11 +125,12 @@ export const useUploadSectionEdit = ({ cleanModal }: { cleanModal: () => void })
             return void toast.error('Error, file can only be jpeg, png or webp')
         }
 
-    }, [file, setFile])
+    }, [file, setFile, cleanFile])
 
     const editSectionFile = (data: Omit<ContentStyles<Blob>, "image">) => {
         if(isPending || !file) return
         editSection({ ...data, image: file })
+        cleanFile()
     }
 
     return {
@@ -138,14 +145,19 @@ export const useUploadSectionAdd = ({ cleanModal }: { cleanModal: () => void }) 
 
     const [file, setFile] = useState<File | null>(null)
     
+    const { updateImageToAdd } = useContext(ImageContext)
     const { addSection, isPending } = useSectionAddFile({ cleanModal })
     
     const handleChange = (insertedFile: ChangeEvent<HTMLInputElement>) => {
         if(!insertedFile.target.files) return 
         setFile(insertedFile.target.files[0])
+        updateImageToAdd(insertedFile.target.files[0])
     }
 
-    const cleanFile = () => setFile(null)
+    const cleanFile = useCallback(() => {
+        setFile(null)
+        updateImageToAdd(null)
+    }, [updateImageToAdd])
 
     useEffect(() => {
         
@@ -163,11 +175,12 @@ export const useUploadSectionAdd = ({ cleanModal }: { cleanModal: () => void }) 
             return void toast.error('Error, file can only be jpeg, png or webp')
         }
 
-    }, [file, setFile])
+    }, [file, setFile, cleanFile])
 
     const addSectionFile = (data: Omit<ContentStyles<Blob>, "image">) => {
         if(isPending || !file) return
         addSection({ ...data, image: file })
+        cleanFile()
     }
 
     return {
