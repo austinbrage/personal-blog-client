@@ -36,7 +36,7 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     const { availableKeywords } = useArticleKeywords()
     const { handleSectionChange } = useUploadSections({ closeModal })
     const { editArticle, isPending } = useArticleEdit({ cleanModal })
-    const { file, editArticleFile, handleArticleChange } = useUploadArticle({ cleanModal })
+    const { file, cleanFile, editArticleFile, handleArticleChange } = useUploadArticle({ cleanModal })
 
     const { articleData } = useContext(ArticleContext)
 
@@ -57,6 +57,11 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
     const uploadPostFile = () => {
         if(!articleFileRef.current) return
         articleFileRef.current.click()
+    }
+
+    const handleClean = () => {
+        cleanFile()
+        if(articleFileRef?.current) articleFileRef.current.value = ''
     }
     
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -211,6 +216,7 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                                     id="image2" 
                                     type="text" 
                                     name="image" 
+                                    disabled={Boolean(file)}
                                     value={image ? image : ''}
                                     onChange={(e) => setImage(e.target.value)} 
                                     placeholder="Type articles complete title" 
@@ -226,19 +232,36 @@ export function ModalEdit({ isToggle, modalRef, toggleModal }: Props) {
                                     className="hidden"
                                     onChange={(e) => handleArticleChange(e)} 
                                 />
-                                <button
-                                    type='button'
-                                    onClick={() => uploadPostFile()}
-                                    className={`
-                                        ${imageMode === 'file' ? 'block' : 'hidden'} 
-                                        inline-flex items-center justify-center w-full text-sm font-medium rounded-md px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800
-                                    `.trim()}
-                                >
-                                    <span className="text-lg me-2">
-                                        <FaUpload/>
-                                    </span>
-                                    Choose file
-                                </button>  
+                                {
+                                    file ? (
+                                        <>
+                                            <button 
+                                                type="button"
+                                                onClick={() => handleClean()}
+                                                className="mt-[0.1rem] inline-flex items-center justify-center w-full text-md font-medium rounded-md px-4 py-2 bg-red-600 hover:bg-red-700 text-white"
+                                            >
+                                                Clean input file
+                                            </button>
+                                            <p className="truncate flex items-center justify-center italic tracking-wider text-white">
+                                                {file.name}
+                                            </p>
+                                        </>
+                                    ) : (
+                                        <button
+                                            type='button'
+                                            onClick={() => uploadPostFile()}
+                                            className={`
+                                                ${imageMode === 'file' ? 'block' : 'hidden'} 
+                                                mt-[0.1rem] inline-flex items-center justify-center w-full text-sm font-medium rounded-md px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800
+                                            `.trim()}
+                                        >
+                                            <span className="text-lg me-2">
+                                                <FaUpload/>
+                                            </span>
+                                            Choose file
+                                        </button>  
+                                    )
+                                }
                             </div>
 
                             <div className="col-span-2">

@@ -17,17 +17,21 @@ export const useUploadArticle = ({ cleanModal }: { cleanModal: () => void }) => 
         setFile(insertedFile.target.files[0])
     }
 
+    const cleanFile = () => setFile(null)
+
     useEffect(() => {
         
         if(!file) return
         
         if(file.size > 2 * 1024 * 1024) {
+            cleanFile()
             return void toast.error('Error, file must not exceed 2MB')
         }
 
         const acceptedTypes = ['image/jpeg', 'image/png', 'image/webp']
 
         if(!acceptedTypes.includes(file.type)) {
+            cleanFile()
             return void toast.error('Error, file can only be jpeg, png or webp')
         }
 
@@ -41,6 +45,7 @@ export const useUploadArticle = ({ cleanModal }: { cleanModal: () => void }) => 
     return {
         handleArticleChange: handleChange,
         editArticleFile,
+        cleanFile,
         file
     }
 }
