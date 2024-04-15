@@ -75,15 +75,13 @@ export function Sections({ newData, currentArticle }: Props) {
                                         <img 
                                             src={imagePost} 
                                             alt={`${currentArticle.name} image post`} 
-                                            style={{ aspectRatio: '16/9' }}
-                                            className='ms-10 my-5 w-56 sm:w-80 rounded-md'
+                                            className='ms-10 my-5 w-auto sm:w-80 rounded-md'
                                         />
                                     ) : (currentArticle.image) && (
                                         <img 
                                             src={currentArticle.image} 
                                             alt={`${currentArticle.name} image post`} 
-                                            style={{ aspectRatio: '16/9' }}
-                                            className='ms-10 my-5 w-56 sm:w-80 rounded-md'
+                                            className='ms-10 my-5 w-auto sm:w-80 rounded-md'
                                         />
                                     )
                                 }
