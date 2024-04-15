@@ -40,6 +40,7 @@ export const useUploadArticle = ({ cleanModal }: { cleanModal: () => void }) => 
     const editArticleFile = (data: Omit<ArticleInfo['dataFile'], "image" | "token">) => {
         if(isPending || !file) return
         editArticle({ image: file, ...data })
+        cleanFile()
     }
 
     return {
