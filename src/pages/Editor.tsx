@@ -100,8 +100,7 @@ export const EditorPage = forwardRef(() => {
             />
             <ModalEdit
                 isToggle={isToggle}
-                modalRef={modalEdit} 
-                toggleModal={toggleModalEdit}
+                modalRef={modalEdit}
             />
             <ModalDelete 
                 mode="article"
