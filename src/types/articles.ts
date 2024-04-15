@@ -50,6 +50,7 @@ export type ArticleInfo = {
         image: string
         title: string
         keywords: string
+        image_type: string
         description: string
         token: string
     }
@@ -103,7 +104,7 @@ export interface IArticle {
     getDataByKeywords: ({ perPage, currentPage, keywords }: ArticleInfo['pageKeywords']) => Promise< ArticleResponse['pageData'] >
     changePublishment: ({ id, is_publish, token }: ArticleInfo['idPublishment']) => Promise< ArticleResponse['noData'] >
     changeDataFile: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idDataFile']) => Promise< ArticleResponse['noData'] >
-    changeData: ({ id, name, image, title, keywords, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
+    changeData: ({ id, name, image, title, keywords, image_type, description, token }: ArticleInfo['idData']) => Promise< ArticleResponse['noData'] >
     insertNew:  ({ name, image, title, keywords, description, token }: ArticleInfo['data']) => Promise< ArticleResponse['info'] >
     removeData: ({ id, token }: ArticleInfo['id']) => Promise< ArticleResponse['noData'] >
 }

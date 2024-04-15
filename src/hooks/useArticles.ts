@@ -360,7 +360,15 @@ export const useArticleEdit = ({ cleanModal }: { cleanModal: () => void }) => {
     const editArticle = (data: Omit<ArticleInfo['data'], "token">) => {
         const id = Number(articleId)
         if(isNaN(id)) return 
-        mutate({ id, token, ...data })
+
+        let image_type
+        
+        const isImageS3URL = data.image?.includes('https://personal-blog-bucket')
+
+        if(isImageS3URL) image_type = 'image_s3'
+        else image_type = 'image_url'
+
+        mutate({ id, token, image_type, ...data })
     }
 
     return {
