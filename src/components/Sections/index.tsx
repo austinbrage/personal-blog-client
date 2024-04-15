@@ -1,4 +1,5 @@
 import { useRef, useState, useContext } from 'react'
+import { ImageContext } from '../../context/images'
 import { ModeContext } from '../../context/modes'
 import { DateText } from './DateText'
 import { SectionList } from './SectionList'
@@ -19,6 +20,7 @@ export function Sections({ newData, currentArticle }: Props) {
     const modalDelete = useRef<HTMLDivElement>(null)
     const modalEditor = useRef<HTMLDivElement>(null)
 
+    const { imagePost } = useContext(ImageContext)
     const { updateEditMode } = useContext(ModeContext)
 
     const [editSection, setEditSection] = useState<ContentStyles<string>>(defaultOptions)
@@ -68,14 +70,23 @@ export function Sections({ newData, currentArticle }: Props) {
                         />
                         <div className='w-full backdrop-blur-md bg-[rgba(32,32,37,0.5)]'>
                             <div className='flex flex-col md:flex-row items-center'>
-                                {currentArticle.image && (
-                                    <img 
-                                        src={currentArticle.image} 
-                                        alt={`${currentArticle.name} image post`} 
-                                        style={{ aspectRatio: '16/9' }}
-                                        className='ms-10 my-5 w-56 sm:w-80 rounded-md'
-                                    />
-                                )}
+                                {
+                                    imagePost ? (
+                                        <img 
+                                            src={imagePost} 
+                                            alt={`${currentArticle.name} image post`} 
+                                            style={{ aspectRatio: '16/9' }}
+                                            className='ms-10 my-5 w-56 sm:w-80 rounded-md'
+                                        />
+                                    ) : (currentArticle.image) && (
+                                        <img 
+                                            src={currentArticle.image} 
+                                            alt={`${currentArticle.name} image post`} 
+                                            style={{ aspectRatio: '16/9' }}
+                                            className='ms-10 my-5 w-56 sm:w-80 rounded-md'
+                                        />
+                                    )
+                                }
                                 <p className="ms-10 mt-5 mb-10 line-clamp-6 font-dm-sans font-semibold text-lg md:text-xl text-start text-[rgb(229,231,235)]">
                                     {currentArticle.description}
                                 </p>

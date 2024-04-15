@@ -10,14 +10,19 @@ export const useUploadArticle = ({ cleanModal }: { cleanModal: () => void }) => 
 
     const [file, setFile] = useState<File | null>(null)
 
+    const { updateImagePost } = useContext(ImageContext)
     const { isPending, editArticle } = useArticleEditFile({ cleanModal })
 
     const handleChange = (insertedFile: ChangeEvent<HTMLInputElement>) => {
         if(!insertedFile.target.files) return 
         setFile(insertedFile.target.files[0])
+        updateImagePost(insertedFile.target.files[0])
     }
 
-    const cleanFile = () => setFile(null)
+    const cleanFile = useCallback(() => {
+        setFile(null)
+        updateImagePost(null)
+    }, [updateImagePost])
 
     useEffect(() => {
         
@@ -35,7 +40,7 @@ export const useUploadArticle = ({ cleanModal }: { cleanModal: () => void }) => 
             return void toast.error('Error, file can only be jpeg, png or webp')
         }
 
-    }, [file, setFile])
+    }, [file, setFile, cleanFile])
 
     const editArticleFile = (data: Omit<ArticleInfo['dataFile'], "image" | "token">) => {
         if(isPending || !file) return
