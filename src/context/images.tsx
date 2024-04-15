@@ -4,7 +4,7 @@ type Context = {
     imagePost: string | null
     imageToAdd: string | null
     imageToEdit: string | null
-    updateImagePost: (newImage: Blob | null) => void
+    updateImagePost: (newImage: Blob | string | null) => void
     updateImageToAdd: (newImage: Blob | null) => void
     updateImageToEdit: (newImage: Blob | null) => void
 }
@@ -26,7 +26,8 @@ export const ImageContextProvider = ({ children }: { children: ReactNode }) => {
     const [imageToAdd, setImageToAdd] = useState<string | null>(null)
     const [imageToEdit, setImageToEdit] = useState<string | null>(null)
 
-    const updateImagePost = (newImage: Blob | null) => {
+    const updateImagePost = (newImage: Blob | string | null) => {
+        if(typeof newImage === 'string') return setImagePost(newImage)
         if(newImage === null) return setImagePost(null)
         const imageUrl = URL.createObjectURL(newImage)
         setImagePost(imageUrl)

@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useContext, type FormEvent, type RefObject
 import { useArticleEdit, useArticleKeywords } from "../../hooks/useArticles"
 import { useUploadSections, useUploadArticle } from "../../hooks/useUpload"
 import { ArticleContext } from "../../context/articles"
+import { ImageContext } from "../../context/images"
 import { useEscape } from "../../hooks/useCommands"
 import { useDownload } from "../../hooks/useDownload"
 import { FaUpload, FaDownload } from "react-icons/fa"
@@ -20,7 +21,8 @@ export function ModalEdit({ isToggle, modalRef }: Props) {
     const articleFileRef = useRef<HTMLInputElement>(null)    
     
     const closeModal = () => {
-        cleanFile()
+        setImage('')
+        handleClean()
         modalRef.current?.classList.add('hidden')
         modalRef.current?.classList.remove('flex')
     }
@@ -39,6 +41,7 @@ export function ModalEdit({ isToggle, modalRef }: Props) {
     const { file, cleanFile, editArticleFile, handleArticleChange } = useUploadArticle({ cleanModal })
 
     const { articleData } = useContext(ArticleContext)
+    const { updateImagePost } = useContext(ImageContext)
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [imageMode, setImageMode] = useState<'url' | 'file'>('url')
@@ -90,6 +93,10 @@ export function ModalEdit({ isToggle, modalRef }: Props) {
         setKeywords(articleData?.keywords ?? '')
         setDescription(articleData?.description ?? '')
     }, [articleData, isToggle])
+
+    useEffect(() => {
+        if(image !== '' && !file) updateImagePost(image)
+    }, [image, file, updateImagePost])
 
     useEscape({
         menuRef: modalRef,
